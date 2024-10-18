@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Table - Brand</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
+    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css">
+    <link rel="stylesheet" href="assets/css/Icon-Button.css">
+    <link rel="stylesheet" href="assets/css/untitled.css">
+<link rel="icon" href="/AGRIDIVISION_FINAL/assets/img/background/icon.png" type="image/png">
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0" style="background: #ffcc49;border-color: #ffcc49;">
+            <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0">
+                    <div class="sidebar-brand-icon rotate-n-15" style="transform: rotate(1deg);"><img src="assets/img/background/icon.png" style="width: 50px;height: 50px;transform: rotate(4deg) skew(-159deg);"></div>
+                    <div class="sidebar-brand-text mx-3"><span style="transform: rotate(148deg);"><em>Agridivision</em></span></div>
+                </a>
+                <hr class="sidebar-divider my-0">
+                <ul class="navbar-nav text-light" id="accordionSidebar">
+                    <li class="nav-item"><a class="nav-link" href="municipaldash.php"><i class="fas fa-tachometer-alt"></i><span><strong><em>Dashboard</em></strong></span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="municipalprofile.php"><i class="fas fa-user"></i><span><strong><em>Profile</em></strong></span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="municipalmapping.php"><i class="fas fa-map-marked"></i><span><strong><em>Mapping</em></strong></span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="municipaltables.php"><i class="fas fa-table"></i><span><strong><em>Table of Accounts</em></strong></span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="municipalregtech.php"><i class="fas fa-user-circle"></i><span><strong><em>Register Barangay Technician</em></strong></span></a></li>
+                </ul>
+                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
+            </div>
+        </nav>
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+                <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+                    <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
+                        <div class="container">
+                            <div class="row"><style>
+    #liveDateTime {
+        text-align: center;
+        font-size: 1.5rem;
+        margin-top: 20px;
+        font-style: italic;
+        font-weight: bold;
+    }
+
+    @media (max-width: 500px) {
+        /* Hide the live date and time on small screens */
+        #liveDateTime {
+            display: none;
+        }
+    }
+
+    @media (min-width: 501px) and (max-width: 768px) {
+        /* Adjust styles for screens between 501px and 570px */
+        #liveDateTime {
+            font-size: 0.8rem;
+            margin-top: 20px;
+        }
+    }
+
+    @media (min-width: 769px) and (max-width: 992px) {
+        /* Adjust styles for screens between 501px and 570px */
+        #liveDateTime {
+            font-size: 1.2rem;
+            margin-top: 20px;
+        }
+    }
+</style>
+
+<div class="col">
+    <p id="liveDateTime"></p>
+</div>
+
+<script>
+    function updateDateTime() {
+        var now = new Date();
+
+        // Format date as mm/dd/yyyy
+        var month = (now.getMonth() + 1).toString().padStart(2, '0');
+        var day = now.getDate().toString().padStart(2, '0');
+        var year = now.getFullYear();
+        var dateFormatted = month + '/' + day + '/' + year;
+
+        // Format time in standard format with AM and PM
+        var options = { hour: '2-digit', minute: '2-digit', hour12: true };
+        var timeFormatted = now.toLocaleTimeString(undefined, options);
+
+        var dateTimeString = dateFormatted + ' ' + timeFormatted;
+        document.getElementById('liveDateTime').textContent = dateTimeString;
+    }
+
+    // Update the date and time every second
+    setInterval(updateDateTime, 1000);
+
+    // Initial call to set the initial content
+    updateDateTime();
+</script>
+<style>
+    .weather-container {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    #current-weather {
+        font-size: 1.5rem;
+        margin-top: 20px;
+        font-style: italic;
+        font-weight: bold;
+    }
+
+    @media (max-width: 500px) {
+        /* Hide the current weather on small screens */
+        #current-weather {
+            display: none;
+        }
+    }
+
+    @media (min-width: 501px) and (max-width: 768px) {
+        /* Adjust styles for screens between 501px and 768px */
+        #current-weather {
+            font-size: 0.8rem;
+            margin-top: 20px;
+        }
+    }
+
+    @media (min-width: 769px) and (max-width: 992px) {
+        /* Adjust styles for screens between 769px and 992px */
+        #current-weather {
+            font-size: 1.2rem;
+            margin-top: 20px;
+        }
+    }
+</style>
+
+<title>Current Weather</title>
+<div class="col">
+    <div class="weather-container">
+        <p id="current-weather"></p>
+    </div>
+</div>
+
+<script>
+    function getCurrentWeather(latitude, longitude) {
+        const apiUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&hourly=temperature_2m,weathercode`;
+        
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                var currentWeather = data.current_weather;
+
+                var weatherDescription = getWeatherDescription(currentWeather.weathercode);
+
+                var currentWeatherText = `${currentWeather.temperature}°C ${weatherDescription}`;
+                document.getElementById('current-weather').textContent = currentWeatherText;
+            })
+            .catch(error => console.error(error));
+    }
+
+    function getWeatherDescription(weatherCode) {
+    console.log("Weather code:", weatherCode); // Add this line
+
+    if (weatherCode === 0) {
+        return "Clear sky";
+    } else if (weatherCode === 1 || weatherCode === 2 || weatherCode === 3) {
+        return "Partly cloudy";
+    } else if (weatherCode === 45 || weatherCode === 48) {
+        return "Fog";
+    } else if (weatherCode === 51 || weatherCode === 53 || weatherCode === 55) {
+        return "Drizzle";
+    } else if (weatherCode === 56 || weatherCode === 57) {
+        return "Freezing Drizzle";
+    } else if (weatherCode === 61 || weatherCode === 63 || weatherCode === 65) {
+        return "Rainy";
+    } else if (weatherCode === 66 || weatherCode === 67) {
+        return "Freezing Rain";
+    } else if (weatherCode === 71 || weatherCode === 73 || weatherCode === 75) {
+        return "Snow fall";
+    } else if (weatherCode === 77) {
+        return "Snow grains";
+    } else if (weatherCode === 80 || weatherCode === 81 || weatherCode === 82) {
+        return "Rain showers";
+    } else if (weatherCode === 85 || weatherCode === 86) {
+        return "Snow showers";
+    } else if (weatherCode === 95 || weatherCode === 96 || weatherCode === 99) {
+        return "Thunderstorm";
+    } else {
+        return "Unknown weather";
+    }
+}
+
+    // Get user's geolocation
+    if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(position => {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            getCurrentWeather(latitude, longitude);
+
+            // Update the current weather every x milliseconds (e.g., 10 minutes)
+            setInterval(() => getCurrentWeather(latitude, longitude), 600000); // 600000 ms = 10 minutes
+        }, error => {
+            console.error("Error getting geolocation:", error);
+        });
+    } else {
+        console.error("Geolocation is not available in this browser.");
+    }
+</script></div>
+                        </div>
+                        <ul class="navbar-nav flex-nowrap ms-auto">
+                            <li class="nav-item dropdown no-arrow mx-1">
+                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><span class="badge bg-danger badge-counter">3+</span><i class="fas fa-bell fa-fw"></i></a>
+                                    <div class="dropdown-menu dropdown-menu-end dropdown-list animated--grow-in">
+                                        <h6 class="dropdown-header">alerts center</h6><a class="dropdown-item d-flex align-items-center" href="#">
+                                            <div class="me-3">
+                                                <div class="bg-primary icon-circle"><i class="fas fa-file-alt text-white"></i></div>
+                                            </div>
+                                            <div><span class="small text-gray-500">December 12, 2019</span>
+                                                <p>A new monthly report is ready to download!</p>
+                                            </div>
+                                        </a><a class="dropdown-item d-flex align-items-center" href="#">
+                                            <div class="me-3">
+                                                <div class="bg-success icon-circle"><i class="fas fa-donate text-white"></i></div>
+                                            </div>
+                                            <div><span class="small text-gray-500">December 7, 2019</span>
+                                                <p>$290.29 has been deposited into your account!</p>
+                                            </div>
+                                        </a><a class="dropdown-item d-flex align-items-center" href="#">
+                                            <div class="me-3">
+                                                <div class="bg-warning icon-circle"><i class="fas fa-exclamation-triangle text-white"></i></div>
+                                            </div>
+                                            <div><span class="small text-gray-500">December 2, 2019</span>
+                                                <p>Spending Alert: We've noticed unusually high spending for your account.</p>
+                                            </div>
+                                        </a><a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown no-arrow mx-1">
+                                <div class="shadow dropdown-list dropdown-menu dropdown-menu-end" aria-labelledby="alertsDropdown"></div>
+                            </li>
+                            <div class="d-none d-sm-block topbar-divider"></div>
+                            <li class="nav-item dropdown no-arrow">
+                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><?php
+include 'setupdb.php';
+
+// Get user_id from the session
+$user_id = $_SESSION['user_id'];
+
+// Fetch the full name from the database
+$query = "SELECT CONCAT(fname, ' ', lname) AS full_name FROM municipal_agriculturist WHERE id = $user_id";
+$result = mysqli_query($conn, $query);
+
+if ($result) {
+    $row = mysqli_fetch_assoc($result);
+    $full_name = $row['full_name'];
+} else {
+    // Handle query error
+    $full_name = "Error retrieving name";
+}
+?>
+
+<span class="d-none d-lg-inline me-2 text-gray-600 small"><?php echo $full_name; ?></span>
+<?php
+include 'setupdb.php';
+
+$id = $_SESSION['user_id'];
+
+// Define the directory paths for user and default images
+$userImageDirectory = "http://localhost/AGRIDIVISION_FINAL/assets/img/municipal_agriculturist/";
+
+// Retrieve the profileimg from the database based on the user's details
+// Assuming you have a database connection established in setupdb.php
+$userProfileImg = ''; // Initialize with an empty string
+$query = "SELECT profileimg FROM municipal_agriculturist WHERE id = $id";
+$result = mysqli_query($conn, $query);
+
+if ($result && mysqli_num_rows($result) > 0) {
+    $row = mysqli_fetch_assoc($result);
+    $userProfileImg = $row['profileimg'];
+}
+
+$allowedFormats = ['jpeg', 'png', 'jpg']; // Allowed image formats
+
+// Construct the image source path
+foreach ($allowedFormats as $extension) {
+    $path = $userImageDirectory . $userProfileImg . '.' . $extension;
+    if (file_exists($path)) {
+        break;  
+    }
+}
+?>
+
+<!-- Display the image if imagePath is set -->
+        <img class="border rounded-circle img-profile" src="<?php echo $path; ?>" style="height: 30px; width: 30px;" alt="User Profile Image" />
+
+        </a>
+                                    <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in"><a class="dropdown-item" href="municipalprofile.php"><i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Profile</a><a class="dropdown-item" data-bs-target="#logout" data-bs-toggle="modal"><i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Logout</a></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class="container-fluid">
+                    <h3 class="text-dark mb-4"><strong>Registered Barangay Technicians</strong></h3><div class="card shadow">
+    <div class="card-header py-3">
+        <p class="m-0 fw-bold" style="color: #ffcc49;">Barangay Technician Info</p>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6 text-nowrap">
+                <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label class="form-label">Show <select class="d-inline-block form-select form-select-sm">
+                            <option value="10" selected>10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select></label></div>
+            </div>
+            <div class="col-md-6">
+                <div id="dataTable_filter" class="text-md-end dataTables_filter">
+                    <label class="form-label">
+                        <input id="searchInput" class="form-control form-control-sm" type="search" aria-controls="dataTable" placeholder="Search" />
+                    </label>
+                </div>
+            </div>
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    const searchInput = document.getElementById("searchInput");
+                    const tableRows = document.querySelectorAll("#dataTable tbody tr");
+            
+                    searchInput.addEventListener("input", function () {
+                        const searchTerm = searchInput.value.trim().toLowerCase();
+            
+                        tableRows.forEach(function (row) {
+                            const nameColumn = row.querySelector("td:nth-child(1)");
+                            const barangayColumn = row.querySelector("td:nth-child(4)"); // Changed to barangayColumn
+            
+                            const nameValue = nameColumn.textContent.trim().toLowerCase();
+                            const barangayValue = barangayColumn.textContent.trim().toLowerCase(); // Changed to barangayValue
+            
+                            if (
+                                nameValue.includes(searchTerm) ||
+                                barangayValue.includes(searchTerm) // Changed to barangayValue
+                            ) {
+                                row.style.display = "table-row";
+                            } else {
+                                row.style.display = "none";
+                            }
+                        });
+                    });
+                });
+            </script>                
+        </div>
+        <div id="dataTable" class="table-responsive table mt-2" role="grid" aria-describedby="dataTable_info">
+            <table id="dataTable" class="table my-0">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>Barangay</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    include 'setupdb.php';
+                    $mun = mysqli_real_escape_string($conn, $_SESSION['municipality']); // Sanitize user input
+                    
+                    $query = "SELECT * FROM brgy_tech WHERE mun = '$mun'";
+                    $result = mysqli_query($conn, $query);
+                    
+                    if ($result) {
+                        $userImageDirectory = "http://localhost/AGRIDIVISION_FINAL/assets/img/brgy_tech/";
+                        $allowedFormats = ['jpg']; // Allowed image formats
+                    
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            $id = $row['id'];
+                            $userProfileImg = $row['profileimg'];
+                                        
+                            foreach ($allowedFormats as $extension) {
+                                $tempPath = $userImageDirectory . $userProfileImg . '.' . $extension;
+                                if (file_exists($tempPath)) {
+                                    break;
+                                }
+                            }
+                    
+                            echo '<tr>';
+                            echo '<td>';
+                            if (!empty($path)) {
+                                echo '<img class="rounded-circle me-2" width="30" height="30" src="' . $tempPath . '" />';
+                            }
+                            echo $row['fname'] . ' ' . $row['lname'] . '</td>';
+                            echo '<td>' . $row['email'] . '</td>';
+                            echo '<td>' . $row['num'] . '</td>';
+                            echo '<td>' . $row['brgy'] . '</td>';
+                            echo '<td class="d-inline-flex">';
+                            echo '<a href="municipaledittech.php?id=' . $id . '" class="btn btn-primary pull-right" style="margin-right: 10px;background: #54b7c6;border-color: #54b7c6;"><i class="fa fa-edit"></i></a>';
+                            echo '<a href="#" class="btn btn-primary pull-right" style="background: #931638; border-color: #931638;" data-bs-toggle="modal" data-bs-target="#delete" data-id="' . $id . '"><i class="fa fa-trash"></i></a>';
+                            echo '</td>';
+                            echo '</tr>';
+                        }
+                    
+                        if (isset($_GET['delete']) && isset($_GET['id'])) {
+                            $id = mysqli_real_escape_string($conn, $_GET['id']);
+                            $sql = "DELETE FROM brgy_tech WHERE id = '$id'";
+                    
+                            if (mysqli_query($conn, $sql)) {
+                                // Record deleted successfully
+                                // You can redirect or handle the response as needed
+                            } else {
+                                echo "Error deleting record: " . mysqli_error($conn);
+                            }
+                        }
+                    } else {
+                        echo "Query failed: " . mysqli_error($conn);
+                    }
+                    
+                    mysqli_close($conn);
+                    ?>                               
+                </tbody>
+                                      
+                <script>
+                    var deleteId; // Global variable to store the delete ID
+                    
+                    function setDeleteId(id) {
+                        deleteId = id;
+                    }
+                    
+                    function confirmDelete() {
+                        // Perform the actual deletion action
+                        window.location.href = "?delete=true&id=" + deleteId;
+                    }
+                    
+                    document.addEventListener('DOMContentLoaded', function() {
+                        var deleteButtons = document.querySelectorAll('[data-id]');
+                        deleteButtons.forEach(function(button) {
+                            button.addEventListener('click', function(event) {
+                                event.preventDefault(); // Prevent default link behavior
+                                setDeleteId(button.getAttribute('data-id'));
+                            });
+                        });
+                    });
+                </script>
+                
+                <tfoot>
+                    <tr>
+                        <td><strong>Name</strong></td>
+                        <td><strong>Email</strong></td>
+                        <td><strong>Phone Number</strong></td>
+                        <td><strong>Barangay</strong></td>
+                        <td><strong>Action</strong></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="row">
+            <div class="col-md-6 align-self-center">
+                <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">Showing 1 to 10 of 27</p>
+            </div>
+            <div class="col-md-6">
+                <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
+                    <ul class="pagination">
+                        <li class="page-item" style="color: #2f3438;background: #ffcc49;"><a class="page-link" aria-label="Previous" href="#"><span aria-hidden="true">«</span></a></li>
+                        <li class="page-item active" style="color: #2f3438;"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item" style="color: #2f3438;"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item" style="color: #2f3438;"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item" style="color: #2f3438;"><a class="page-link" aria-label="Next" href="#"><span aria-hidden="true">»</span></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+                </div>
+            </div>
+            <footer class="bg-white sticky-footer">
+                <div class="container my-auto">
+                    <div class="text-center my-auto copyright"><span><strong>AgriDivision © Brand 2023</strong></span></div>
+                </div>
+            </footer>
+        </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="logout">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content"><div class="modal-header"></div>
+                <div class="modal-body">
+                    <p>Are you sure you want to log out?<br></p>
+                </div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Cancel</button><a class="btn btn-primary" role="button" href="logout.php" style="background: #ffcc46;border-color: #ffcc49;">Yes</a></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="delete">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content"><div class="modal-header"></div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this record?<br></p>
+                </div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Cancel</button><button class="btn btn-primary" type="button" style="background: #ffcc46;border-color: #ffcc49;" onclick="confirmDelete();">Yes</button></div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/bs-init.js"></script>
+    <script src="assets/js/theme.js"></script>
+</body>
+
+</html>

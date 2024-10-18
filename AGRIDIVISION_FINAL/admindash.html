@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Dashboard - Brand</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
+    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css">
+    <link rel="stylesheet" href="assets/css/Icon-Button.css">
+    <link rel="stylesheet" href="assets/css/untitled.css">
+<link rel="icon" href="/AGRIDIVISION_FINAL/assets/img/background/icon.png" type="image/png">
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0" style="background: #ffcc49;border-color: #ffcc49;">
+            <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0">
+                    <div class="sidebar-brand-icon rotate-n-15" style="transform: rotate(1deg);"><img src="assets/img/background/icon.png" style="width: 50px;height: 50px;transform: rotate(4deg) skew(-159deg);"></div>
+                    <div class="sidebar-brand-text mx-3"><span style="transform: rotate(148deg);"><em>Agridivision</em></span></div>
+                </a>
+                <hr class="sidebar-divider my-0">
+                <ul class="navbar-nav text-light" id="accordionSidebar">
+                    <li class="nav-item"><a class="nav-link" href="admindash.php"><i class="fas fa-tachometer-alt"></i><span><strong><em>Dashboard</em></strong></span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="adminprofile.php"><i class="fas fa-user"></i><span><strong><em>Profile</em></strong></span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="adminmapping.php"><i class="fas fa-map-marked"></i><span><strong><em>Mapping</em></strong></span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="admintables.php"><i class="fas fa-table"></i><span><strong><em>Table of Accounts</em></strong></span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="adminregmun.php"><i class="fas fa-user-circle"></i><span><strong><em>Register Municipal Agriculturist</em></strong></span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="adminregmun.php"><i class="far fa-chart-bar"></i><span><strong><em>Reports</em></strong></span></a></li>
+                </ul>
+                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
+            </div>
+        </nav>
+        <div class="d-flex flex-column" id="content-wrapper" style="background: rgb(248, 249, 252);">
+            <div id="content">
+                <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+                    <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
+                        <div class="container">
+                            <div class="row"><style>
+    #liveDateTime {
+        text-align: center;
+        font-size: 1.5rem;
+        margin-top: 20px;
+        font-style: italic;
+        font-weight: bold;
+    }
+
+    @media (max-width: 500px) {
+        /* Hide the live date and time on small screens */
+        #liveDateTime {
+            display: none;
+        }
+    }
+
+    @media (min-width: 501px) and (max-width: 768px) {
+        /* Adjust styles for screens between 501px and 570px */
+        #liveDateTime {
+            font-size: 0.8rem;
+            margin-top: 20px;
+        }
+    }
+
+    @media (min-width: 769px) and (max-width: 992px) {
+        /* Adjust styles for screens between 501px and 570px */
+        #liveDateTime {
+            font-size: 1.2rem;
+            margin-top: 20px;
+        }
+    }
+</style>
+
+<div class="col">
+    <p id="liveDateTime"></p>
+</div>
+
+<script>
+    function updateDateTime() {
+        var now = new Date();
+
+        // Format date as mm/dd/yyyy
+        var month = (now.getMonth() + 1).toString().padStart(2, '0');
+        var day = now.getDate().toString().padStart(2, '0');
+        var year = now.getFullYear();
+        var dateFormatted = month + '/' + day + '/' + year;
+
+        // Format time in standard format with AM and PM
+        var options = { hour: '2-digit', minute: '2-digit', hour12: true };
+        var timeFormatted = now.toLocaleTimeString(undefined, options);
+
+        var dateTimeString = dateFormatted + ' ' + timeFormatted;
+        document.getElementById('liveDateTime').textContent = dateTimeString;
+    }
+
+    // Update the date and time every second
+    setInterval(updateDateTime, 1000);
+
+    // Initial call to set the initial content
+    updateDateTime();
+</script>
+<style>
+    .weather-container {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    #current-weather {
+        font-size: 1.5rem;
+        margin-top: 20px;
+        font-style: italic;
+        font-weight: bold;
+    }
+
+    @media (max-width: 500px) {
+        /* Hide the current weather on small screens */
+        #current-weather {
+            display: none;
+        }
+    }
+
+    @media (min-width: 501px) and (max-width: 768px) {
+        /* Adjust styles for screens between 501px and 768px */
+        #current-weather {
+            font-size: 0.8rem;
+            margin-top: 20px;
+        }
+    }
+
+    @media (min-width: 769px) and (max-width: 992px) {
+        /* Adjust styles for screens between 769px and 992px */
+        #current-weather {
+            font-size: 1.2rem;
+            margin-top: 20px;
+        }
+    }
+</style>
+
+<title>Current Weather</title>
+<div class="col">
+    <div class="weather-container">
+        <p id="current-weather"></p>
+    </div>
+</div>
+
+<script>
+    function getCurrentWeather(latitude, longitude) {
+        const apiUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&hourly=temperature_2m,weathercode`;
+        
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                var currentWeather = data.current_weather;
+
+                var weatherDescription = getWeatherDescription(currentWeather.weathercode);
+
+                var currentWeatherText = `${currentWeather.temperature}°C ${weatherDescription}`;
+                document.getElementById('current-weather').textContent = currentWeatherText;
+            })
+            .catch(error => console.error(error));
+    }
+
+    function getWeatherDescription(weatherCode) {
+    console.log("Weather code:", weatherCode); // Add this line
+
+    if (weatherCode === 0) {
+        return "Clear sky";
+    } else if (weatherCode === 1 || weatherCode === 2 || weatherCode === 3) {
+        return "Partly cloudy";
+    } else if (weatherCode === 45 || weatherCode === 48) {
+        return "Fog";
+    } else if (weatherCode === 51 || weatherCode === 53 || weatherCode === 55) {
+        return "Drizzle";
+    } else if (weatherCode === 56 || weatherCode === 57) {
+        return "Freezing Drizzle";
+    } else if (weatherCode === 61 || weatherCode === 63 || weatherCode === 65) {
+        return "Rainy";
+    } else if (weatherCode === 66 || weatherCode === 67) {
+        return "Freezing Rain";
+    } else if (weatherCode === 71 || weatherCode === 73 || weatherCode === 75) {
+        return "Snow fall";
+    } else if (weatherCode === 77) {
+        return "Snow grains";
+    } else if (weatherCode === 80 || weatherCode === 81 || weatherCode === 82) {
+        return "Rain showers";
+    } else if (weatherCode === 85 || weatherCode === 86) {
+        return "Snow showers";
+    } else if (weatherCode === 95 || weatherCode === 96 || weatherCode === 99) {
+        return "Thunderstorm";
+    } else {
+        return "Unknown weather";
+    }
+}
+
+    // Get user's geolocation
+    if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(position => {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            getCurrentWeather(latitude, longitude);
+
+            // Update the current weather every x milliseconds (e.g., 10 minutes)
+            setInterval(() => getCurrentWeather(latitude, longitude), 600000); // 600000 ms = 10 minutes
+        }, error => {
+            console.error("Error getting geolocation:", error);
+        });
+    } else {
+        console.error("Geolocation is not available in this browser.");
+    }
+</script></div>
+                        </div>
+                        <ul class="navbar-nav flex-nowrap ms-auto">
+                            <li class="nav-item dropdown no-arrow mx-1">
+                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><span class="badge bg-danger badge-counter">3+</span><i class="fas fa-bell fa-fw"></i></a>
+                                    <div class="dropdown-menu dropdown-menu-end dropdown-list animated--grow-in">
+                                        <h6 class="dropdown-header">alerts center</h6><a class="dropdown-item d-flex align-items-center" href="#">
+                                            <div class="me-3">
+                                                <div class="bg-primary icon-circle"><i class="fas fa-file-alt text-white"></i></div>
+                                            </div>
+                                            <div><span class="small text-gray-500">December 12, 2019</span>
+                                                <p>A new monthly report is ready to download!</p>
+                                            </div>
+                                        </a><a class="dropdown-item d-flex align-items-center" href="#">
+                                            <div class="me-3">
+                                                <div class="bg-success icon-circle"><i class="fas fa-donate text-white"></i></div>
+                                            </div>
+                                            <div><span class="small text-gray-500">December 7, 2019</span>
+                                                <p>$290.29 has been deposited into your account!</p>
+                                            </div>
+                                        </a><a class="dropdown-item d-flex align-items-center" href="#">
+                                            <div class="me-3">
+                                                <div class="bg-warning icon-circle"><i class="fas fa-exclamation-triangle text-white"></i></div>
+                                            </div>
+                                            <div><span class="small text-gray-500">December 2, 2019</span>
+                                                <p>Spending Alert: We've noticed unusually high spending for your account.</p>
+                                            </div>
+                                        </a><a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown no-arrow mx-1">
+                                <div class="shadow dropdown-list dropdown-menu dropdown-menu-end" aria-labelledby="alertsDropdown"></div>
+                            </li>
+                            <div class="d-none d-sm-block topbar-divider"></div>
+                            <li class="nav-item dropdown no-arrow">
+                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><?php
+include 'setupdb.php';
+
+// Get user_id from the session
+$user_id = $_SESSION['user_id'];
+
+// Fetch the full name from the database
+$query = "SELECT CONCAT(fname, ' ', lname) AS full_name FROM admin WHERE id = $user_id";
+$result = mysqli_query($conn, $query);
+
+if ($result) {
+    $row = mysqli_fetch_assoc($result);
+    $full_name = $row['full_name'];
+} else {
+    // Handle query error
+    $full_name = "Error retrieving name";
+}
+?>
+
+<span class="d-none d-lg-inline me-2 text-gray-600 small"><?php echo $full_name; ?></span>
+<?php
+include 'setupdb.php';
+
+$id = $_SESSION['user_id'];
+
+// Define the directory paths for user and default images
+$userImageDirectory = "http://localhost/AGRIDIVISION_FINAL/assets/img/admin/";
+
+// Retrieve the profileimg from the database based on the user's details
+// Assuming you have a database connection established in setupdb.php
+$userProfileImg = ''; // Initialize with an empty string
+$query = "SELECT profileimg FROM admin WHERE id = $id";
+$result = mysqli_query($conn, $query);
+
+if ($result && mysqli_num_rows($result) > 0) {
+    $row = mysqli_fetch_assoc($result);
+    $userProfileImg = $row['profileimg'];
+}
+
+$allowedFormats = ['jpeg', 'png', 'jpg']; // Allowed image formats
+
+// Construct the image source path
+foreach ($allowedFormats as $extension) {
+    $path = $userImageDirectory . $userProfileImg . '.' . $extension;
+    if (file_exists($path)) {
+        break;  
+    }
+}
+?>
+
+<!-- Display the image if imagePath is set -->
+        <img class="border rounded-circle img-profile" src="<?php echo $path; ?>" style="height: 30px; width: 30px;" alt="User Profile Image" />
+
+        </a>
+                                    <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in"><a class="dropdown-item" href="adminprofile.php"><i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Profile</a><a class="dropdown-item" data-bs-target="#logout" data-bs-toggle="modal"><i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Logout</a></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class="container-fluid">
+                    <div class="d-sm-flex justify-content-between align-items-center mb-4">
+                        <h3 class="text-dark mb-0"><strong>Dashboard</strong></h3><a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="#" style="background: #ffcc49;border-color: #ffcc49;"><i class="fas fa-download fa-sm text-white-50"></i>&nbsp;Generate Report</a>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-xl-3 mb-4"><?php
+include 'setupdb.php';
+
+$sql = "SELECT COUNT(*) AS total_rows FROM municipal_agriculturist";
+$result = $conn->query($sql);
+
+// Check for errors in query execution
+if ($result === false) {
+    die("Database query error: " . $conn->error);
+}
+
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $totalAgriculturists = $row["total_rows"];
+} else {
+    $totalAgriculturists = "N/A";
+}   
+?>
+
+<div class="card shadow border-start-primary py-2" style="height: 130px;">
+    <div class="card-body">
+        <div class="row align-items-center no-gutters">
+            <div class="col me-2">
+                <div class="text-uppercase text-primary fw-bold text-xs mb-1">
+                    <a href="#" data-bs-target="#municipalModal" data-bs-toggle="modal" style="color: #ffcc49;">
+                        <strong>Total number of municipal agriculturists</strong>
+                    </a>
+                </div>
+                <div class="text-dark fw-bold h5 mb-0">
+                    <span><?php echo $totalAgriculturists; ?></span>
+                </div>
+            </div>
+            <div class="col-auto"><i class="fas fa-user-friends fa-2x text-gray-300"></i></div>
+        </div>
+    </div>
+</div>
+</div>
+                        <div class="col-md-6 col-xl-3 mb-4"><?php
+include 'setupdb.php';
+
+// Fetch the count from the database
+$sql = "SELECT COUNT(*) AS total_farmers FROM farmer";
+$result = $conn->query($sql);
+
+// Check for errors in query execution
+if ($result === false) {
+    die("Database query error: " . $conn->error);
+}
+
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $totalFarmers = $row["total_farmers"];
+} else {
+    $totalFarmers = "N/A";
+}
+?>
+
+<div class="card shadow border-start-primary py-2" style="height: 130px;">
+    <div class="card-body">
+        <div class="row align-items-center no-gutters">
+            <div class="col me-2">
+                <div class="text-uppercase text-primary fw-bold text-xs mb-1">
+                    <a href="#" data-bs-target="#farmerModal" data-bs-toggle="modal" style="color: #ffcc49;">
+                        <strong>Total number of farmers</strong>
+                    </a>
+                </div>
+                <div class="text-dark fw-bold h5 mb-0">
+                    <span><?php echo $totalFarmers; ?></span>
+                </div>
+            </div>
+            <div class="col-auto"><i class="fas fa-user-friends fa-2x text-gray-300"></i></div>
+        </div>
+    </div>
+</div>
+</div>
+                        <div class="col-md-6 col-xl-3 mb-4"><?php
+include 'setupdb.php';
+
+// Fetch the count from the database
+$sql = "SELECT COUNT(*) AS total_business_owners FROM business_owner";
+$result = $conn->query($sql);
+
+// Check for errors in query execution
+if ($result === false) {
+    die("Database query error: " . $conn->error);
+}
+
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $totalBusinessOwners = $row["total_business_owners"];
+} else {
+    $totalBusinessOwners = "N/A";
+}
+?>
+
+<div class="card shadow border-start-primary py-2" style="height: 130px;">
+    <div class="card-body">
+        <div class="row align-items-center no-gutters">
+            <div class="col me-2">
+                <div class="text-uppercase text-primary fw-bold text-xs mb-1">
+                    <a href="#" data-bs-target="#businessModal" data-bs-toggle="modal" style="color: #ffcc49;">
+                        <strong>Total number of business owners</strong>
+                    </a>
+                </div>
+                <div class="text-dark fw-bold h5 mb-0">
+                    <span><?php echo $totalBusinessOwners; ?></span>
+                </div>
+            </div>
+            <div class="col-auto"><i class="fas fa-user-friends fa-2x text-gray-300"></i></div>
+        </div>
+    </div>
+</div>
+</div>
+                        <div class="col-md-6 col-xl-3 mb-4"><?php
+include 'setupdb.php';
+
+// Fetch the count from the database
+$sql = "SELECT COUNT(*) AS total_brgy_technicians FROM brgy_tech";
+$result = $conn->query($sql);
+
+// Check for errors in query execution
+if ($result === false) {
+    die("Database query error: " . $conn->error);
+}
+
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $totalBrgyTechnicians = $row["total_brgy_technicians"];
+} else {
+    $totalBrgyTechnicians = "N/A";
+}
+?>
+
+<div class="card shadow border-start-primary py-2" style="height: 130px;">
+    <div class="card-body">
+        <div class="row align-items-center no-gutters">
+            <div class="col me-2">
+                <div class="text-uppercase text-primary fw-bold text-xs mb-1">
+                    <a href="#" data-bs-target="#techModal" data-bs-toggle="modal" style="color: #ffcc49;">
+                        <strong>Total number of barangay technicians</strong>
+                    </a>
+                </div>
+                <div class="text-dark fw-bold h5 mb-0">
+                    <span><?php echo $totalBrgyTechnicians; ?></span>
+                </div>
+            </div>
+            <div class="col-auto"><i class="fas fa-user-friends fa-2x text-gray-300"></i></div>
+        </div>
+    </div>
+</div>
+</div>
+                    </div>
+                    <div class="row"><?php
+include 'setupdb.php'; // Make sure to include your database setup file
+
+// Fetch data from the database with sum of total_amount grouped by farmer_mun and crop
+$sql = "SELECT farmer_mun, crop, SUM(total_amount) AS sum_total_amount FROM total_stocks GROUP BY farmer_mun, crop";
+$result = $conn->query($sql);
+
+// Organize data for the chart
+$data = [];
+while ($row = $result->fetch_assoc()) {
+    $data[] = $row;
+}
+?>
+
+<div class="col-lg-12 col-xl-12 col-xxl-12">
+    <div class="card shadow mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h6 class="fw-bold m-0" style="color: #ffcc49;"><strong>Unallocated Crop</strong></h6>
+            <div class="form-group">
+                <select id="cropSelection" class="form-control" onchange="updateChart()">
+                    <option value="all">All</option>
+                    <option value="Corn">Corn</option>
+                    <option value="Coffee">Coffee</option>
+                    <option value="Coconut">Coconut</option>
+                </select>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="chart-area">
+                <canvas id="cropBarChart" class="w-100" height="320"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Assuming you have the data available in a variable named 'cropData'
+    var cropData = <?php echo json_encode($data); ?>;
+    
+    // Function to organize data for the chart
+    function organizeData(selectedCrop) {
+        // Filter data based on selected crop
+        var filteredData = cropData.filter(item => selectedCrop === 'all' || item.crop === selectedCrop);
+
+        // Get unique labels for municipalities and crops
+        var munLabels = Array.from(new Set(filteredData.map(item => item.farmer_mun)));
+        var cropLabels = Array.from(new Set(filteredData.map(item => item.crop)));
+
+        // Organize data for the chart
+        var datasets = cropLabels.map(crop => {
+            var backgroundColor;
+            switch (crop) {
+                case 'Corn':
+                    backgroundColor = '#ffcc1e';
+                    break;
+                case 'Coffee':
+                    backgroundColor = '#d9b64d';
+                    break;
+                case 'Coconut':
+                    backgroundColor = '#725e26';
+                    break;
+                default:
+                    backgroundColor = '#000'; // Set a default color or adjust as needed
+            }
+
+            return {
+                label: crop,
+                data: munLabels.map(mun => {
+                    var entry = filteredData.find(item => item.farmer_mun === mun && item.crop === crop);
+                    return entry ? entry.sum_total_amount : 0;
+                }),
+                backgroundColor: backgroundColor,
+                borderColor: '#fff',
+                borderWidth: 1
+            };
+        });
+
+        return { munLabels, datasets };
+    }
+
+    // Function to update the chart based on selected crop
+    function updateChart() {
+        var selectedCrop = document.getElementById('cropSelection').value;
+        var { munLabels, datasets } = organizeData(selectedCrop);
+
+        // Destroy the previous chart instance to avoid duplicates
+        if (window.currentChart) {
+            window.currentChart.destroy();
+        }
+
+        // Store the current chart instance for future reference
+        var ctx = document.getElementById('cropBarChart').getContext('2d');
+
+        // Set the canvas size to be a percentage of the parent container's size
+        ctx.canvas.width = ctx.canvas.parentElement.clientWidth * 0.9;
+        ctx.canvas.height = ctx.canvas.parentElement.clientHeight * 0.7;
+
+        window.currentChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: munLabels,
+                datasets: datasets
+            },
+            options: {
+                scales: {
+                    x: { grouped: true }, // Display bars side by side
+                    y: { stacked: false }  // Do not stack bars on the y-axis
+                }
+            }
+        });
+    }
+
+    // Initial chart rendering
+    updateChart();
+</script>
+
+
+</div>
+                    <div class="row"><?php
+// Assuming you have a database connection established
+include 'setupdb.php';
+
+// Fetch the latest data from the corn_data table
+$queryCorn = "SELECT Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, `Dec`, `Year`
+              FROM corn_data
+              WHERE `Year` = COALESCE((SELECT MIN(`Year`) FROM corn_data), (SELECT MAX(`Year`) FROM corn_data))
+              ORDER BY `Year` DESC
+              LIMIT 1";
+
+// Fetch the latest data from the coffee_data table
+$queryCoffee = "SELECT Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, `Dec`, `Year`
+                FROM coffee_data
+                WHERE `Year` = COALESCE((SELECT MIN(`Year`) FROM coffee_data), (SELECT MAX(`Year`) FROM coffee_data))
+                ORDER BY `Year` DESC
+                LIMIT 1";
+
+// Fetch the latest data from the coconut_data table
+$queryCoconut = "SELECT Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, `Dec`, `Year`
+                 FROM coconut_data
+                 WHERE `Year` = (SELECT COALESCE(MIN(`Year`), MAX(`Year`)) FROM coconut_data)
+                 ORDER BY `Year` DESC
+                 LIMIT 1";
+
+// Execute the queries and check for errors
+$resultCorn = mysqli_query($conn, $queryCorn);
+$resultCoffee = mysqli_query($conn, $queryCoffee);
+$resultCoconut = mysqli_query($conn, $queryCoconut);
+
+if (!$resultCorn || !$resultCoffee || !$resultCoconut) {
+    die("Error in SQL query: " . mysqli_error($conn));
+}
+
+// Initialize arrays to store data for the chart
+$months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+$dataCorn = $forecastCorn = $dataCoffee = $forecastCoffee = $dataCoconut = $forecastCoconut = [];
+
+// Fetch data from the result set for Corn
+if ($row = mysqli_fetch_assoc($resultCorn)) {
+    $dataCorn = array_values($row);
+
+    // Perform exponential smoothing with alpha = 0.1 for Corn
+    $alpha = 0.1;
+    $previousForecast = $dataCorn[0];
+
+    foreach ($dataCorn as $value) {
+        $currentForecast = $alpha * $value + (1 - $alpha) * $previousForecast;
+        $forecastCorn[] = $currentForecast;
+        $previousForecast = $currentForecast;
+    }
+}
+
+// Fetch data from the result set for Coffee
+if ($row = mysqli_fetch_assoc($resultCoffee)) {
+    $dataCoffee = array_values($row);
+
+    // Perform exponential smoothing with alpha = 0.1 for Coffee
+    $alpha = 0.1;
+    $previousForecast = $dataCoffee[0];
+
+    foreach ($dataCoffee as $value) {
+        $currentForecast = $alpha * $value + (1 - $alpha) * $previousForecast;
+        $forecastCoffee[] = $currentForecast;
+        $previousForecast = $currentForecast;
+    }
+}
+
+// Fetch data from the result set for Coconut
+if ($row = mysqli_fetch_assoc($resultCoconut)) {
+    $dataCoconut = array_values($row);
+
+    // Perform exponential smoothing with alpha = 0.1 for Coconut
+    $alpha = 0.1;
+    $previousForecast = $dataCoconut[0];
+
+    foreach ($dataCoconut as $value) {
+        $currentForecast = $alpha * $value + (1 - $alpha) * $previousForecast;
+        $forecastCoconut[] = $currentForecast;
+        $previousForecast = $currentForecast;
+    }
+}
+?>
+
+<div class="col-lg-8 col-xl-8 col-xxl-8">
+    <div class="card shadow mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h6 class="fw-bold m-0" style="color: #ffcc49;">Demand of Crops Overview</h6>
+        </div>
+        <div class="card-body">
+            <div class="chart-area">
+                <canvas id="lineChart" height="320"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Fetch data from PHP variables
+    var months = <?php echo json_encode($months); ?>;
+    var actualDataCorn = <?php echo json_encode($dataCorn); ?>;
+    var forecastDataCorn = <?php echo json_encode($forecastCorn); ?>;
+    var actualDataCoffee = <?php echo json_encode($dataCoffee); ?>;
+    var forecastDataCoffee = <?php echo json_encode($forecastCoffee); ?>;
+    var actualDataCoconut = <?php echo json_encode($dataCoconut); ?>;
+    var forecastDataCoconut = <?php echo json_encode($forecastCoconut); ?>;
+
+    // Set the maximum value for the y-axis (you may calculate it dynamically if needed)
+    var maxValue = 100;
+
+    // Create a line chart
+    var ctx = document.getElementById('lineChart').getContext('2d');
+    var lineChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: months,
+            datasets: [
+                {
+                    label: 'Corn',
+                    data: forecastDataCorn,
+                    borderColor: '#ffcc1e', // Color for Corn
+                    borderWidth: 2,
+                    fill: false
+                },
+                {
+                    label: 'Coffee',
+                    data: forecastDataCoffee,
+                    borderColor: '#d9b64d', // Color for Coffee
+                    borderWidth: 2,
+                    fill: false
+                },
+                {
+                    label: 'Coconut',
+                    data: forecastDataCoconut,
+                    borderColor: '#725e26', // Color for Coconut
+                    borderWidth: 2,
+                    fill: false
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    type: 'category', // Change the scale type to 'category'
+                    position: 'bottom'
+                },
+                y: {
+                    beginAtZero: false, // Start y-axis from the highest value
+                    max: maxValue // Set the maximum value directly
+                }
+            }
+        }
+    });
+</script>
+
+                        <div class="col-lg-4 col-xl-4">
+                            <div class="row d-block float-none">
+                                <div class="col-lg-12 col-xl-12 mb-4">
+                                    <h1 style="font-weight: bold;text-align: center;font-size: 20px;">Demand Of Crops this Month</h1>
+                                </div>
+                            </div>
+                            <div class="row d-block float-none"><?php
+// Assuming you have a database connection established
+include 'setupdb.php';
+
+// Get the current month and year
+$currentMonth = date('F');
+$year = date('Y');
+
+// Query to fetch data from business_stocks table for corn
+$businessQuery = "SELECT SUM(amount) AS business_amount FROM business_stocks WHERE crop = 'Corn' AND MONTH(date) = MONTH(CURRENT_DATE()) AND YEAR(date) = $year";
+$businessResult = mysqli_query($conn, $businessQuery);
+
+if (!$businessResult) {
+    die("Business Query Error: " . mysqli_error($conn));
+}
+// Fetch data for corn from business_stocks
+$businessAmountCorn = 0;
+if ($businessData = mysqli_fetch_assoc($businessResult)) {
+    $businessAmountCorn = $businessData['business_amount'];
+}
+// Query to fetch data from farmer_stocks table for corn
+$farmerQuery = "SELECT SUM(amount) AS farmer_amount FROM farmer_stocks WHERE crop = 'Corn'";
+$farmerResult = mysqli_query($conn, $farmerQuery);
+
+if (!$farmerResult) {
+    die("Farmer Query Error: " . mysqli_error($conn));
+}
+
+// Fetch data for corn from farmer_stocks
+$farmerAmountCorn = 0;
+if ($farmerData = mysqli_fetch_assoc($farmerResult)) {
+    $farmerAmountCorn = $farmerData['farmer_amount'];
+}
+
+// Calculate demand percentage for corn
+$demandPercentageCorn = 0;
+if ($farmerAmountCorn > 0) {
+    $demandPercentageCorn = ($businessAmountCorn / $farmerAmountCorn) * 100;
+}
+
+// Display the result for corn in a card
+echo '<div class="col-lg-12 col-xl-12 mb-4">';
+echo '<div class="card textwhite bg-info text-white shadow">';
+echo '<div class="card-body" style="background: #ffcc1e;">';
+echo '<div class="row align-items-center no-gutters">';
+echo '<div class="col me-2">';
+echo '<div class="text-uppercase text-primary fw-bold text-xs mb-1"><span style="font-size: 15px;color: #ffffff;">Demand of Corn</span></div>';
+echo '<div class="text-dark fw-bold h5 mb-0"><span style="color: #ffffff;">' . number_format($demandPercentageCorn, 1) . '</span></div>';
+echo '</div>';
+echo '<div class="col-auto"><i class="fas fa-percentage fa-2x text-gray-300"></i></div>';
+echo '</div>';
+echo '</div>';
+echo '</div>';
+echo '</div>';
+
+// Close the result sets and connection
+mysqli_free_result($businessResult);
+mysqli_free_result($farmerResult);
+mysqli_close($conn);
+
+?>
+<?php
+// Assuming you have a database connection established
+include 'setupdb.php';
+
+// Get the current month and year
+$currentMonth = date('F');
+$year = date('Y');
+
+// Query to fetch data from business_stocks table for coffee
+$businessQuery = "SELECT SUM(amount) AS business_amount FROM business_stocks WHERE crop = 'Coffee' AND MONTH(date) = MONTH(CURRENT_DATE()) AND YEAR(date) = $year";
+$businessResult = mysqli_query($conn, $businessQuery);
+
+if (!$businessResult) {
+    die("Business Query Error: " . mysqli_error($conn));
+}
+
+// Query to fetch data from farmer_stocks table for coffee
+$farmerQuery = "SELECT SUM(amount) AS farmer_amount FROM farmer_stocks WHERE crop = 'Coffee'";
+$farmerResult = mysqli_query($conn, $farmerQuery);
+
+if (!$farmerResult) {
+    die("Farmer Query Error: " . mysqli_error($conn));
+}
+
+// Fetch data for coffee from business_stocks
+$businessAmountCoffee = 0;
+if ($businessData = mysqli_fetch_assoc($businessResult)) {
+    $businessAmountCoffee = $businessData['business_amount'];
+}
+
+// Fetch data for coffee from farmer_stocks
+$farmerAmountCoffee = 0;
+if ($farmerData = mysqli_fetch_assoc($farmerResult)) {
+    $farmerAmountCoffee = $farmerData['farmer_amount'];
+}
+
+// Calculate demand percentage for coffee
+$demandPercentageCoffee = 0;
+if ($farmerAmountCoffee > 0) {
+    $demandPercentageCoffee = ($businessAmountCoffee / $farmerAmountCoffee) * 100;
+}
+
+// Display the result for coffee in a card
+echo '<div class="col-lg-12 col-xl-12 mb-4">';
+echo '<div class="card textwhite bg-info text-white shadow">';
+echo '<div class="card-body" style="background: #d9b64d;">';
+echo '<div class="row align-items-center no-gutters">';
+echo '<div class="col me-2">';
+echo '<div class="text-uppercase text-primary fw-bold text-xs mb-1"><span style="font-size: 15px;color: #ffffff;">Demand of Coffee</span></div>';
+echo '<div class="text-dark fw-bold h5 mb-0"><span style="color: #ffffff;">' . number_format($demandPercentageCoffee, 1) . '</span></div>';
+echo '</div>';
+echo '<div class="col-auto"><i class="fas fa-percentage fa-2x text-gray-300"></i></div>';
+echo '</div>';
+echo '</div>';
+echo '</div>';
+echo '</div>';
+
+?>
+<?php
+// Assuming you have a database connection established
+include 'setupdb.php';
+
+// Get the current month and year
+$currentMonth = date('F');
+$year = date('Y');
+
+// Query to fetch data from business_stocks table for coconut
+$businessQuery = "SELECT SUM(amount) AS business_amount FROM business_stocks WHERE crop = 'Coconut' AND MONTH(date) = MONTH(CURRENT_DATE()) AND YEAR(date) = $year";
+$businessResult = mysqli_query($conn, $businessQuery);
+
+if (!$businessResult) {
+    die("Business Query Error: " . mysqli_error($conn));
+}
+
+// Query to fetch data from farmer_stocks table for coconut
+$farmerQuery = "SELECT SUM(amount) AS farmer_amount FROM farmer_stocks WHERE crop = 'Coconut'";
+$farmerResult = mysqli_query($conn, $farmerQuery);
+
+if (!$farmerResult) {
+    die("Farmer Query Error: " . mysqli_error($conn));
+}
+
+// Fetch data for coconut from business_stocks
+$businessAmountCoconut = 0;
+if ($businessData = mysqli_fetch_assoc($businessResult)) {
+    $businessAmountCoconut = $businessData['business_amount'];
+}
+
+// Fetch data for coconut from farmer_stocks
+$farmerAmountCoconut = 0;
+if ($farmerData = mysqli_fetch_assoc($farmerResult)) {
+    $farmerAmountCoconut = $farmerData['farmer_amount'];
+}
+
+// Calculate demand percentage for coconut
+$demandPercentageCoconut = 0;
+if ($farmerAmountCoconut > 0) {
+    $demandPercentageCoconut = ($businessAmountCoconut / $farmerAmountCoconut) * 100;
+}
+
+// Display the result for coconut in a card
+echo '<div class="col-lg-12 col-xl-12 mb-4">';
+echo '<div class="card textwhite bg-info text-white shadow">';
+echo '<div class="card-body" style="background: #725e26;">';
+echo '<div class="row align-items-center no-gutters">';
+echo '<div class="col me-2">';
+echo '<div class="text-uppercase text-primary fw-bold text-xs mb-1"><span style="font-size: 15px;color: #ffffff;">Demand of Coconut</span></div>';
+echo '<div class="text-dark fw-bold h5 mb-0"><span style="color: #ffffff;">' . number_format($demandPercentageCoconut, 1) . '</span></div>';
+echo '</div>';
+echo '<div class="col-auto"><i class="fas fa-percentage fa-2x text-gray-300"></i></div>';
+echo '</div>';
+echo '</div>';
+echo '</div>';
+echo '</div>';
+
+?>
+</div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 20px;margin-bottom: 20px;">
+                        <div class="col-xl-9">
+                            <div class="card" style="height: 100%;">
+                                <div class="card-header">
+                                    <h6 style="color: #ffcc49;"><strong>Crop Performance</strong></h6>
+                                </div><?php
+include 'setupdb.php'; // Make sure to include your database setup file
+
+// Get the current month and year
+$currentMonth = date('m');
+$currentYear = date('Y');
+
+// Construct the SQL query with the date condition for Unallocated
+$unallocatedSql = "SELECT crop, SUM(total_amount) AS sum_total_amount, date
+                   FROM total_stocks
+                   WHERE crop IN ('Corn', 'Coffee', 'Coconut') 
+                   AND MONTH(date) = $currentMonth AND YEAR(date) = $currentYear
+                   GROUP BY crop";
+
+$resultUnallocated = $conn->query($unallocatedSql);
+$dataUnallocated = array();
+
+while ($row = $resultUnallocated->fetch_assoc()) {
+    $dataUnallocated[$row['crop']] = $row['sum_total_amount'];
+}
+
+// Initialize default values for crops
+$crops = ['Corn', 'Coffee', 'Coconut'];
+foreach ($crops as $crop) {
+    if (!isset($dataUnallocated[$crop])) {
+        $dataUnallocated[$crop] = 0;
+    }
+}
+
+// Construct the SQL query with the date condition for Supply
+$supplySql = "SELECT crop, SUM(amount) as total_amount, date
+               FROM crop_information
+               WHERE crop IN ('Corn', 'Coffee', 'Coconut') 
+               AND MONTH(date) = $currentMonth AND YEAR(date) = $currentYear
+               GROUP BY crop";
+
+$resultSupply = $conn->query($supplySql);
+$dataSupply = array();
+
+while ($row = $resultSupply->fetch_assoc()) {
+    $dataSupply[$row['crop']] = $row['total_amount'];
+}
+
+// Initialize default values for crops
+foreach ($crops as $crop) {
+    if (!isset($dataSupply[$crop])) {
+        $dataSupply[$crop] = 0;
+    }
+}
+
+// Construct the SQL query with the date condition for Purchased
+$purchasedSql = "SELECT crop, SUM(amount) as total_amount, date
+                FROM done_transaction
+                WHERE crop IN ('Corn', 'Coffee', 'Coconut')
+                AND MONTH(date) = $currentMonth AND YEAR(date) = $currentYear
+                GROUP BY crop";
+
+$resultPurchased = $conn->query($purchasedSql);
+$dataPurchased = array();
+
+while ($row = $resultPurchased->fetch_assoc()) {
+    $dataPurchased[$row['crop']] = $row['total_amount'];
+}
+
+// Initialize default values for crops
+foreach ($crops as $crop) {
+    if (!isset($dataPurchased[$crop])) {
+        $dataPurchased[$crop] = 0;
+    }
+}
+
+// Construct the SQL query with the date condition for Demand
+$demandSql = "SELECT crop, SUM(amount) as total_amount
+               FROM approved_transaction
+               WHERE crop IN ('Corn', 'Coffee', 'Coconut') 
+               AND MONTH(date) = $currentMonth AND YEAR(date) = $currentYear
+               GROUP BY crop";
+
+$resultDemand = $conn->query($demandSql);
+$dataDemand = array();
+
+while ($row = $resultDemand->fetch_assoc()) {
+    $dataDemand[$row['crop']] = $row['total_amount'];
+}
+
+// Initialize default values for crops
+foreach ($crops as $crop) {
+    if (!isset($dataDemand[$crop])) {
+        $dataDemand[$crop] = 0;
+    }
+}
+?>
+
+<div class="card-body">
+    <!-- Create a canvas element for the Radar Chart -->
+    <canvas id="radarChart" width="646" height="322"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // PHP data to JavaScript
+    var unallocatedData = <?php echo json_encode($dataUnallocated); ?>;
+    var supplyData = <?php echo json_encode($dataSupply); ?>;
+    var purchasedData = <?php echo json_encode($dataPurchased); ?>;
+    var demandData = <?php echo json_encode($dataDemand); ?>;
+    
+    // Radar Chart data
+    var data = {
+        labels: ['Unallocated', 'Supply', 'Purchased', 'Demand'],
+        datasets: [{
+            label: 'Corn',
+            data: [unallocatedData['Corn'] ?? 0, supplyData['Corn'] ?? 0, purchasedData['Corn'] ?? 0, demandData['Corn'] ?? 0],
+            backgroundColor: 'rgba(255, 255, 255, 0.43)', // Lighter yellow with 50% transparency
+            borderColor: 'rgba(255, 204, 30)',
+            borderWidth: 2
+        }, {
+            label: 'Coffee',
+            data: [unallocatedData['Coffee'] ?? 0, supplyData['Coffee'] ?? 0, purchasedData['Coffee'] ?? 0, demandData['Coffee'] ?? 0],
+            backgroundColor: 'rgba(255, 255, 255, 0.43)', // Lighter orange with 50% transparency
+            borderColor: 'rgba(217, 182, 77)',
+            borderWidth: 2
+        }, {
+            label: 'Coconut',
+            data: [unallocatedData['Coconut'] ?? 0, supplyData['Coconut'] ?? 0, purchasedData['Coconut'] ?? 0, demandData['Coconut'] ?? 0],
+            backgroundColor: 'rgba(255, 255, 255, 0.43)', // Lighter brown with 50% transparency
+            borderColor: 'rgba(114, 94, 38)',
+            borderWidth: 2
+        }]
+    };
+
+    // Configuration options for the Radar Chart
+    var options = {
+        scale: {
+            ticks: {
+                beginAtZero: true,
+                max: Math.max(...Object.values(unallocatedData), ...Object.values(supplyData), ...Object.values(purchasedData), ...Object.values(demandData)) + 10
+            }
+        },
+        maintainAspectRatio: false
+    };
+
+    // Get the canvas element
+    var ctx = document.getElementById('radarChart').getContext('2d');
+
+    // Create the Radar Chart
+    var radarChart = new Chart(ctx, {
+        type: 'radar',
+        data: data,
+        options: options
+    });
+</script>
+
+                            </div>
+                        </div>
+                        <div class="col-xl-3">
+                            <div style="margin-bottom: 5px;">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div><canvas data-bss-chart="{&quot;type&quot;:&quot;doughnut&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;January&quot;,&quot;February&quot;,&quot;March&quot;,&quot;April&quot;,&quot;May&quot;,&quot;June&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Revenue&quot;,&quot;backgroundColor&quot;:[&quot;#4e73df&quot;,&quot;#4e73df&quot;,&quot;#4e73df&quot;,&quot;#4e73df&quot;,&quot;#4e73df&quot;,&quot;#4e73df&quot;],&quot;borderColor&quot;:[&quot;#4e73df&quot;,&quot;#4e73df&quot;,&quot;#4e73df&quot;,&quot;#4e73df&quot;,&quot;#4e73df&quot;,&quot;#4e73df&quot;],&quot;data&quot;:[&quot;4500&quot;,&quot;5300&quot;,&quot;6250&quot;,&quot;7800&quot;,&quot;9800&quot;,&quot;15000&quot;]}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:true,&quot;legend&quot;:{&quot;display&quot;:false,&quot;labels&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;}},&quot;title&quot;:{&quot;fontStyle&quot;:&quot;bold&quot;}}}"></canvas></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin-bottom: 5px;">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div><canvas data-bss-chart="{&quot;type&quot;:&quot;doughnut&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;January&quot;,&quot;February&quot;,&quot;March&quot;,&quot;April&quot;,&quot;May&quot;,&quot;June&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Revenue&quot;,&quot;backgroundColor&quot;:[&quot;#4e73df&quot;,&quot;#4e73df&quot;,&quot;#4e73df&quot;,&quot;#4e73df&quot;,&quot;#4e73df&quot;,&quot;#4e73df&quot;],&quot;borderColor&quot;:[&quot;#4e73df&quot;,&quot;#4e73df&quot;,&quot;#4e73df&quot;,&quot;#4e73df&quot;,&quot;#4e73df&quot;,&quot;#4e73df&quot;],&quot;data&quot;:[&quot;4500&quot;,&quot;5300&quot;,&quot;6250&quot;,&quot;7800&quot;,&quot;9800&quot;,&quot;15000&quot;]}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:true,&quot;legend&quot;:{&quot;display&quot;:false,&quot;labels&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;}},&quot;title&quot;:{&quot;fontStyle&quot;:&quot;bold&quot;}}}"></canvas></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div><canvas data-bss-chart="{&quot;type&quot;:&quot;doughnut&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;January&quot;,&quot;February&quot;,&quot;March&quot;,&quot;April&quot;,&quot;May&quot;,&quot;June&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Revenue&quot;,&quot;backgroundColor&quot;:[&quot;#4e73df&quot;,&quot;#4e73df&quot;,&quot;#4e73df&quot;,&quot;#4e73df&quot;,&quot;#4e73df&quot;,&quot;#4e73df&quot;],&quot;borderColor&quot;:[&quot;#4e73df&quot;,&quot;#4e73df&quot;,&quot;#4e73df&quot;,&quot;#4e73df&quot;,&quot;#4e73df&quot;,&quot;#4e73df&quot;],&quot;data&quot;:[&quot;4500&quot;,&quot;5300&quot;,&quot;6250&quot;,&quot;7800&quot;,&quot;9800&quot;,&quot;15000&quot;]}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:true,&quot;legend&quot;:{&quot;display&quot;:false,&quot;labels&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;}},&quot;title&quot;:{&quot;fontStyle&quot;:&quot;bold&quot;}}}"></canvas></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="bg-white sticky-footer">
+                <div class="container my-auto">
+                    <div class="text-center my-auto copyright"><span><strong>AgriDivision © Brand 2023</strong></span></div>
+                </div>
+            </footer>
+        </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="logout">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content"><div class="modal-header"></div>
+                <div class="modal-body">
+                    <p>Are you sure you want to log out?<br></p>
+                </div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Cancel</button><a class="btn btn-primary" role="button" href="logout.php" style="background: #ffcc46;border-color: #ffcc49;">Yes</a></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="municipalModal">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Municipal Agriculturists</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body"><div>
+    <div class="row">
+        <div class="col-md-6 col-xl-12">
+            <div class="text-md-end dataTables_filter">
+                <label class="form-label">
+                    <input id="agriculturistsearchInput" class="form-control form-control-sm" type="search" aria-controls="dataTable" placeholder="Search" />
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table id="agriculturistdataTable" class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Address</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                include 'setupdb.php';
+
+                // Your SQL query
+                $sqlAgriculturist = "SELECT CONCAT(fname, ' ', lname) as name, id, email, num, CONCAT(prov, ', ', mun, ', ', brgy, ', ', zip) as address FROM municipal_agriculturist";
+
+                // Execute the query
+                $result = mysqli_query($conn, $sqlAgriculturist);
+
+                // Check for errors
+                if (!$result) {
+                    die("Error in SQL query: " . mysqli_error($conn));
+                }
+
+                // Fetch the data and populate the table
+                while ($row = mysqli_fetch_assoc($result)) {
+                    echo "<tr>";
+                    echo "<td><a href='adminagriculturist.php?id=" . $row['id'] . "'>" . $row['name'] . "</a></td>";
+                    echo "<td>" . $row['email'] . "</td>";
+                    echo "<td>" . $row['num'] . "</td>";
+                    echo "<td>" . $row['address'] . "</td>";
+                    echo "</tr>";
+                }
+                ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Function to filter table rows based on search input
+        function filterTable() {
+            var searchText = $('#agriculturistsearchInput').val().toLowerCase();
+
+            // Iterate through each row in the table body
+            $('#agriculturistdataTable tbody tr').each(function () {
+                var name = $(this).find('td:eq(0)').text().toLowerCase(); // Name column
+                var address = $(this).find('td:eq(3)').text().toLowerCase(); // Address column
+
+                // Show/hide rows based on search input
+                if (name.includes(searchText) || address.includes(searchText)) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        }
+
+        // Trigger filterTable function on keyup event
+        $('#agriculturistsearchInput').on('keyup', filterTable);
+    });
+</script></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="farmerModal">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Farmers</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body"><div>
+    <div class="row">
+        <div class="col-md-6 col-xl-12">
+            <div class="text-md-end dataTables_filter">
+                <label class="form-label">
+                    <input id="farmersearchInput" class="form-control form-control-sm" type="search" aria-controls="dataTable" placeholder="Search" />
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table id="farmerdataTable" class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Address</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                include 'setupdb.php';
+
+                // Your SQL query
+                $sqlFarmer = "SELECT CONCAT(fname, ' ', lname) as name, id, email, num, CONCAT(prov, ', ', mun, ', ', brgy, ', ', zip) as address FROM farmer";
+
+                // Execute the query
+                $result = mysqli_query($conn, $sqlFarmer);
+
+                // Check for errors
+                if (!$result) {
+                    die("Error in SQL query: " . mysqli_error($conn));
+                }
+
+                // Fetch the data and populate the table
+                while ($row = mysqli_fetch_assoc($result)) {
+                    echo "<tr>";
+                    echo "<td><a href='adminfarmer.php?id=" . $row['id'] . "'>" . $row['name'] . "</a></td>";
+                    echo "<td>" . $row['email'] . "</td>";
+                    echo "<td>" . $row['num'] . "</td>";
+                    echo "<td>" . $row['address'] . "</td>";
+                    echo "</tr>";
+                }
+                ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Function to filter table rows based on search input
+        function filterTable() {
+            var searchText = $('#farmersearchInput').val().toLowerCase();
+
+            // Iterate through each row in the table body
+            $('#farmerdataTable tbody tr').each(function () {
+                var name = $(this).find('td:eq(0)').text().toLowerCase(); // Name column
+                var address = $(this).find('td:eq(3)').text().toLowerCase(); // Address column
+
+                // Show/hide rows based on search input
+                if (name.includes(searchText) || address.includes(searchText)) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        }
+
+        // Trigger filterTable function on keyup event
+        $('#farmersearchInput').on('keyup', filterTable);
+    });
+</script></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="businessModal">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Business Owners</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body"><div>
+    <div class="row">
+        <div class="col-md-6 col-xl-12">
+            <div class="text-md-end dataTables_filter">
+                <label class="form-label">
+                    <input id="businesssearchInput" class="form-control form-control-sm" type="search" aria-controls="dataTable" placeholder="Search" />
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table id="businessdataTable" class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Address</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                include 'setupdb.php';
+
+                // Your SQL query
+                $sqlBusiness = "SELECT CONCAT(fname, ' ', lname) as name, id, email, num, CONCAT(prov, ', ', mun, ', ', brgy, ', ', zip) as address FROM business_owner";
+
+                // Execute the query
+                $result = mysqli_query($conn, $sqlBusiness);
+
+                // Check for errors
+                if (!$result) {
+                    die("Error in SQL query: " . mysqli_error($conn));
+                }
+
+                // Fetch the data and populate the table
+                while ($row = mysqli_fetch_assoc($result)) {
+                    echo "<tr>";
+                    echo "<td><a href='adminbusiness.php?id=" . $row['id'] . "'>" . $row['name'] . "</a></td>";
+                    echo "<td>" . $row['email'] . "</td>";
+                    echo "<td>" . $row['num'] . "</td>";
+                    echo "<td>" . $row['address'] . "</td>";
+                    echo "</tr>";
+                }
+                ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Function to filter table rows based on search input
+        function filterTable() {
+            var searchText = $('#businesssearchInput').val().toLowerCase();
+
+            // Iterate through each row in the table body
+            $('#businessdataTable tbody tr').each(function () {
+                var name = $(this).find('td:eq(0)').text().toLowerCase(); // Name column
+                var address = $(this).find('td:eq(3)').text().toLowerCase(); // Address column
+
+                // Show/hide rows based on search input
+                if (name.includes(searchText) || address.includes(searchText)) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        }
+
+        // Trigger filterTable function on keyup event
+        $('#businesssearchInput').on('keyup', filterTable);
+    });
+</script></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="techModal">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Barangay Technicians</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body"><div>
+    <div class="row">
+        <div class="col-md-6 col-xl-12">
+            <div class="text-md-end dataTables_filter">
+                <label class="form-label">
+                    <input id="techsearchInput" class="form-control form-control-sm" type="search" aria-controls="dataTable" placeholder="Search" />
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table id="techdataTable" class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Address</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                include 'setupdb.php';
+
+                // Your SQL query
+                $sqlTech = "SELECT CONCAT(fname, ' ', lname) as name, id, email, num, CONCAT(prov, ', ', mun, ', ', brgy, ', ', zip) as address FROM brgy_tech";
+
+                // Execute the query
+                $result = mysqli_query($conn, $sqlTech);
+
+                // Check for errors
+                if (!$result) {
+                    die("Error in SQL query: " . mysqli_error($conn));
+                }
+
+                // Fetch the data and populate the table
+                while ($row = mysqli_fetch_assoc($result)) {
+                    echo "<tr>";
+                    echo "<td><a href='admintech.php?id=" . $row['id'] . "'>" . $row['name'] . "</a></td>";
+                    echo "<td>" . $row['email'] . "</td>";
+                    echo "<td>" . $row['num'] . "</td>";
+                    echo "<td>" . $row['address'] . "</td>";
+                    echo "</tr>";
+                }
+                ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Function to filter table rows based on search input
+        function filterTable() {
+            var searchText = $('#techsearchInput').val().toLowerCase();
+
+            // Iterate through each row in the table body
+            $('#techdataTable tbody tr').each(function () {
+                var name = $(this).find('td:eq(0)').text().toLowerCase(); // Name column
+                var address = $(this).find('td:eq(3)').text().toLowerCase(); // Address column
+
+                // Show/hide rows based on search input
+                if (name.includes(searchText) || address.includes(searchText)) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        }
+
+        // Trigger filterTable function on keyup event
+        $('#techsearchInput').on('keyup', filterTable);
+    });
+</script></div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/chart.min.js"></script>
+    <script src="assets/js/bs-init.js"></script>
+    <script src="assets/js/theme.js"></script>
+</body>
+
+</html>

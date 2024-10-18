@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Register - Brand</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
+    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css">
+    <link rel="stylesheet" href="assets/css/Icon-Button.css">
+    <link rel="stylesheet" href="assets/css/untitled.css">
+<link rel="icon" href="/AGRIDIVISION_FINAL/assets/img/background/icon.png" type="image/png">
+</head>
+
+<body class="bg-gradient-primary" style="background: url(&quot;assets/img/background/farmbg.gif&quot;) center / cover no-repeat;">
+    <div class="container">
+        <div class="card shadow-lg o-hidden border-0 my-5" style="background: rgba(255,255,255,0.43);">
+            <div class="card-body p-0">
+                <div class="row">
+                    <div class="col-lg-8 offset-lg-2 offset-xl-2">
+                        <div class="p-5" style="background: rgba(255,255,255,0.43);">
+                            <div class="text-center">
+                                <h4 class="text-dark mb-4">Create an Account!</h4>
+                            </div>
+                            <form id="registrationForm" class="user" method="post" action="registerbuss.php" enctype="multipart/form-data">
+                                <div class="row mb-3">
+                                    <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="text" placeholder="First Name" name="fname" style="height: 50px;border-radius: 160px;" required=""></div>
+                                    <div class="col-sm-6"><input class="form-control form-control-user" type="text" placeholder="Last Name" name="lname" style="height: 50px;border-radius: 160px;" required=""></div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control" type="email" style="height: 50px;border-width: 1px;border-radius: 160px;" placeholder="Email" name="email" required=""></div>
+                                    <div class="col-sm-6"><input class="form-control" type="tel" style="height: 50px;border-radius: 160px;" placeholder="Phone Number" inputmode="tel" name="number" required=""></div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control" type="number" style="height: 50px;border-radius: 160px;" placeholder="Business Permit Number" name="busspermit"></div>
+                                    <div class="col-sm-6"><select class="form-select" name="crop" style="height: 50px;border-radius: 160px;" required="">
+                                            <optgroup label="Select a Crop">
+                                                <option value="Corn">Corn</option>
+                                                <option value="Coffee">Coffee</option>
+                                                <option value="Coconut">Coconut</option>
+                                            </optgroup>
+                                        </select></div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control" type="text" name="province" placeholder="Province" style="height: 50px;border-radius: 160px;" required=""></div>
+                                    <div class="col-sm-6"><input class="form-control" type="text" placeholder="Municipality" name="municipality" style="height: 50px;border-radius: 160px;" required=""></div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control" type="text" placeholder="Barangay" name="brgy" style="height: 50px;border-radius: 160px;" required=""></div>
+                                    <div class="col-sm-6"><input class="form-control" type="text" placeholder="Street" name="street" style="height: 50px;border-radius: 160px;"></div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control" type="number" placeholder="ZIP Code" name="zip" style="height: 50px;border-radius: 160px;" required=""></div>
+                                    <div class="col-sm-6"><input class="form-control" type="text" style="padding: 16px; height: 50px; border-radius: 160px;" name="birthdate" id="birthdateInput" required/>
+
+<style>
+#birthdateInput::placeholder {
+    font-size: 16px;
+}
+</style>
+
+<script>
+var input = document.getElementById("birthdateInput");
+var originalType = "date";
+var placeholderText = "Birthdate";
+
+input.value = placeholderText;
+
+input.addEventListener("focus", function() {
+    if (input.value === placeholderText) {
+        input.value = "";
+        input.type = originalType;
+    }
+});
+
+input.addEventListener("blur", function() {
+    if (input.value === "") {
+        input.value = placeholderText;
+        input.type = "text";
+    }
+});
+</script>
+</div>
+                                </div>
+                                <div class="row mb-3"><style>
+    .password-input {
+        position: relative;
+    }
+    
+    .password-toggle {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+    }
+</style>
+
+<div class="col-sm-6 mb-3 mb-sm-0">
+    <div class="password-input">
+        <input id="passwordInput" class="form-control form-control-user" type="password" placeholder="Password" name="password" style="height: 50px; border-radius: 160px; font-size: 16px; padding-right: 40px;" required />
+        <span class="input-icon password-toggle" id="passwordToggle">
+            <i class="fas fa-eye"></i>
+        </span>
+    </div>
+</div>
+
+<script>
+    const passwordInput = document.getElementById('passwordInput');
+    const passwordToggle = document.getElementById('passwordToggle');
+    
+    passwordToggle.addEventListener('click', function () {
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+        } else {
+            passwordInput.type = 'password';
+        }
+    });
+</script>
+<style>
+    .password-input {
+        position: relative;
+    }
+    
+    .password-toggle {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+    }
+</style>
+
+<div class="col-sm-6">
+    <div class="password-input">
+        <input id="repassInput" class="form-control form-control-user" type="password" placeholder="Repeat Password" name="repass" style="height: 50px; border-radius: 160px; font-size: 16px; padding-right: 40px;" required />
+        <span class="input-icon password-toggle" id="repassToggle">
+            <i class="fas fa-eye"></i>
+        </span>
+    </div>
+</div>
+
+<script>
+    const repassInput = document.getElementById('repassInput');
+    const repassToggle = document.getElementById('repassToggle');
+    
+    repassToggle.addEventListener('click', function () {
+        if (repassInput.type === 'password') {
+            repassInput.type = 'text';
+        } else {
+            repassInput.type = 'password';
+        }
+    });
+</script>
+</div>
+                                <div class="row mb-3"><input class="form-control" type="file" style="border-width: 1px;border-radius: 160px;" name="profileimg">
+                                    <p style="color: #2f3438;">Upload your image</p>
+                                </div><button class="btn btn-primary d-block btn-user w-100" type="submit" style="background: #ffcc49;color: #2f3438;border-color: #ffcc49;" onclick="openModal()">Register Account</button>
+                            </form>
+                            <div class="text-center"><a class="small" href="forgot-password.html" style="color: #2f3438;">Forgot Password?</a></div>
+                            <div class="text-center"><a class="small" href="login.php" style="color: #2f3438;">Already have an account? Login!</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/bs-init.js"></script>
+    <script src="assets/js/theme.js"></script>
+</body>
+
+</html>
