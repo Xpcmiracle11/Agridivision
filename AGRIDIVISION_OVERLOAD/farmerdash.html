@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Dashboard - Brand</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins&amp;display=swap">
+    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/css/untitled.css">
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
+            <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0">
+                    <div><img src="assets/img/Agri-Logo-White.png" style="width: 50px;height: 50px;"></div>
+                    <div class="sidebar-brand-text mx-3"><span>AGRIDIVISION</span></div>
+                </a>
+                <ul class="navbar-nav text-light" id="accordionSidebar">
+                    <li class="nav-item"><a class="nav-link" href="farmerdash.php"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="farmermarket.php"><i class="fas fa-shopping-cart"></i><span>Marketplace</span></a></li>
+                </ul>
+                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
+            </div>
+        </nav>
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+                <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+                    <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
+                        <ul class="navbar-nav flex-nowrap ms-auto">
+                            <li class="nav-item dropdown no-arrow mx-1"><div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><span class="badge bg-danger badge-counter">3+</span><i class="fas fa-bell fa-fw"></i></a>
+    <div class="dropdown-menu dropdown-menu-end dropdown-list animated--grow-in">
+        <h6 class="dropdown-header">alerts center</h6><a class="dropdown-item d-flex align-items-center" href="#">
+            <div class="me-3">
+                <div class="bg-primary icon-circle"><i class="fas fa-file-alt text-white"></i></div>
+            </div>
+            <div><span class="small text-gray-500">December 12, 2019</span>
+                <p>A new monthly report is ready to download!</p>
+            </div>
+        </a><a class="dropdown-item d-flex align-items-center" href="#">
+            <div class="me-3">
+                <div class="bg-success icon-circle"><i class="fas fa-donate text-white"></i></div>
+            </div>
+            <div><span class="small text-gray-500">December 7, 2019</span>
+                <p>$290.29 has been deposited into your account!</p>
+            </div>
+        </a><a class="dropdown-item d-flex align-items-center" href="#">
+            <div class="me-3">
+                <div class="bg-warning icon-circle"><i class="fas fa-exclamation-triangle text-white"></i></div>
+            </div>
+            <div><span class="small text-gray-500">December 2, 2019</span>
+                <p>Spending Alert: We&#39;ve noticed unusually high spending for your account.</p>
+            </div>
+        </a><a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+    </div>
+</div></li>
+                            <li class="nav-item d-inline-flex dropdown no-arrow">
+                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><span class="d-none d-lg-inline me-2 text-gray-600 small" id="username">Valerie Luna<?php
+include 'setupdb.php';
+
+// Make sure to add a semicolon at the end of the above line
+
+$farmer_fname = isset($_SESSION['farmer_fname']) ? $_SESSION['farmer_fname'] : '';
+$farmer_lname = isset($_SESSION['farmer_lname']) ? $_SESSION['farmer_lname'] : '';
+
+// Concatenate first name and last name
+$full_name = $farmer_fname . ' ' . $farmer_lname;
+
+?>
+<script>
+    document.getElementById("username").innerHTML = '<?php echo $full_name; ?>';
+</script>
+</span></a>
+                                    <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in"><a class="dropdown-item" href="farmerprofile.php"><i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Profile</a>
+                                        <div class="dropdown-divider"></div><a class="dropdown-item" href="#" data-bs-target="#logout" data-bs-toggle="modal"><i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Logout</a>
+                                    </div>
+                                </div>
+                                <div class="d-flex d-xxl-flex align-items-center align-items-xxl-center"><i class="far fa-user"></i></div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class="container-fluid">
+                    <div class="d-sm-flex justify-content-between align-items-center mb-4">
+                        <h3 class="text-dark mb-0"><strong>Dashboard</strong></h3>
+                    </div>
+                    <div class="row" style="margin: -1px;margin-top: 20px;">
+                        <div class="col-md-12 col-lg-4 col-xl-4 col-xxl-4 mb-4"><?php
+$defaultYear = date("Y");
+$farmer_id = $_SESSION['farmer_id'];
+include 'setupdb.php';
+
+$sqlYears = "SELECT DISTINCT YEAR(date) as production_year FROM total_production WHERE farmer_id = '$farmer_id'";
+$resultYears = mysqli_query($conn, $sqlYears);
+$years = mysqli_fetch_all($resultYears, MYSQLI_ASSOC);
+
+// Fetch data for all years
+$dataByYear = [];
+foreach ($years as $year) {
+    $sql = "SELECT TRIM(commodity_name) AS commodity_name, SUM(amount) as total_amount, date FROM total_production WHERE YEAR(date) = '{$year['production_year']}' AND farmer_id = '$farmer_id' GROUP BY TRIM(commodity_name)";
+    $result = mysqli_query($conn, $sql);
+    $dataByYear[$year['production_year']] = mysqli_fetch_all($result, MYSQLI_ASSOC);
+}
+
+// Fetch and sum the data from the production table for the default year
+$sql = "SELECT TRIM(commodity_name) AS commodity_name, SUM(amount) as total_amount, date FROM total_production WHERE YEAR(date) = '$defaultYear' AND farmer_id = '$farmer_id' GROUP BY TRIM(commodity_name)";
+$result = mysqli_query($conn, $sql);
+
+// Fetch the data as an associative array
+$data = [];
+while ($row = mysqli_fetch_assoc($result)) {
+    $data[] = $row;
+}
+
+// Add an extra entry at the beginning of the dataset
+array_unshift($data, ['commodity_name' => '', 'total_amount' => 0]);
+?>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js">
+
+<div class="card shadow border-start-info py-2" style="height: 100%;">
+    <div class="card-body">
+        <div class="row align-items-center no-gutters">
+            <div class="col me-2">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <p>
+                            <strong>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#productionModal">
+                                    TOTAL AMOUNT OF HARVESTED CROPS
+                                </a>
+                            </strong>
+                        </p>
+                    </div>
+                    <div class="col">
+                        <!-- Use JavaScript to handle the change event of the select dropdown -->
+                        <select id="yearSelect" class="form-select mb-3">
+                            <?php foreach ($years as $year) : ?>
+                                <option value="<?php echo $year['production_year']; ?>" <?php echo $defaultYear == $year['production_year'] ? 'selected' : ''; ?>>
+                                    <?php echo $year['production_year']; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <div id="noDataMessage" class="alert alert-info" role="alert" style="display: none;">
+                    No production data available.
+                </div>
+                <canvas id="productionChart" height="100"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ... (previous HTML code) ... -->
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const ctx = document.getElementById('productionChart').getContext('2d');
+        let productionChart;
+        const dataByYear = <?php echo json_encode($dataByYear); ?>;
+        let initialData = <?php echo json_encode($data); ?>;
+
+        // Add an extra entry at the beginning of the dataset
+        initialData.unshift({ commodity_name: '', total_amount: 0 });
+
+        // Function to update the chart based on the selected year
+        function updateProductionChart(selectedYear) {
+            const data = dataByYear[selectedYear] || [];
+
+            // Extract labels and amounts for the new data
+            const labels = data.map(row => row.commodity_name);
+            const amounts = data.map(row => row.total_amount);
+
+            // Update chart data
+            productionChart.data.labels = ['', ...labels];
+            productionChart.data.datasets[0].data = [0, ...amounts]; // Set the value for the extra entry to 0
+
+            // Update chart
+            productionChart.update();
+
+            // Display no data message if data is empty
+            document.getElementById('noDataMessage').style.display = data.length === 0 ? 'block' : 'none';
+        }
+
+        // Create a bar chart with the indexAxis option
+        productionChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['', ...initialData.map(row => row.commodity_name)],
+                datasets: [{
+                    label: 'Amount (kg)',
+                    data: [0, ...initialData.map(row => row.total_amount)], // Set the value for the extra entry to 0
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                layout: {
+                    padding: {
+                        top: 0
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        min: 0  // Set the minimum value of the x-axis to 0
+                    },
+                    y: {
+                        type: 'category',
+                        position: 'left',
+                        offset: true
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return context.dataset.label + ': ' + context.formattedValue + ' kg';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Event listener for the year select dropdown
+        document.getElementById('yearSelect').addEventListener('change', function () {
+            const selectedYear = this.value;
+            updateProductionChart(selectedYear);
+        });
+
+        // Initial chart update based on the default year
+        updateProductionChart(<?php echo $defaultYear; ?>);
+    });
+</script></div>
+                        <div class="col-md-12 col-lg-4 col-xl-4 col-xxl-4 mb-4"><?php
+$defaultYear = date("Y");
+$farmer_id = $_SESSION['farmer_id'];
+include 'setupdb.php';
+
+$sqlYears = "SELECT DISTINCT YEAR(date) as sold_year FROM transaction WHERE farmer_id = '$farmer_id'";
+$resultYears = mysqli_query($conn, $sqlYears);
+$years = mysqli_fetch_all($resultYears, MYSQLI_ASSOC);
+
+// Fetch data for all years
+$dataByYear = [];
+foreach ($years as $year) {
+    $sql = "SELECT TRIM(commodity_name) AS commodity_name, SUM(amount_purchase) as total_amount, date FROM transaction WHERE YEAR(date) = '{$year['sold_year']}' AND farmer_id = '$farmer_id' GROUP BY TRIM(commodity_name)";
+    $result = mysqli_query($conn, $sql);
+    $dataByYear[$year['sold_year']] = mysqli_fetch_all($result, MYSQLI_ASSOC);
+}
+
+// Fetch and sum the data from the sold table for the default year
+$sql = "SELECT TRIM(commodity_name) AS commodity_name, SUM(amount_purchase) as total_amount, date FROM transaction WHERE YEAR(date) = '$defaultYear' AND farmer_id = '$farmer_id' GROUP BY TRIM(commodity_name)";
+$result = mysqli_query($conn, $sql);
+
+// Fetch the data as an associative array
+$data = [];
+while ($row = mysqli_fetch_assoc($result)) {
+    $data[] = $row;
+}
+
+// Add an extra entry at the beginning of the dataset
+array_unshift($data, ['commodity_name' => '', 'total_amount' => 0]);
+?>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js">
+
+<div class="card shadow border-start-info py-2" style="height: 100%;">
+    <div class="card-body">
+        <div class="row align-items-center no-gutters">
+            <div class="col me-2">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <p>
+                            <strong>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#soldModal">
+                                    TOTAL AMOUNT OF CROPS SOLD
+                                </a>
+                            </strong>
+                        </p>
+                    </div>
+                    <div class="col">
+                        <!-- Use JavaScript to handle the change event of the select dropdown -->
+                        <select id="selectedYearSold" class="form-select mb-3">
+                            <?php foreach ($years as $year) : ?>
+                                <option value="<?php echo $year['sold_year']; ?>" <?php echo $defaultYear == $year['sold_year'] ? 'selected' : ''; ?>>
+                                    <?php echo $year['sold_year']; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <div id="noDataMessageSold" class="alert alert-info" role="alert" style="display: none;">
+                    No sold data available.
+                </div>
+                <canvas id="soldChart" height="100"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ... (previous HTML code) ... -->
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const ctx = document.getElementById('soldChart').getContext('2d');
+        let soldChart;
+        const dataByYear = <?php echo json_encode($dataByYear); ?>;
+        let initialData = <?php echo json_encode($data); ?>;
+
+        // Add an extra entry at the beginning of the dataset
+        initialData.unshift({ commodity_name: '', total_amount: 0 });
+
+        // Function to update the chart based on the selected year
+        function updateSoldChart(selectedYear) {
+            const data = dataByYear[selectedYear] || [];
+
+            // Extract labels and amounts for the new data
+            const labels = data.map(row => row.commodity_name);
+            const amounts = data.map(row => row.total_amount);
+
+            // Update chart data
+            soldChart.data.labels = ['', ...labels];
+            soldChart.data.datasets[0].data = [0, ...amounts]; // Set the value for the extra entry to 0
+
+            // Update chart
+            soldChart.update();
+
+            // Display no data message if data is empty
+            document.getElementById('noDataMessageSold').style.display = data.length === 0 ? 'block' : 'none';
+        }
+
+        // Create a bar chart with the indexAxis option
+        soldChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['', ...initialData.map(row => row.commodity_name)],
+                datasets: [{
+                    label: 'Amount (kg)',
+                    data: [0, ...initialData.map(row => row.total_amount)], // Set the value for the extra entry to 0
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                layout: {
+                    padding: {
+                        top: 0
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        min: 0  // Set the minimum value of the x-axis to 0
+                    },
+                    y: {
+                        type: 'category',
+                        position: 'left',
+                        offset: true
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return context.dataset.label + ': ' + context.formattedValue + ' kg';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Event listener for the year select dropdown
+        document.getElementById('selectedYearSold').addEventListener('change', function () {
+            const selectedYearSold = this.value;
+            updateSoldChart(selectedYearSold);
+        });
+
+        // Initial chart update based on the default year
+        updateSoldChart(<?php echo $defaultYear; ?>);
+    });
+</script></div>
+                        <div class="col-md-12 col-lg-4 col-xl-4 col-xxl-4 mb-4"><?php
+$defaultYear = date("Y");
+$farmer_id = $_SESSION['farmer_id'];
+include 'setupdb.php';
+
+$sqlYears = "SELECT DISTINCT YEAR(date) as sales_year FROM transaction WHERE farmer_id = '$farmer_id'";
+$resultYears = mysqli_query($conn, $sqlYears);
+$years = mysqli_fetch_all($resultYears, MYSQLI_ASSOC);
+
+// Fetch data for all years
+$dataByYear = [];
+foreach ($years as $year) {
+    $sql = "SELECT TRIM(commodity_name) AS commodity_name, SUM(spent_amount) as total_amount, date FROM transaction WHERE YEAR(date) = '{$year['sales_year']}' AND farmer_id = '$farmer_id' GROUP BY TRIM(commodity_name)";
+    $result = mysqli_query($conn, $sql);
+    $dataByYear[$year['sales_year']] = mysqli_fetch_all($result, MYSQLI_ASSOC);
+}
+
+// Fetch and sum the data from the spent table for the default year
+$sql = "SELECT TRIM(commodity_name) AS commodity_name, SUM(spent_amount) as total_amount, date FROM transaction WHERE YEAR(date) = '$defaultYear' AND farmer_id = '$farmer_id' GROUP BY TRIM(commodity_name)";
+$result = mysqli_query($conn, $sql);
+
+// Fetch the data as an associative array
+$data = [];
+while ($row = mysqli_fetch_assoc($result)) {
+    $data[] = $row;
+}
+
+// Add an extra entry at the beginning of the dataset
+array_unshift($data, ['commodity_name' => '', 'total_amount' => 0]);
+?>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js">
+
+<div class="card shadow border-start-info py-2" style="height: 100%;">
+    <div class="card-body">
+        <div class="row align-items-center no-gutters">
+            <div class="col me-2">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <p>
+                            <strong>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#salesModal">
+                                    TOTAL SALES
+                                </a>
+                            </strong>
+                        </p>
+                    </div>
+                    <div class="col">
+                        <!-- Use JavaScript to handle the change event of the select dropdown -->
+                        <select id="selectedYearSales" class="form-select mb-3">
+                            <?php foreach ($years as $year) : ?>
+                                <option value="<?php echo $year['sales_year']; ?>" <?php echo $defaultYear == $year['sales_year'] ? 'selected' : ''; ?>>
+                                    <?php echo $year['sales_year']; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <div id="noDataMessageSales" class="alert alert-info" role="alert" style="display: none;">
+                    No sales data available.
+                </div>
+                <canvas id="salesChart" height="100"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ... (previous HTML code) ... -->
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const ctx = document.getElementById('salesChart').getContext('2d');
+        let salesChart;
+        const dataByYear = <?php echo json_encode($dataByYear); ?>;
+        let initialData = <?php echo json_encode($data); ?>;
+
+        // Add an extra entry at the beginning of the dataset
+        initialData.unshift({ commodity_name: '', total_amount: 0 });
+
+        // Function to update the chart based on the selected year
+        function updateSalesChart(selectedYear) {
+            const data = dataByYear[selectedYear] || [];
+
+            // Extract labels and amounts for the new data
+            const labels = data.map(row => row.commodity_name);
+            const amounts = data.map(row => row.total_amount);
+
+            // Update chart data
+            salesChart.data.labels = ['', ...labels];
+            salesChart.data.datasets[0].data = [0, ...amounts]; // Set the value for the extra entry to 0
+
+            // Update chart
+            salesChart.update();
+
+            // Display no data message if data is empty
+            document.getElementById('noDataMessageSales').style.display = data.length === 0 ? 'block' : 'none';
+        }
+
+        // Create a bar chart with the indexAxis option
+        salesChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['', ...initialData.map(row => row.commodity_name)],
+                datasets: [{
+                    label: 'Sales (₱)',
+                    data: [0, ...initialData.map(row => row.total_amount)], // Set the value for the extra entry to 0
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                layout: {
+                    padding: {
+                        top: 0
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        min: 0  // Set the minimum value of the x-axis to 0
+                    },
+                    y: {
+                        type: 'category',
+                        position: 'left',
+                        offset: true
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return context.dataset.label + ': ' + context.formattedValue + ' kg';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Event listener for the year select dropdown
+        document.getElementById('selectedYearSales').addEventListener('change', function () {
+            const selectedYearSales = this.value;
+            updateSalesChart(selectedYearSales);
+        });
+
+        // Initial chart update based on the default year
+        updateSalesChart(<?php echo $defaultYear; ?>);
+    });
+</script></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-xl-6 col-xxl-6"><?php
+include 'setupdb.php';
+
+$farmer_id = $_SESSION['farmer_id'];
+
+// Fetch distinct commodities for the select dropdown
+$sqlCommodities = "SELECT DISTINCT commodity_name FROM transaction WHERE farmer_id = '$farmer_id' ORDER BY commodity_name";
+$resultCommodities = mysqli_query($conn, $sqlCommodities);
+$uniqueCommodities = mysqli_fetch_all($resultCommodities, MYSQLI_ASSOC);
+
+// Default to the first commodity
+$selectedCommoditySales = !empty($uniqueCommodities) ? $uniqueCommodities[0]['commodity_name'] : '';
+
+// Fetch data for all commodities
+$sqlGraph = "SELECT commodity_name, SUM(spent_amount) as total_amount, DATE_FORMAT(date, '%Y-%m') as month_year
+             FROM transaction
+             WHERE farmer_id = '$farmer_id'
+             GROUP BY commodity_name, month_year
+             ORDER BY commodity_name, month_year";
+
+$resultGraph = mysqli_query($conn, $sqlGraph);
+$dataPoints = mysqli_fetch_all($resultGraph, MYSQLI_ASSOC);
+
+?>
+
+<div class="col-lg-7 col-xl-8 col-xxl-12">
+    <div class="card shadow mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h6 class="text-primary fw-bold m-0">Sales Forecast</h6>
+            <select id="commoditySelect" class="form-select" onchange="updateChart(this.value)" style="width: 50%;">
+                <?php foreach ($uniqueCommodities as $commoditySales): ?>
+                    <option value="<?= $commoditySales['commodity_name'] ?>" <?= $selectedCommoditySales === $commoditySales['commodity_name'] ? 'selected' : '' ?>>
+                        <?= $commoditySales['commodity_name'] ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="card-body">
+            <canvas id="demandChart" style="display: block; width: 100%; height: 400px;"></canvas>
+        </div>
+    </div>
+</div>
+
+<!-- Moment.js library for date handling -->
+<script src="https://cdn.jsdelivr.net/npm/moment"></script>
+
+<!-- Chart.js library with Moment.js adapter -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment"></script>
+
+<script>
+    // Parse PHP data to JavaScript
+    var commodities = <?= json_encode($uniqueCommodities) ?>;
+    var dataPoints = <?= json_encode($dataPoints) ?>;
+
+    // Function to update the chart based on the selected commodity
+    function updateChart(selectedCommoditySales) {
+        // Filter data for the selected commodity
+        var filteredDataSales = dataPoints.filter(point => point.commodity_name === selectedCommoditySales);
+
+        // Extract labels (month_year), data values (total_amount), and moving averages
+        var labels = filteredDataSales.map(point => point.month_year);
+        var values = filteredDataSales.map(point => point.total_amount);
+
+        // Use the updated formula for calculating the moving average
+        var movingAverages = calculateMovingAverage(values);
+
+        // Forecast for the next month
+        var lastValue = values[values.length - 1];
+        labels.push(moment(labels[labels.length - 1]).add(1, 'months').format('YYYY-MM'));
+        values.push(null); // No actual value for the next month
+        movingAverages.push(lastValue); // Use the last actual value as the forecast
+
+        // Update chart data and redraw
+        salesChart.data.labels = labels;
+        salesChart.data.datasets[0].data = values;
+        salesChart.data.datasets[1].data = movingAverages; // Add a new dataset for the moving average
+        salesChart.update();
+    }
+
+    // Function to calculate moving average using the updated formula
+    function calculateMovingAverage(values) {
+        return values.map((value, index) => (value + (index > 0 ? values[index - 1] : 0)) / 2);
+    }
+
+    // Initialize the chart with the default commodity
+    var ctx = document.getElementById('demandChart').getContext('2d');
+    var salesChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [], // Initially empty, will be populated by the selected commodity
+            datasets: [{
+                label: 'Actual Sales',
+                data: [], // Initially empty, will be populated by the selected commodity
+                borderColor: 'rgb(75, 192, 192)',
+                borderWidth: 2,
+                fill: false
+            }, {
+                label: 'Forecasted Sales',
+                data: [], // Initially empty, will be populated by the selected commodity
+                borderColor: 'rgba(255, 99, 132, 0)', // Set alpha to 0 for a transparent line
+                borderWidth: 2,
+                fill: false,
+                pointRadius: context => (context.dataIndex === context.dataset.data.length - 1 ? 3 : 0),
+                pointHoverRadius: 3,
+                pointBackgroundColor: 'rgb(255, 99, 132)' // Color for the dot
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    type: 'time',
+                    time: {
+                        unit: 'month',
+                        displayFormats: {
+                            month: 'MMM YYYY'
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Month'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Forecasted Sales (₱)' // Updated y-axis title with the unit
+                    },
+                    ticks: {
+                        callback: value => value + ' ₱' // Add ' ₱' to the y-axis labels
+                    }
+                }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: context => `${context.dataset.label || ''}: ${context.parsed.y} ₱`
+                    }
+                }
+            }
+        }
+    });
+
+    // Trigger initial chart update with the default commodity
+    updateChart("<?= $selectedCommoditySales ?>");
+</script>
+</div>
+                        <div class="col-lg-6 col-xl-6 col-xxl-6"><?php
+include 'setupdb.php';
+
+$farmer_id = $_SESSION['farmer_id'];
+
+// Fetch distinct commodities for the select dropdown
+$sqlCommodities = "SELECT DISTINCT commodity_name FROM transaction WHERE farmer_id = '$farmer_id' ORDER BY commodity_name";
+$resultCommodities = mysqli_query($conn, $sqlCommodities);
+$uniqueCommoditiesPurchase = mysqli_fetch_all($resultCommodities, MYSQLI_ASSOC);
+
+// Default to the first commodity
+$selectedCommodityPurchase = !empty($uniqueCommoditiesPurchase) ? $uniqueCommoditiesPurchase[0]['commodity_name'] : '';
+
+// Fetch data for all commodities
+$sqlGraph = "SELECT commodity_name, SUM(amount_purchase) as total_amount, DATE_FORMAT(date, '%Y-%m') as month_year
+             FROM transaction
+             WHERE farmer_id = '$farmer_id'
+             GROUP BY commodity_name, month_year
+             ORDER BY commodity_name, month_year";
+
+$resultGraph = mysqli_query($conn, $sqlGraph);
+$dataPointsPurchase = mysqli_fetch_all($resultGraph, MYSQLI_ASSOC);
+
+?>
+
+<div class="col-lg-7 col-xl-8 col-xxl-12">
+    <div class="card shadow mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h6 class="text-primary fw-bold m-0">Commodity Demand Forecast</h6>
+            <select id="commoditySelectPurchase" class="form-select" onchange="updateChartPurchase(this.value)" style="width: 50%;">
+                <?php foreach ($uniqueCommoditiesPurchase as $commodity): ?>
+                    <option value="<?= $commodity['commodity_name'] ?>" <?= $selectedCommodityPurchase === $commodity['commodity_name'] ? 'selected' : '' ?>>
+                        <?= $commodity['commodity_name'] ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="card-body">
+            <canvas id="purchaseChart" style="display: block; width: 100%; height: 400px;"></canvas>
+        </div>
+    </div>
+</div>
+
+<!-- Moment.js library for date handling -->
+<script src="https://cdn.jsdelivr.net/npm/moment"></script>
+
+<!-- Chart.js library with Moment.js adapter -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment"></script>
+
+<script>
+    // Parse PHP data to JavaScript
+    var commoditiesPurchase = <?php echo json_encode($uniqueCommoditiesPurchase); ?>;
+    var dataPointsPurchase = <?php echo json_encode($dataPointsPurchase); ?>;
+
+    // Function to update the chart based on selected commodity
+    function updateChartPurchase(selectedCommodityPurchase) {
+        // Filter data for the selected commodity
+        var filteredDataPurchase = dataPointsPurchase.filter(function(point) {
+            return point.commodity_name === selectedCommodityPurchase;
+        });
+
+        // Extract labels (month_year), data values (total_amount), and moving averages
+        var labels = filteredDataPurchase.map(function(point) {
+            return point.month_year;
+        });
+
+        var values = filteredDataPurchase.map(function(point) {
+            return point.total_amount;
+        });
+
+        // Use the updated formula for calculating the moving average
+        var movingAverages = calculateMovingAverage(values);
+
+        // Forecast for the next month
+        var lastValue = values[values.length - 1];
+        labels.push(moment(labels[labels.length - 1]).add(1, 'months').format('YYYY-MM'));
+        values.push(null); // No actual value for the next month
+        movingAverages.push(lastValue); // Use the last actual value as the forecast
+
+        // Update chart data and redraw
+        purchaseChart.data.labels = labels;
+        purchaseChart.data.datasets[0].data = values;
+        purchaseChart.data.datasets[1].data = movingAverages; // Add a new dataset for the moving average
+        purchaseChart.update();
+    }
+
+    // Function to calculate moving average using the updated formula
+    function calculateMovingAverage(values) {
+        var movingAverages = [];
+
+        for (var i = 0; i < values.length; i++) {
+            var average = (values[i] + (i > 0 ? values[i - 1] : 0)) / 2;
+            movingAverages.push(average);
+        }
+
+        return movingAverages;
+    }
+
+    // Initialize the chart with the default commodity
+    var ctxPurchase = document.getElementById('purchaseChart').getContext('2d');
+    var purchaseChart = new Chart(ctxPurchase, {
+        type: 'line',
+        data: {
+            labels: [], // Initially empty, will be populated by the selected commodity
+            datasets: [{
+                label: 'Actual Data',
+                data: [], // Initially empty, will be populated by the selected commodity
+                borderColor: 'rgb(75, 192, 192)',
+                borderWidth: 2,
+                fill: false
+            }, {
+                label: 'Forecasted Data',
+                data: [], // Initially empty, will be populated by the selected commodity
+                borderColor: 'rgba(255, 99, 132, 0)', // Set alpha to 0 for a transparent line
+                borderWidth: 2,
+                fill: false,
+                pointRadius: function(context) {
+                    // Display only a dot for the last item (next month forecast)
+                    return context.dataIndex === context.dataset.data.length - 1 ? 3 : 0;
+                },
+                pointHoverRadius: 3,
+                pointBackgroundColor: 'rgb(255, 99, 132)' // Color for the dot
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    type: 'time',
+                    time: {
+                        unit: 'month',
+                        displayFormats: {
+                            month: 'MMM YYYY'
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Month'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Forecasted Data (kg)' // Updated y-axis title with the unit
+                    },
+                    ticks: {
+                        callback: function(value, index, values) {
+                            return value + 'kg'; // Add 'kg' to the y-axis labels
+                        }
+                    }
+                }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            var label = context.dataset.label || '';
+
+                            if (label) {
+                                label += ': ';
+                            }
+                            label += context.parsed.y + 'kg';
+                            return label;
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    // Trigger initial chart update with the default commodity
+    updateChartPurchase("<?php echo $selectedCommodityPurchase; ?>");
+</script>
+</div>
+                    </div>
+                </div>
+            </div>
+            <footer class="bg-white sticky-footer">
+                <div class="container my-auto">
+                    <div class="text-center my-auto copyright"><span style="font-family: Poppins, sans-serif;">AgriDivision© Brand 2024</span></div>
+                </div>
+            </footer>
+        </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="logout">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p>Are you sure you want to log-out?</p>
+                </div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><a class="btn btn-primary" role="button" href="logout.php">Yes</a></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="productionModal">
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><strong>Total Amount of Harvested Crops</strong></h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <form method="post" action="farmerdash.php" enctype="multipart/form-data">
+                            <div class="row">
+                                <div class="col-xxl-12">
+                                    <div>
+                                        <div class="row">
+                                            <div class="col align-items-xl-center">
+                                                <div>
+                                                    <p style="margin-right: 10px;">Commodity:<?php
+include 'setupdb.php';
+
+// Assuming you have the farmer_id stored in the session
+$farmer_id = $_SESSION['farmer_id'];
+
+// Fetch commodity_id and commodity_name from the farm table for the specific farmer_id
+$sql = "SELECT commodity_id, commodity_name FROM farm WHERE farmer_id = '$farmer_id'";
+$result = mysqli_query($conn, $sql);
+
+// Fetch the data as an associative array
+$data = [];
+while ($row = mysqli_fetch_assoc($result)) {
+    $data[] = $row;
+}
+
+// Set the default commodity_id (replace 'default_commodity_id' with your desired default value)
+$defaultCommodityId = 'default_commodity_id';
+?>
+
+<select class="form-select" id="commoditySelectDropdown" aria-label="Commodity" style="width: 100%;">
+    <optgroup label="Commodities">
+        <?php foreach ($data as $group): ?>
+            <?php
+            // Separate commodity_id and commodity_name if they are combined by comma and space
+            $commodityIds = explode(', ', $group['commodity_id']);
+            $commodities = explode(', ', $group['commodity_name']);
+
+            foreach ($commodities as $index => $commodity):
+                $isSelected = ($commodityIds[$index] == $defaultCommodityId) ? 'selected' : '';
+            ?>
+                <option value="<?php echo $commodityIds[$index]; ?>" <?php echo $isSelected; ?>><?php echo $commodity; ?></option>
+            <?php endforeach; ?>
+        <?php endforeach; ?>
+    </optgroup>
+</select>
+
+<!-- Two text inputs for commodity_id and commodity_name -->
+<div class="mb-3">
+    <input type="hidden" name="commodity_id" class="form-control" id="commodityIdDropdown" value="<?php echo $defaultCommodityId; ?>" readonly>
+</div>
+
+<div class="mb-3">
+    <input type="hidden" name="commodity_name" class="form-control" id="commodityNameDropdown" readonly>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+$(document).ready(function() {
+    // Event listener for select change
+    $('#commoditySelectDropdown').on('change', function() {
+        // Get the selected option
+        var selectedOption = $(this).find(':selected');
+
+        // Update the text inputs with commodity_id and commodity_name
+        $('#commodityIdDropdown').val(selectedOption.val());
+        $('#commodityNameDropdown').val(selectedOption.text());
+    });
+
+    // Trigger the change event on page load to set initial values
+    $('#commoditySelectDropdown').trigger('change');
+});
+</script></p>
+                                                </div>
+                                            </div>
+                                            <div class="col d-xl-flex align-items-xl-center">
+                                                <div>
+                                                    <p>Amount:<input class="form-control form-control" type="number" id="amount" name="amount" style="width: 100%;"></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex float-end" style="text-align: left;margin-bottom: 10px;"><button class="btn btn-primary" type="submit">Add</button></div>
+                                </div>
+                            </div><div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Commodity</th>
+                <th>Amount</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+                include 'setupdb.php';
+                $farmer_id = $_SESSION['farmer_id']; // Fix the missing single quotes around 'farmer_id'
+
+                $sql = "SELECT commodity_name, amount, date FROM total_production WHERE farmer_id = '$farmer_id'";
+                $result = mysqli_query($conn, $sql);
+
+                if ($result) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        echo '<tr>';
+                        echo '<td>' . $row['commodity_name'] . '</td>';
+                        echo '<td>' . $row['amount'] . '</td>';
+                        echo '<td>' . date('F j, Y', strtotime($row['date'])) . '</td>';
+                        echo '</tr>';
+                    }
+                } else {
+                    echo '<tr><td colspan="3">No records found</td></tr>';
+                }
+            ?>
+        </tbody>
+    </table>
+</div>
+
+                        </form>
+                        <div></div>
+                    </div>
+                </div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="soldModal">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><strong>Total Amount of Crops Sold</strong></h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <form method="post" action="farmerdash.php" enctype="multipart/form-data"><div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Commodity</th>
+                <th>Business Owner</th>
+                <th>Amount</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+                include 'setupdb.php';
+                $farmer_id = $_SESSION['farmer_id']; // Fix the missing single quotes around 'farmer_id'
+
+                $sql = "SELECT business_fname, business_lname, commodity_name, amount_purchase, date FROM transaction WHERE farmer_id = '$farmer_id'";
+                $result = mysqli_query($conn, $sql);
+
+                if ($result) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        echo '<tr>';
+                        echo '<td>' . $row['commodity_name'] . '</td>';
+                        echo '<td>' . $row['business_fname'] . ' ' . $row['business_lname'] . '</td>'; // Fixed syntax error
+                        echo '<td>' . $row['amount_purchase'] . ' Kilograms</td>';
+                        echo '<td>' . date('F j, Y', strtotime($row['date'])) . '</td>';
+                        echo '</tr>';
+                    }
+                } else {
+                    echo '<tr><td colspan="3">No records found</td></tr>';
+                }
+            ?>
+        </tbody>
+    </table>
+</div>
+</form>
+                        <div></div>
+                    </div>
+                </div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="salesModal">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><strong>Total Sales</strong></h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <form method="post" action="farmerdash.php" enctype="multipart/form-data"><div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Commodity</th>
+                <th>Business Owner</th>
+                <th>Sales</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+                include 'setupdb.php';
+                $farmer_id = $_SESSION['farmer_id']; // Fix the missing single quotes around 'farmer_id'
+
+                $sql = "SELECT business_fname, business_lname, commodity_name, spent_amount, date FROM transaction WHERE farmer_id = '$farmer_id'";
+                $result = mysqli_query($conn, $sql);
+
+                if ($result) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        echo '<tr>';
+                        echo '<td>' . $row['commodity_name'] . '</td>';
+                        echo '<td>' . $row['business_fname'] . ' ' . $row['business_lname'] . '</td>'; // Fixed syntax error
+                        echo '<td>₱' . $row['spent_amount'] . '</td>';
+                        echo '<td>' . date('F j, Y', strtotime($row['date'])) . '</td>';
+                        echo '</tr>';
+                    }
+                } else {
+                    echo '<tr><td colspan="3">No records found</td></tr>';
+                }
+            ?>
+        </tbody>
+    </table>
+</div>
+</form>
+                        <div></div>
+                    </div>
+                </div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/theme.js"></script>
+</body>
+
+</html>

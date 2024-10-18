@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Dashboard - Brand</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins&amp;display=swap">
+    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/css/untitled.css">
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0" style="background: #062017;">
+            <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0">
+                    <div><img src="assets/img/Agri-Logo-White.png" style="width: 50px;height: 50px;"></div>
+                    <div class="sidebar-brand-text mx-3"></div>
+                </a>
+                <ul class="navbar-nav text-light" id="accordionSidebar">
+                    <li class="nav-item navigation"><a class="nav-link" href="municipaldash.php" style="font-size: 15px;font-family: Poppins, sans-serif;"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+                    <li class="nav-item navigation"><a class="nav-link" href="municipaltable.php" style="font-size: 15px;font-family: Poppins, sans-serif;"><i class="fas fa-table"></i><span>Table</span></a></li>
+                    <li class="nav-item navigation"><a class="nav-link" href="municipalreg.php" style="font-size: 15px;font-family: Poppins, sans-serif;"><i class="fas fa-user-circle"></i><span>Register Barangay Technician</span></a></li>
+                </ul>
+                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
+            </div>
+        </nav>
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+                <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+                    <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
+                        <ul class="navbar-nav flex-nowrap ms-auto">
+                            <li class="nav-item d-inline-flex dropdown no-arrow">
+                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><span class="d-none d-lg-inline me-2 text-gray-600 small" id="username" style="font-size: 20px;">Valerie Luna<?php
+include 'setupdb.php'; // Make sure to add a semicolon at the end of this line
+
+$username = isset($_SESSION['name']) ? $_SESSION['name'] : ''; // Ensure that $_SESSION['name'] is properly accessed
+
+?>
+<script>
+    document.getElementById("username").innerHTML = '<?php echo $username; ?>';
+</script>
+</span></a>
+                                    <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in"><a class="dropdown-item" href="#" data-bs-target="#logout" data-bs-toggle="modal"><i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Logout</a></div>
+                                </div>
+                                <div class="d-flex d-xxl-flex align-items-center align-items-xxl-center"><i class="far fa-user" style="font-size: 20px;"></i></div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class="container-fluid"><?php
+include 'setupdb.php';
+
+$brgy_tech_id = $_GET['brgy_tech_id'];
+
+$BrgySQL = "SELECT barangay FROM brgy_tech WHERE brgy_tech_id = '$brgy_tech_id'";
+$result = mysqli_query($conn, $BrgySQL);
+
+// Check if there are any rows in the result
+if ($result && mysqli_num_rows($result) > 0) {
+    $row = mysqli_fetch_assoc($result);
+    $barangayName = $row['barangay'];
+} else {
+    $barangayName = "Unknown Barangay";
+}
+?>
+
+<div class="d-sm-flex justify-content-between align-items-center mb-4">
+    <h3 class="text-dark mb-0" style="font-weight: bold; font-family: 'Poppins', sans-serif;"><?php echo "Barangay " . $barangayName; ?></h3>
+</div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-body"><?php
+include 'setupdb.php';
+
+// Get the municipality, province, and barangay from the URL parameters
+$municipality = $_GET['municipality'];
+$province = $_GET['province'];
+$barangay = $_GET['barangay'];
+
+// Fetch farmer latitude, longitude, and names from the database
+$sqlMap = "SELECT CONCAT(fname, ' ', lname) as name, latitude, longitude FROM farmer WHERE municipality = '$municipality' AND barangay = '$barangay'";
+$resultMap = mysqli_query($conn, $sqlMap);
+
+// Initialize an array to store coordinates and farmer names
+$markers = [];
+
+while ($resultMap && $row = mysqli_fetch_assoc($resultMap)) {
+    $markers[] = [
+        'name' => $row['name'],
+        'latitude' => $row['latitude'],
+        'longitude' => $row['longitude']
+    ];
+}
+
+// Concatenate the municipality, province, and barangay to form the complete address
+$address = "{$province}, {$municipality}, {$barangay}";
+
+$echo = $address;
+// URL-encode the complete address for use in the API request
+$urlEncodedAddress = urlencode($address);
+
+// Use Google Maps Geocoding API to get coordinates based on the complete address
+$apiKey = 'AIzaSyCiiex_ePOjgHWwIDfiGxYqnYow6by0wAw'; // Replace with your actual API key
+$geocodingApiUrl = "https://maps.googleapis.com/maps/api/geocode/json?address={$urlEncodedAddress}&key={$apiKey}";
+
+// Make the API request
+$geocodingApiResponse = file_get_contents($geocodingApiUrl);
+$geocodingData = json_decode($geocodingApiResponse);
+
+// Check if the API request was successful and has results
+if ($geocodingData && $geocodingData->status === 'OK' && !empty($geocodingData->results)) {
+    // Extract latitude and longitude from the first result
+    $latitude = $geocodingData->results[0]->geometry->location->lat;
+    $longitude = $geocodingData->results[0]->geometry->location->lng;
+    ?>
+    <div id="map" style="height: 400px;"></div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo $apiKey; ?>&callback=initMap" async defer></script>
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: <?php echo $latitude; ?>, lng: <?php echo $longitude; ?> },
+                zoom: 14,
+                mapTypeId: 'hybrid'
+            });
+
+            // Load GeoJSON file for Iloilo
+            var geoJsonFile = "iloilo_geojson/Barangays.json";
+            fetch(geoJsonFile)
+                .then(response => response.json())
+                .then(data => {
+                    console.log("GeoJSON loaded successfully:", data);
+
+                    // Find the specific barangay and municipality in the GeoJSON data
+                    var targetBarangay = '<?php echo strtolower($barangay); ?>';
+                    var targetMunicipality = '<?php echo strtoupper($municipality); ?>';
+
+                    // Set a filter to display only the specific barangay and municipality
+                    map.data.setStyle(function (feature) {
+                        try {
+                            var geometry = feature.getGeometry();
+
+                            if (geometry.getType() === 'Polygon') {
+                                console.log("Feature Geometry:", geometry); // Log feature geometry for inspection
+
+                                var barangayName = feature.getProperty("NAME_3") ? feature.getProperty("NAME_3").toLowerCase().trim() : null;
+                                var municipalityName = feature.getProperty("NAME_2") ? feature.getProperty("NAME_2").toUpperCase().trim() : null;
+
+                                if (barangayName === targetBarangay && municipalityName === targetMunicipality) {
+                                    return {
+                                        fillColor: '#FF0000',
+                                        strokeColor: '#FF0000',
+                                        strokeWeight: 2
+                                    };
+                                } else {
+                                    return {
+                                        fillColor: 'transparent',
+                                        strokeColor: 'transparent',
+                                        strokeWeight: 2
+                                    };
+                                }
+                            } else {
+                                console.error("Unsupported geometry type:", geometry.getType());
+                                return {
+                                    fillColor: 'transparent',
+                                    strokeColor: 'transparent',
+                                    strokeWeight: 2
+                                };
+                            }
+                        } catch (error) {
+                            console.error("Error processing GeoJSON feature:", error);
+                            return {
+                                fillColor: 'transparent',
+                                strokeColor: 'transparent',
+                                strokeWeight: 2
+                            };
+                        }
+                    });
+
+                    // Add GeoJSON features to the map
+                    map.data.addGeoJson(data);
+
+                    // Place markers for each coordinate if available and add Info Windows
+                    <?php foreach ($markers as $marker): ?>
+                        var marker = new google.maps.Marker({
+                            position: { lat: <?php echo $marker['latitude']; ?>, lng: <?php echo $marker['longitude']; ?> },
+                            map: map
+                        });
+
+                        var infowindow = new google.maps.InfoWindow({
+                            content: 'Farmer: <?php echo addslashes($marker['name']); ?>'
+                        });
+
+                        marker.addListener('click', function() {
+                            infowindow.open(map, marker);
+                        });
+                    <?php endforeach; ?>
+                })
+                .catch(error => console.error("Error loading or processing GeoJSON file:", error));
+        }
+    </script>
+
+
+<?php
+} else {
+    // Handle the case where the API request was unsuccessful or no results were found
+    echo 'Unable to fetch location information for the specified municipality, province, and barangay.';
+}
+?>
+</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 10px;">
+                        <div class="col-lg-7 col-xl-8 col-xxl-8"><?php
+include 'setupdb.php';
+
+$municipality = $_GET['municipality'];
+$barangay = $_GET['barangay'];
+
+$sql = "SELECT DISTINCT commodity_name FROM production";
+$result = mysqli_query($conn, $sql);
+
+// Fetch commodity names as an associative array
+$commodities = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+// Fetch data for all commodities
+$allData = [];
+foreach ($commodities as $commodity) {
+    $commodityName = $commodity['commodity_name'];
+    $commodityData = fetchDataForCommodity($conn, $commodityName, $barangay, $municipality);
+    $allData[$commodityName] = $commodityData;
+}
+
+function fetchDataForCommodity($conn, $commodityName, $barangay, $municipality) {
+    $sql = "SELECT CONCAT(farmer_fname, ' ', farmer_lname) as farmer_name, SUM(amount) AS total_amount FROM production WHERE commodity_name = '$commodityName' AND farmer_municipality = '$municipality' AND farmer_barangay = '$barangay' GROUP BY farmer_barangay";
+    $result = mysqli_query($conn, $sql);
+
+    $data = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $data['labels'][] = $row['farmer_name'];
+        $data['dataset']['data'][] = $row['total_amount'];
+    }
+
+    return $data;
+}
+?>
+
+<div class="mb-3">
+    <div class="card shadow mb-4" style="height: 500px; width: 100%;">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h6 class="text-primary fw-bold m-0" style="font-family: Poppins, sans-serif; font-size: 20px; color: #436850!important;">Commodity Overview</h6>
+            <select class="form-select" id="commoditySelectBarangay" onchange="loadCommodityGraph()" style="width: 50%;">
+                <?php foreach ($commodities as $commodity) : ?>
+                    <option value="<?php echo $commodity['commodity_name']; ?>"><?php echo $commodity['commodity_name']; ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="card-body" id="commodityGraphContainer" style="height: 200px; width: 100%; padding: 0;">
+            <canvas id="commodityChart" style="width: 100%;"></canvas>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var allData = <?php echo json_encode($allData); ?>;
+    var currentCommoditySelect = document.getElementById('commoditySelectBarangay').value;
+    var commodityChart;
+
+    function loadCommodityGraph() {
+        currentCommoditySelect = document.getElementById('commoditySelectBarangay').value;
+        createCommodityChart(currentCommoditySelect);
+    }
+
+    function createCommodityChart(commodity) {
+        var data = allData[commodity];
+
+        // Clear the previous chart if it exists
+        if (commodityChart) {
+            commodityChart.destroy();
+        }
+
+        // Update dataset to include "kg" in the label
+        var dataset = data.dataset;
+        dataset.label = commodity + ' (kg)';
+
+        // Create a new canvas
+        var canvas = document.createElement('canvas');
+        canvas.id = 'commodityChart';
+        document.getElementById('commodityGraphContainer').innerHTML = '';
+        document.getElementById('commodityGraphContainer').appendChild(canvas);
+
+        var ctx = canvas.getContext('2d');
+
+        commodityChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: data.labels,
+                datasets: [dataset],
+            },
+            options: {
+                scales: {
+                    x: {
+                        stacked: false,
+                    },
+                    y: {
+                        stacked: false,
+                        beginAtZero: true, // Start the y-axis at zero
+                    },
+                },
+                responsive: true, // Enable responsiveness
+                maintainAspectRatio: false, // Allow chart to adjust height independently
+            },
+        });
+    }
+
+    // Initial load
+    createCommodityChart(currentCommoditySelect);
+</script>
+</div>
+                        <div class="col-lg-5 col-xl-4">
+                            <div class="card shadow mb-4">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h6 class="text-primary fw-bold m-0" style="font-size: 20px;color: #436850!important;font-family: Poppins, sans-serif;">Commodity Information</h6>
+                                </div><?php
+include 'setupdb.php';
+
+$municipality = $_GET['municipality'];
+$barangay = $_GET['barangay'];
+
+$sql = "SELECT commodity_name, SUM(amount) as total_amount FROM production WHERE farmer_municipality = '$municipality' AND farmer_barangay = '$barangay' GROUP BY commodity_name";
+$result = mysqli_query($conn, $sql);
+
+$commodities = [];
+$total_amounts = [];
+
+while ($row = mysqli_fetch_assoc($result)) {
+    $commodities[] = $row['commodity_name'];
+    $total_amounts[] = $row['total_amount'];
+}
+?>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<div class="card-body">
+    <canvas id="donutChart" height="426"></canvas>
+</div>
+
+<script>
+    var ctx = document.getElementById('donutChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: <?php echo json_encode($commodities); ?>,
+            datasets: [{
+                label: 'Total Amount',
+                data: <?php echo json_encode($total_amounts); ?>,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.6)',
+                    'rgba(54, 162, 235, 0.6)',
+                    'rgba(255, 206, 86, 0.6)',
+                    'rgba(75, 192, 192, 0.6)',
+                    'rgba(153, 102, 255, 0.6)',
+                    'rgba(255, 159, 64, 0.6)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltips: {
+                    callbacks: {
+                        label: function(context) {
+                            var label = context.label || '';
+                            var value = context.parsed || 0;
+                            return label + ': ' + value.toLocaleString();
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="bg-white sticky-footer">
+                <div class="container my-auto">
+                    <div class="text-center my-auto copyright"><span style="font-family: Poppins, sans-serif;">AgriDivision© Brand 2024</span></div>
+                </div>
+            </footer>
+        </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="logout">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p style="font-family: Poppins, sans-serif;">Are you sure you want to log-out?</p>
+                </div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal" style="font-family: Poppins, sans-serif;">Close</button><a class="btn btn-primary" role="button" href="logout.php" style="font-family: Poppins, sans-serif;background: #436850;border-color: #436850;">Yes</a></div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/theme.js"></script>
+</body>
+
+</html>

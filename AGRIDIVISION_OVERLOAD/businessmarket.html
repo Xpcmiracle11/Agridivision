@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Dashboard - Brand</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins&amp;display=swap">
+    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/css/untitled.css">
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
+            <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0">
+                    <div><img src="assets/img/Agri-Logo-White.png" style="width: 50px;height: 50px;"></div>
+                    <div class="sidebar-brand-text mx-3"><span>AGRIDIVISION</span></div>
+                </a>
+                <ul class="navbar-nav text-light" id="accordionSidebar">
+                    <li class="nav-item"><a class="nav-link" href="businessdash.php"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="businessmarket.php"><i class="fas fa-shopping-cart"></i><span>Marketplace</span></a></li>
+                </ul>
+                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
+            </div>
+        </nav>
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+                <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+                    <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
+                        <ul class="navbar-nav flex-nowrap ms-auto">
+                            <li class="nav-item dropdown no-arrow mx-1">
+                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><span class="badge bg-danger badge-counter">7</span><i class="fas fa-envelope fa-fw"></i></a>
+                                    <div class="dropdown-menu dropdown-menu-end dropdown-list animated--grow-in">
+                                        <h6 class="dropdown-header">alerts center</h6><a class="dropdown-item d-flex align-items-center" href="#">
+                                            <div class="dropdown-list-image me-3"><img class="rounded-circle" src="assets/img/avatars/avatar4.jpeg">
+                                                <div class="bg-success status-indicator"></div>
+                                            </div>
+                                            <div class="fw-bold">
+                                                <div class="text-truncate"><span>Hi there! I am wondering if you can help me with a problem I've been having.</span></div>
+                                                <p class="small text-gray-500 mb-0">Emily Fowler - 58m</p>
+                                            </div>
+                                        </a><a class="dropdown-item d-flex align-items-center" href="#">
+                                            <div class="dropdown-list-image me-3"><img class="rounded-circle" src="assets/img/avatars/avatar2.jpeg">
+                                                <div class="status-indicator"></div>
+                                            </div>
+                                            <div class="fw-bold">
+                                                <div class="text-truncate"><span>I have the photos that you ordered last month!</span></div>
+                                                <p class="small text-gray-500 mb-0">Jae Chun - 1d</p>
+                                            </div>
+                                        </a><a class="dropdown-item d-flex align-items-center" href="#">
+                                            <div class="dropdown-list-image me-3"><img class="rounded-circle" src="assets/img/avatars/avatar3.jpeg">
+                                                <div class="bg-warning status-indicator"></div>
+                                            </div>
+                                            <div class="fw-bold">
+                                                <div class="text-truncate"><span>Last month's report looks great, I am very happy with the progress so far, keep up the good work!</span></div>
+                                                <p class="small text-gray-500 mb-0">Morgan Alvarez - 2d</p>
+                                            </div>
+                                        </a><a class="dropdown-item d-flex align-items-center" href="#">
+                                            <div class="dropdown-list-image me-3"><img class="rounded-circle" src="assets/img/avatars/avatar5.jpeg">
+                                                <div class="bg-success status-indicator"></div>
+                                            </div>
+                                            <div class="fw-bold">
+                                                <div class="text-truncate"><span>Am I a good boy? The reason I ask is because someone told me that people say this to all dogs, even if they aren't good...</span></div>
+                                                <p class="small text-gray-500 mb-0">Chicken the Dog · 2w</p>
+                                            </div>
+                                        </a><a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                                    </div>
+                                </div>
+                                <div class="shadow dropdown-list dropdown-menu dropdown-menu-end" aria-labelledby="alertsDropdown"></div>
+                            </li>
+                            <li class="nav-item dropdown no-arrow mx-1"><?php
+include 'setupdb.php';
+
+$business_id = $_SESSION['business_id'];
+
+// Fetch data from the database
+$sql = "SELECT id, CONCAT(farmer_fname, ' ', farmer_lname) AS farmer_name, commodity_name, amount_purchase, date FROM transaction WHERE business_id = '$business_id' AND status = 'Pending'";
+$result = mysqli_query($conn, $sql);
+$alerts = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+// Get the initial notification count
+$initialNotificationCount = count($alerts);
+
+// Get the stored notification state from localStorage or use an empty array
+$storedNotificationState = isset($_SESSION['notificationState']) ? json_decode($_SESSION['notificationState'], true) : array();
+?>
+
+<div class="nav-item dropdown no-arrow" id="notificationDropdown">
+    <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#" onclick="markNotificationsAsRead()">
+        <span class="badge bg-danger badge-counter" id="notificationCount"><?php echo $initialNotificationCount; ?></span>
+        <i class="fas fa-bell fa-fw"></i>
+    </a>
+    <div class="dropdown-menu dropdown-menu-end dropdown-list animated--grow-in" style="max-height: 300px; overflow-y: auto;">
+        <h6 class="dropdown-header">Transactions</h6>
+        <div id="notificationList">
+            <?php foreach ($alerts as $alert) : ?>
+                <?php
+                $notificationId = $alert['id'];
+                $isRead = isset($storedNotificationState[$notificationId]) ? $storedNotificationState[$notificationId] : false;
+                $unreadClass = $isRead ? '' : 'unread';
+                ?>
+                <a class="dropdown-item d-flex align-items-center <?php echo $unreadClass; ?>" href="#">
+                    <div>
+                        <span class="small text-gray-500"><?php echo $alert['date']; ?></span>
+                        <p class="mb-1"><strong>Farmer Name:</strong> <?php echo $alert['farmer_name']; ?></p>
+                        <p class="mb-1"><strong>Commodity:</strong> <?php echo $alert['commodity_name']; ?></p>
+                        <p class="mb-0"><strong>Amount:</strong> <?php echo $alert['amount_purchase']; ?> kg</p>
+                    </div>
+                </a>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Initialize the notification count to the initial count
+    var notificationCount = <?php echo $initialNotificationCount; ?>;
+
+    // Set the initial count on page load
+    document.getElementById('notificationCount').innerText = notificationCount;
+
+    // Set the initial state of notifications
+    var notificationState = <?php echo json_encode($storedNotificationState); ?>;
+
+    function markNotificationsAsRead() {
+        // Mark all notifications as read
+        document.querySelectorAll('.dropdown-item.unread').forEach(function (item) {
+            item.classList.remove('unread');
+        });
+
+        // Set the notification count to '0' and update the badge
+        notificationCount = 0;
+        document.getElementById('notificationCount').innerText = '0';
+
+        // Update the state of all notifications to 'read'
+        notificationState = {};
+        saveNotificationState();
+
+        // Save the updated count and state to localStorage
+        localStorage.setItem('notificationCount', notificationCount);
+        localStorage.setItem('notificationState', JSON.stringify(notificationState));
+    }
+
+    function saveNotificationState() {
+        document.querySelectorAll('.dropdown-item').forEach(function (item) {
+            var notificationId = item.getAttribute('data-notification-id');
+            var isRead = !item.classList.contains('unread');
+            notificationState[notificationId] = isRead;
+        });
+    }
+
+    // Function to increment the notification count when new notifications arrive
+    function incrementNotificationCount() {
+        notificationCount++;
+        document.getElementById('notificationCount').innerText = notificationCount.toString();
+        // Save the updated count to localStorage
+        localStorage.setItem('notificationCount', notificationCount);
+
+        // Save the state of the new notification
+        saveNotificationState();
+        localStorage.setItem('notificationState', JSON.stringify(notificationState));
+    }
+
+    // Example: Call incrementNotificationCount() when new notifications arrive
+    // Uncomment the line below and integrate it with your notification mechanism
+    // incrementNotificationCount();
+</script>
+</li>
+                            <li class="nav-item d-inline-flex dropdown no-arrow">
+                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><span class="d-none d-lg-inline me-2 text-gray-600 small" id="username">Valerie Luna<?php
+include 'setupdb.php';
+
+// Make sure to add a semicolon at the end of the above line
+
+$business_fname = isset($_SESSION['business_fname']) ? $_SESSION['business_fname'] : '';
+$business_lname = isset($_SESSION['business_lname']) ? $_SESSION['business_lname'] : '';
+
+// Concatenate first name and last name
+$full_name = $business_fname . ' ' . $business_lname;
+
+?>
+<script>
+    document.getElementById("username").innerHTML = '<?php echo $full_name; ?>';
+</script>
+</span></a>
+                                    <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in"><a class="dropdown-item" href="farmerprofile.php"><i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Profile</a>
+                                        <div class="dropdown-divider"></div><a class="dropdown-item" href="#" data-bs-target="#logout" data-bs-toggle="modal"><i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Logout</a>
+                                    </div>
+                                </div>
+                                <div class="d-flex d-xxl-flex align-items-center align-items-xxl-center"><i class="far fa-user"></i></div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class="container-fluid">
+                    <div class="d-sm-flex justify-content-between align-items-center mb-4">
+                        <h3 class="text-dark mb-0"><strong>Marketplace</strong></h3>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <div class="row">
+                            <div class="col text-start"><a class="btn btn-primary" role="button" data-bs-target="#pricingModal" data-bs-toggle="modal">See Pricing</a></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="row"><?php
+include 'setupdb.php';
+
+$business_latitude = $_SESSION['latitude'];
+$business_longitude = $_SESSION['longitude'];
+$business_commodity = isset($_SESSION['commodity_name']) ? explode(', ', $_SESSION['commodity_name']) : array();
+
+// Check if the array is not empty before using implode
+$commodityString = !empty($business_commodity) ? "'" . implode("','", $business_commodity) . "'" : '';
+
+$sqlMarket = "SELECT market_id, farmer_id, farmer_fname, farmer_lname, farmer_province, farmer_municipality, farmer_barangay, farmer_lat, farmer_long, commodity_id, commodity_name, commodity_price, commodity_quantity, phone_number, description, image_name, date,
+  (6371 * acos(cos(radians($business_latitude)) * cos(radians(farmer_lat)) * cos(radians(farmer_long) - radians($business_longitude)) + sin(radians($business_latitude)) * sin(radians(farmer_lat)))) AS distance
+FROM market
+WHERE commodity_name IN ($commodityString) AND commodity_quantity > 0
+ORDER BY distance";
+
+$result = mysqli_query($conn, $sqlMarket);
+
+// Check if the query was successful
+if ($result) {
+    // Fetch data and display it in the card structure
+    foreach ($result as $row) {
+        // Convert local path to URL path
+        $imagePath = str_replace('\\', '/', $row['image_name']);
+        $imageUrl = 'http://localhost/AGRIDIVISION_OVERLOAD/assets/market_image/' . basename($imagePath);
+        ?>
+        <div class="col-lg-6 col-xxl-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-xl-7">
+                            <img style="width: 100%; height: 100%;" src="<?php echo $imageUrl; ?>" alt="Product Image" />
+                        </div>
+                        <div class="col">
+                            <div>
+                                <h1><?php echo $row['commodity_name']; ?></h1>
+                            </div>
+                            <div>
+                                <p><strong>Farmer Name:</strong></p>
+                                <p style="margin-top: -20px;"><?php echo $row['farmer_fname'] . ' ' . $row['farmer_lname']; ?></p>
+                            </div>
+                            <div>
+                                <p><strong>Location:</strong></p>
+                                <p style="margin-top: -20px;"><?php echo $row['farmer_province'] . ', ' . $row['farmer_municipality'] . ', ' . $row['farmer_barangay']; ?></p>
+                            </div>
+                            <div>
+                                <p><strong>Quantity:</strong></p>
+                                <p style="margin-top: -20px;"><?php echo $row['commodity_quantity']; ?> Kilograms</p>
+                            </div>
+                            <div>
+                                <p><strong>Price per Unit:</strong></p>
+                                <p style="margin-top: -20px;">₱<?php echo $row['commodity_price']; ?></p>
+                            </div>
+                            <div><a href="#" data-bs-target="#viewProduct<?php echo $row['market_id']; ?>" data-bs-toggle="modal" data-farmer-lat="<?php echo $row['farmer_lat']; ?>" data-farmer-long="<?php echo $row['farmer_long']; ?>">Click here to see more...</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php
+    }
+} else {
+    echo "Error fetching data: " . mysqli_error($conn);
+}
+?>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+<?php foreach ($result as $row):
+$business_latitude = $_SESSION['latitude'];
+$business_longitude = $_SESSION['longitude'];
+?>
+    <div class="modal fade" id="viewProduct<?php echo $row['market_id']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-text="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"><strong>Product Info</strong></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="purchaseForm<?php echo $row['market_id']; ?>" action="businessmarket.php" method="post" enctype="multipart/form-data" onsubmit="return validatePurchase<?php echo $row['market_id']; ?>()">
+                    <div class="modal-body">
+                        <input type="hidden" name="market_id" value="<?php echo $row['market_id']; ?>" />
+                        <input type="hidden" name="commodity_name" value="<?php echo $row['commodity_name']; ?>" />
+                        <input type="hidden" name="commodity_id" value="<?php echo $row['commodity_id']; ?>" />
+                        <input type="hidden" name="farmer_id" value="<?php echo $row['farmer_id']; ?>" />
+                        <input type="hidden" name="farmer_fname" value="<?php echo $row['farmer_fname']; ?>" />
+                        <input type="hidden" name="farmer_lname" value="<?php echo $row['farmer_lname']; ?>" />
+                        <input type="text" name="farmer_province" value="<?php echo $row['farmer_province']; ?>" />
+                        <input type="text" name="farmer_municipality" value="<?php echo $row['farmer_municipality']; ?>" />
+                        <input type="text" name="farmer_barangay" value="<?php echo $row['farmer_barangay']; ?>" />
+                        <input type="hidden" id="commodity_quantity" name="commodity_quantity" value="<?php echo $row['commodity_quantity']; ?>" />
+                        <input type="hidden" name="commodity_price" value="<?php echo $row['commodity_price']; ?>" />
+                        <input type="hidden" name="description" value="<?php echo $row['description']; ?>" />
+                        <div class="row">
+                            <div class="col-12 col-lg-8">
+                                <div id="map<?php echo $row['market_id']; ?>" style="height: 100%;"></div>
+                            </div>
+                            <div class="col-12 col-lg-4">
+                                <h1><?php echo $row['commodity_name']; ?></h1>
+                                <p><strong>Farmer Name:</strong></p>
+                                <p style="margin-top: -20px;"><?php echo $row['farmer_fname'] . ' ' . $row['farmer_lname']; ?></p>
+                                <p><strong>Location:</strong></p>
+                                <p style="margin-top: -20px;"><?php echo $row['farmer_province'] . ', ' . $row['farmer_municipality'] . ', ' . $row['farmer_barangay']; ?></p>
+                                <p><strong>Quantity Available:</strong></p>
+                                <p style="margin-top: -20px;"><?php echo $row['commodity_quantity']; ?> Kilograms</p>
+                                <p><strong>Contact Number:</strong></p>
+                                <p style="margin-top: -20px;"><?php echo $row['phone_number']; ?></p>
+                                <p><strong>Price per Unit:</strong></p>
+                                <p style="margin-top: -20px;">₱<?php echo $row['commodity_price']; ?></p>
+                                <p><strong>Description:</strong></p>
+                                <p style="margin-top: -20px;"><?php echo $row['description']; ?></p>
+                                <p><strong>Quantity to Purchase:</strong><input class="form-control" type="number" id="amount_purchase<?php echo $row['market_id']; ?>" name="amount_purchase" value="" style="width: 50%;" /></p>
+                                <div id="quantityWarning<?php echo $row['market_id']; ?>" style="color: red;"></div>
+                                <button class="btn btn-primary" type="submit">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+            function validatePurchase<?php echo $row['market_id']; ?>() {
+            var availableQuantity = <?php echo $row['commodity_quantity']; ?>;
+            var inputQuantity = parseFloat(document.getElementById("amount_purchase<?php echo $row['market_id']; ?>").value);
+
+            if (isNaN(inputQuantity) || inputQuantity <= 0 || inputQuantity > availableQuantity) {
+                document.getElementById("quantityWarning<?php echo $row['market_id']; ?>").innerText = "Please enter a valid quantity within the available range.";
+                return false;
+            } else {
+                document.getElementById("quantityWarning<?php echo $row['market_id']; ?>").innerText = "";
+                return true;
+            }
+        }
+        function initMap<?php echo $row['market_id']; ?>() {
+            var map<?php echo $row['market_id']; ?> = new google.maps.Map(document.getElementById('map<?php echo $row['market_id']; ?>'), {
+                center: { lat: <?php echo $row['farmer_lat']; ?>, lng: <?php echo $row['farmer_long']; ?> },
+                zoom: 14,
+                mapTypeId: 'hybrid' // Set map type to hybrid
+            });
+
+            var marker<?php echo $row['market_id']; ?> = new google.maps.Marker({
+                position: { lat: <?php echo $row['farmer_lat']; ?>, lng: <?php echo $row['farmer_long']; ?> },
+                map: map<?php echo $row['market_id']; ?>,
+                title: '<?php echo $row['commodity_name']; ?>'
+            });
+
+            // Get directions between business and farmer
+            var directionsService = new google.maps.DirectionsService();
+            var directionsRenderer = new google.maps.DirectionsRenderer({
+                map: map<?php echo $row['market_id']; ?>
+            });
+
+            var businessLatLng = new google.maps.LatLng(<?php echo $business_latitude; ?>, <?php echo $business_longitude; ?>);
+            var farmerLatLng = new google.maps.LatLng(<?php echo $row['farmer_lat']; ?>, <?php echo $row['farmer_long']; ?>);
+
+            var request = {
+                origin: businessLatLng,
+                destination: farmerLatLng,
+                travelMode: google.maps.TravelMode.DRIVING
+            };
+
+            directionsService.route(request, function(response, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    directionsRenderer.setDirections(response);
+                    
+                    var route = response.routes[0];
+                    var distanceText = route.legs[0].distance.text;
+                    var durationText = route.legs[0].duration.text;
+
+                    // Display distance and duration in InfoWindow
+                    var infoWindow = new google.maps.InfoWindow({
+                        content: '<p><strong>Distance:</strong> ' + distanceText + '</p>' +
+                                 '<p><strong>Estimated Travel Time:</strong> ' + durationText + '</p>'
+                    });
+
+                    infoWindow.open(map<?php echo $row['market_id']; ?>, marker<?php echo $row['market_id']; ?>);
+                }
+            });
+        }
+
+        // Add a listener for the modal being shown
+        $('#viewProduct<?php echo $row['market_id']; ?>').on('shown.bs.modal', function () {
+            // Call the initMap function for this specific modal
+            initMap<?php echo $row['market_id']; ?>();
+        });
+    </script>
+<?php endforeach; ?>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiiex_ePOjgHWwIDfiGxYqnYow6by0wAw&libraries=places,directions">
+
+</script>
+</div>
+                    </div>
+                </div>
+            </div>
+            <footer class="bg-white sticky-footer">
+                <div class="container my-auto">
+                    <div class="text-center my-auto copyright"><span style="font-family: Poppins, sans-serif;">AgriDivision© Brand 2024</span></div>
+                </div>
+            </footer>
+        </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="logout">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p>Are you sure you want to log-out?</p>
+                </div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><a class="btn btn-primary" role="button" href="logout.php">Yes</a></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="pricingModal">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Commodity Pricing</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body"><?php
+include 'setupdb.php';
+
+// Assuming you have the necessary database connection
+
+// Fetch data from the database
+$sql = "SELECT commodity_name, commodity_variant, pricing FROM commodity";
+$result = mysqli_query($conn, $sql);
+?>
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Commodity Name</th>
+                <th>Commodity Variant</th>
+                <th>Pricing</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            // Check if the query was successful
+            if ($result) {
+                // Loop through the result set and generate table rows dynamically
+                while ($row = mysqli_fetch_assoc($result)) {
+                    echo '<tr>';
+                    echo '<td>' . htmlspecialchars($row['commodity_name']) . '</td>';
+                    echo '<td>' . htmlspecialchars($row['commodity_variant']) . '</td>';
+                    echo '<td>&#8369;' . number_format($row['pricing'], 2) . '</td>'; // Adding peso sign and formatting pricing
+                    echo '</tr>';
+                }
+            }
+            ?>
+        </tbody>
+    </table>
+</div>
+</div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/theme.js"></script>
+</body>
+
+</html>

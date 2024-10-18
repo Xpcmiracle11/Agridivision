@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Dashboard - Brand</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins&amp;display=swap">
+    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/css/untitled.css">
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0" style="background: #062017;">
+            <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0">
+                    <div><img src="assets/img/Agri-Logo-White.png" style="width: 50px;height: 50px;"></div>
+                    <div class="sidebar-brand-text mx-3"></div>
+                </a>
+                <ul class="navbar-nav text-light" id="accordionSidebar">
+                    <li class="nav-item navigation"><a class="nav-link" href="techdash.php" style="font-size: 15px;color: rgb(255,255,255);font-family: Poppins, sans-serif;"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+                    <li class="nav-item navigation"><a class="nav-link" href="techtable.php" style="font-size: 15px;color: rgb(255,255,255);font-family: Poppins, sans-serif;"><i class="fas fa-table"></i><span>Table</span></a></li>
+                    <li class="nav-item navigation"><a class="nav-link" href="techreg.php" style="font-size: 15px;color: rgb(255,255,255);font-family: Poppins, sans-serif;"><i class="fas fa-user-circle"></i><span>Register Farmer</span></a></li>
+                </ul>
+                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
+            </div>
+        </nav>
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+                <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+                    <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
+                        <ul class="navbar-nav flex-nowrap ms-auto">
+                            <li class="nav-item d-inline-flex dropdown no-arrow">
+                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><span class="d-none d-lg-inline me-2 text-gray-600 small" id="username" style="font-size: 20px;">Valerie Luna<?php
+include 'setupdb.php'; // Make sure to add a semicolon at the end of this line
+
+$username = isset($_SESSION['name']) ? $_SESSION['name'] : ''; // Ensure that $_SESSION['name'] is properly accessed
+
+?>
+<script>
+    document.getElementById("username").innerHTML = '<?php echo $username; ?>';
+</script>
+</span></a>
+                                    <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in"><a class="dropdown-item" href="#" data-bs-target="#logout" data-bs-toggle="modal"><i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Logout</a></div>
+                                </div>
+                                <div class="d-flex d-xxl-flex align-items-center align-items-xxl-center"><i class="far fa-user" style="font-size: 20px;"></i></div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class="container-fluid">    <?php
+    include 'setupdb.php';
+
+    $farmer_id = $_GET['farmer_id'];
+
+    $farmerSql = "SELECT CONCAT(fname, ' ', lname) as farmer_name FROM farmer WHERE farmer_id = '$farmer_id'";
+    $result = mysqli_query($conn, $farmerSql);
+
+    // Check if there are any rows in the result
+    if ($result && mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        $farmerName = $row['farmer_name'];
+    } else {
+        $farmerName = "Unknown Farmer";
+    }
+    ?>
+
+    <div class="d-sm-flex justify-content-between align-items-center mb-4">
+        <h3 class="text-dark mb-0" style="font-weight: bold; font-family: 'Poppins', sans-serif;"><?php echo $farmerName; ?></h3>
+    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-body"><?php
+include 'setupdb.php';
+
+// Get the municipality, province, and barangay from the URL parameters
+$municipality = $_GET['municipality'];
+$province = $_GET['province'];
+$barangay = $_GET['barangay'];
+
+$farmer_latitude = $_GET['latitude'];
+$farmer_longitude = $_GET['longitude'];
+
+$farmer_fname = $_GET['fname'];
+$farmer_lname = $_GET['lname'];
+
+// Concatenate the municipality, province, and barangay to form the complete address
+$address = "{$province}, {$municipality}, {$barangay}";
+
+$echo = $address;
+// URL-encode the complete address for use in the API request
+$urlEncodedAddress = urlencode($address);
+
+// Use Google Maps Geocoding API to get coordinates based on the complete address
+$apiKey = 'AIzaSyCiiex_ePOjgHWwIDfiGxYqnYow6by0wAw'; // Replace with your actual API key
+$geocodingApiUrl = "https://maps.googleapis.com/maps/api/geocode/json?address={$urlEncodedAddress}&key={$apiKey}";
+
+// Make the API request
+$geocodingApiResponse = file_get_contents($geocodingApiUrl);
+$geocodingData = json_decode($geocodingApiResponse);
+
+// Check if the API request was successful and has results
+if ($geocodingData && $geocodingData->status === 'OK' && !empty($geocodingData->results)) {
+    // Extract latitude and longitude from the first result
+    $latitude = $geocodingData->results[0]->geometry->location->lat;
+    $longitude = $geocodingData->results[0]->geometry->location->lng;
+    ?>
+    <div id="map" style="height: 400px;"></div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo $apiKey; ?>&callback=initMap" async defer></script>
+    <script>
+        function initMap() {
+            var latitude = <?php echo $farmer_latitude; ?>;
+            var longitude = <?php echo $farmer_longitude; ?>;
+            var farmerName = "<?php echo $farmer_fname . ' ' . $farmer_lname; ?>"; // Farmer's name
+            
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: <?php echo $latitude; ?>, lng: <?php echo $longitude; ?> },
+                zoom: 14,
+                mapTypeId: 'hybrid'
+            });
+            
+            var marker = new google.maps.Marker({
+                position: { lat: latitude, lng: longitude },
+                map: map,
+                title: '<?php echo $barangay; ?>, <?php echo $municipality; ?>, <?php echo $province; ?>'
+            });
+    
+            // Add onClick event listener to the marker
+            marker.addListener('click', function() {
+                var infowindow = new google.maps.InfoWindow({
+                    content: "<b> Farmer Name: " + farmerName + "</b>"
+                });
+                infowindow.open(map, marker);
+            });
+    
+            // Load GeoJSON file for Iloilo
+            var geoJsonFile = "iloilo_geojson/Barangays.json";
+            fetch(geoJsonFile)
+                .then(response => response.json())
+                .then(data => {
+                    console.log("GeoJSON loaded successfully:", data);
+    
+                    // Find the specific barangay and municipality in the GeoJSON data
+                    var targetBarangay = '<?php echo strtolower($barangay); ?>';
+                    var targetMunicipality = '<?php echo strtoupper($municipality); ?>';
+    
+                    // Set a filter to display only the specific barangay and municipality
+                    map.data.setStyle(function (feature) {
+                        try {
+                            var geometry = feature.getGeometry();
+    
+                            if (geometry.getType() === 'Polygon') {
+                                console.log("Feature Geometry:", geometry); // Log feature geometry for inspection
+    
+                                var barangayName = feature.getProperty("NAME_3") ? feature.getProperty("NAME_3").toLowerCase().trim() : null;
+                                var municipalityName = feature.getProperty("NAME_2") ? feature.getProperty("NAME_2").toUpperCase().trim() : null;
+    
+                                if (barangayName === targetBarangay && municipalityName === targetMunicipality) {
+                                    return {
+                                        fillColor: '#FF0000',
+                                        strokeColor: '#FF0000',
+                                        strokeWeight: 2
+                                    };
+                                } else {
+                                    return {
+                                        fillColor: 'transparent',
+                                        strokeColor: 'transparent',
+                                        strokeWeight: 2
+                                    };
+                                }
+                            } else {
+                                console.error("Unsupported geometry type:", geometry.getType());
+                                return {
+                                    fillColor: 'transparent',
+                                    strokeColor: 'transparent',
+                                    strokeWeight: 2
+                                };
+                            }
+                        } catch (error) {
+                            console.error("Error processing GeoJSON feature:", error);
+                            return {
+                                fillColor: 'transparent',
+                                strokeColor: 'transparent',
+                                strokeWeight: 2
+                            };
+                        }
+                    });
+    
+                    // Add GeoJSON features to the map
+                    map.data.addGeoJson(data);
+                })
+                .catch(error => console.error("Error loading or processing GeoJSON file:", error));
+        }
+    </script>
+    
+    
+               
+<?php
+} else {
+    // Handle the case where the API request was unsuccessful or no results were found
+    echo 'Unable to fetch location information for the specified municipality, province, and barangay.';
+}
+?>
+</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="row" style="margin: -1px;margin-top: 20px;">
+                                <div class="col-md-12 col-lg-4 col-xl-4 col-xxl-4 mb-4"><?php
+include 'setupdb.php';
+
+$defaultYear = date("Y");
+$farmer_id = $_GET['farmer_id'];
+
+$sqlYears = "SELECT DISTINCT YEAR(date) as production_year FROM total_production WHERE farmer_id = '$farmer_id'";
+$resultYears = mysqli_query($conn, $sqlYears);
+$years = mysqli_fetch_all($resultYears, MYSQLI_ASSOC);
+
+// Fetch data for all years
+$dataByYear = [];
+foreach ($years as $year) {
+    $sql = "SELECT TRIM(commodity_name) AS commodity_name, SUM(amount) as total_amount, date FROM total_production WHERE YEAR(date) = '{$year['production_year']}' AND farmer_id = '$farmer_id' GROUP BY TRIM(commodity_name)";
+    $result = mysqli_query($conn, $sql);
+    $dataByYear[$year['production_year']] = mysqli_fetch_all($result, MYSQLI_ASSOC);
+}
+
+// Fetch and sum the data from the production table for the default year
+$sql = "SELECT TRIM(commodity_name) AS commodity_name, SUM(amount) as total_amount, date FROM total_production WHERE YEAR(date) = '$defaultYear' AND farmer_id = '$farmer_id' GROUP BY TRIM(commodity_name)";
+$result = mysqli_query($conn, $sql);
+
+// Fetch the data as an associative array
+$data = [];
+while ($row = mysqli_fetch_assoc($result)) {
+    $data[] = $row;
+}
+
+// Add an extra entry at the beginning of the dataset
+array_unshift($data, ['commodity_name' => '', 'total_amount' => 0]);
+?>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="card shadow border-start-info py-2" style="height: 100%;">
+    <div class="card-body">
+        <div class="row align-items-center no-gutters">
+            <div class="col me-2">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <p style="font-family: Poppins, sans-serif; color: #436850;">
+                            <strong>
+                                TOTAL AMOUNT OF HARVESTED CROPS
+                            </strong>
+                        </p>                        
+                    </div>
+                    <div class="col">
+                        <!-- Use JavaScript to handle the change event of the select dropdown -->
+                        <select id="yearSelect" class="form-select mb-3">
+                            <?php foreach ($years as $year) : ?>
+                                <option value="<?php echo $year['production_year']; ?>" <?php echo $defaultYear == $year['production_year'] ? 'selected' : ''; ?>>
+                                    <?php echo $year['production_year']; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <div id="noDataMessage" class="alert alert-info" role="alert" style="display: none;">
+                    No production data available.
+                </div>
+                <canvas id="productionChart" height="100"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ... (previous HTML code) ... -->
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const ctx = document.getElementById('productionChart').getContext('2d');
+        let productionChart;
+        const dataByYear = <?php echo json_encode($dataByYear); ?>;
+        let initialData = <?php echo json_encode($data); ?>;
+
+        // Add an extra entry at the beginning of the dataset
+        initialData.unshift({ commodity_name: '', total_amount: 0 });
+
+        // Function to update the chart based on the selected year
+        function updateProductionChart(selectedYear) {
+            const data = dataByYear[selectedYear] || [];
+
+            // Extract labels and amounts for the new data
+            const labels = data.map(row => row.commodity_name);
+            const amounts = data.map(row => row.total_amount);
+
+            // Update chart data
+            productionChart.data.labels = ['', ...labels];
+            productionChart.data.datasets[0].data = [0, ...amounts]; // Set the value for the extra entry to 0
+
+            // Update chart
+            productionChart.update();
+
+            // Display no data message if data is empty
+            document.getElementById('noDataMessage').style.display = data.length === 0 ? 'block' : 'none';
+        }
+
+        // Create a bar chart with the indexAxis option
+        productionChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['', ...initialData.map(row => row.commodity_name)],
+                datasets: [{
+                    label: 'Amount (kg)',
+                    data: [0, ...initialData.map(row => row.total_amount)], // Set the value for the extra entry to 0
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                layout: {
+                    padding: {
+                        top: 0
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        min: 0  // Set the minimum value of the x-axis to 0
+                    },
+                    y: {
+                        type: 'category',
+                        position: 'left',
+                        offset: true
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return context.dataset.label + ': ' + context.formattedValue + ' kg';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Event listener for the year select dropdown
+        document.getElementById('yearSelect').addEventListener('change', function () {
+            const selectedYear = this.value;
+            updateProductionChart(selectedYear);
+        });
+
+        // Initial chart update based on the default year
+        updateProductionChart(<?php echo $defaultYear; ?>);
+    });
+</script></div>
+                                <div class="col-md-12 col-lg-4 col-xl-4 col-xxl-4 mb-4"><?php
+include 'setupdb.php';
+
+$defaultYear = date("Y");
+$farmer_id = $_GET['farmer_id'];
+
+$sqlYears = "SELECT DISTINCT YEAR(date) as sold_year FROM transaction WHERE farmer_id = '$farmer_id'";
+$resultYears = mysqli_query($conn, $sqlYears);
+$years = mysqli_fetch_all($resultYears, MYSQLI_ASSOC);
+
+// Fetch data for all years
+$dataByYear = [];
+foreach ($years as $year) {
+    $sql = "SELECT TRIM(commodity_name) AS commodity_name, SUM(amount_purchase) as total_amount, date FROM transaction WHERE YEAR(date) = '{$year['sold_year']}' AND farmer_id = '$farmer_id' GROUP BY TRIM(commodity_name)";
+    $result = mysqli_query($conn, $sql);
+    $dataByYear[$year['sold_year']] = mysqli_fetch_all($result, MYSQLI_ASSOC);
+}
+
+// Fetch and sum the data from the sold table for the default year
+$sql = "SELECT TRIM(commodity_name) AS commodity_name, SUM(amount_purchase) as total_amount, date FROM transaction WHERE YEAR(date) = '$defaultYear' AND farmer_id = '$farmer_id' GROUP BY TRIM(commodity_name)";
+$result = mysqli_query($conn, $sql);
+
+// Fetch the data as an associative array
+$data = [];
+while ($row = mysqli_fetch_assoc($result)) {
+    $data[] = $row;
+}
+
+// Add an extra entry at the beginning of the dataset
+array_unshift($data, ['commodity_name' => '', 'total_amount' => 0]);
+?>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="card shadow border-start-info py-2" style="height: 100%;">
+    <div class="card-body">
+        <div class="row align-items-center no-gutters">
+            <div class="col me-2">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <p style="font-family: Poppins, sans-serif; color: #436850;">
+                            <strong>
+                                    TOTAL AMOUNT OF CROPS SOLD
+                            </strong>
+                        </p>
+                    </div>
+                    <div class="col">
+                        <!-- Use JavaScript to handle the change event of the select dropdown -->
+                        <select id="selectedYearSold" class="form-select mb-3">
+                            <?php foreach ($years as $year) : ?>
+                                <option value="<?php echo $year['sold_year']; ?>" <?php echo $defaultYear == $year['sold_year'] ? 'selected' : ''; ?>>
+                                    <?php echo $year['sold_year']; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <div id="noDataMessageSold" class="alert alert-info" role="alert" style="display: none;">
+                    No sold data available.
+                </div>
+                <canvas id="soldChart" height="100"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ... (previous HTML code) ... -->
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const ctx = document.getElementById('soldChart').getContext('2d');
+        let soldChart;
+        const dataByYear = <?php echo json_encode($dataByYear); ?>;
+        let initialData = <?php echo json_encode($data); ?>;
+
+        // Add an extra entry at the beginning of the dataset
+        initialData.unshift({ commodity_name: '', total_amount: 0 });
+
+        // Function to update the chart based on the selected year
+        function updateSoldChart(selectedYear) {
+            const data = dataByYear[selectedYear] || [];
+
+            // Extract labels and amounts for the new data
+            const labels = data.map(row => row.commodity_name);
+            const amounts = data.map(row => row.total_amount);
+
+            // Update chart data
+            soldChart.data.labels = ['', ...labels];
+            soldChart.data.datasets[0].data = [0, ...amounts]; // Set the value for the extra entry to 0
+
+            // Update chart
+            soldChart.update();
+
+            // Display no data message if data is empty
+            document.getElementById('noDataMessageSold').style.display = data.length === 0 ? 'block' : 'none';
+        }
+
+        // Create a bar chart with the indexAxis option
+        soldChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['', ...initialData.map(row => row.commodity_name)],
+                datasets: [{
+                    label: 'Amount (kg)',
+                    data: [0, ...initialData.map(row => row.total_amount)], // Set the value for the extra entry to 0
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                layout: {
+                    padding: {
+                        top: 0
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        min: 0  // Set the minimum value of the x-axis to 0
+                    },
+                    y: {
+                        type: 'category',
+                        position: 'left',
+                        offset: true
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return context.dataset.label + ': ' + context.formattedValue + ' kg';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Event listener for the year select dropdown
+        document.getElementById('selectedYearSold').addEventListener('change', function () {
+            const selectedYearSold = this.value;
+            updateSoldChart(selectedYearSold);
+        });
+
+        // Initial chart update based on the default year
+        updateSoldChart(<?php echo $defaultYear; ?>);
+    });
+</script></div>
+                                <div class="col-md-12 col-lg-4 col-xl-4 col-xxl-4 mb-4"><?php
+include 'setupdb.php';
+
+$defaultYear = date("Y");
+$farmer_id = $_GET['farmer_id'];
+
+$sqlYears = "SELECT DISTINCT YEAR(date) as sales_year FROM transaction WHERE farmer_id = '$farmer_id'";
+$resultYears = mysqli_query($conn, $sqlYears);
+$years = mysqli_fetch_all($resultYears, MYSQLI_ASSOC);
+
+// Fetch data for all years
+$dataByYear = [];
+foreach ($years as $year) {
+    $sql = "SELECT TRIM(commodity_name) AS commodity_name, SUM(spent_amount) as total_amount, date FROM transaction WHERE YEAR(date) = '{$year['sales_year']}' AND farmer_id = '$farmer_id' GROUP BY TRIM(commodity_name)";
+    $result = mysqli_query($conn, $sql);
+    $dataByYear[$year['sales_year']] = mysqli_fetch_all($result, MYSQLI_ASSOC);
+}
+
+// Fetch and sum the data from the spent table for the default year
+$sql = "SELECT TRIM(commodity_name) AS commodity_name, SUM(spent_amount) as total_amount, date FROM transaction WHERE YEAR(date) = '$defaultYear' AND farmer_id = '$farmer_id' GROUP BY TRIM(commodity_name)";
+$result = mysqli_query($conn, $sql);
+
+// Fetch the data as an associative array
+$data = [];
+while ($row = mysqli_fetch_assoc($result)) {
+    $data[] = $row;
+}
+
+// Add an extra entry at the beginning of the dataset
+array_unshift($data, ['commodity_name' => '', 'total_amount' => 0]);
+?>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="card shadow border-start-info py-2" style="height: 100%;">
+    <div class="card-body">
+        <div class="row align-items-center no-gutters">
+            <div class="col me-2">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <p style="font-family: Poppins, sans-serif; color: #436850;">
+                            <strong>
+                                    TOTAL SALES
+                            </strong>
+                        </p>
+                    </div>
+                    <div class="col">
+                        <!-- Use JavaScript to handle the change event of the select dropdown -->
+                        <select id="selectedYearSales" class="form-select mb-3">
+                            <?php foreach ($years as $year) : ?>
+                                <option value="<?php echo $year['sales_year']; ?>" <?php echo $defaultYear == $year['sales_year'] ? 'selected' : ''; ?>>
+                                    <?php echo $year['sales_year']; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <div id="noDataMessageSales" class="alert alert-info" role="alert" style="display: none;">
+                    No sales data available.
+                </div>
+                <canvas id="salesChart" height="100"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ... (previous HTML code) ... -->
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const ctx = document.getElementById('salesChart').getContext('2d');
+        let salesChart;
+        const dataByYear = <?php echo json_encode($dataByYear); ?>;
+        let initialData = <?php echo json_encode($data); ?>;
+
+        // Add an extra entry at the beginning of the dataset
+        initialData.unshift({ commodity_name: '', total_amount: 0 });
+
+        // Function to update the chart based on the selected year
+        function updateSalesChart(selectedYear) {
+            const data = dataByYear[selectedYear] || [];
+
+            // Extract labels and amounts for the new data
+            const labels = data.map(row => row.commodity_name);
+            const amounts = data.map(row => row.total_amount);
+
+            // Update chart data
+            salesChart.data.labels = ['', ...labels];
+            salesChart.data.datasets[0].data = [0, ...amounts]; // Set the value for the extra entry to 0
+
+            // Update chart
+            salesChart.update();
+
+            // Display no data message if data is empty
+            document.getElementById('noDataMessageSales').style.display = data.length === 0 ? 'block' : 'none';
+        }
+
+        // Create a bar chart with the indexAxis option
+        salesChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['', ...initialData.map(row => row.commodity_name)],
+                datasets: [{
+                    label: 'Sales (₱)',
+                    data: [0, ...initialData.map(row => row.total_amount)], // Set the value for the extra entry to 0
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                layout: {
+                    padding: {
+                        top: 0
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        min: 0  // Set the minimum value of the x-axis to 0
+                    },
+                    y: {
+                        type: 'category',
+                        position: 'left',
+                        offset: true
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return context.dataset.label + ': ' + context.formattedValue + ' kg';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Event listener for the year select dropdown
+        document.getElementById('selectedYearSales').addEventListener('change', function () {
+            const selectedYearSales = this.value;
+            updateSalesChart(selectedYearSales);
+        });
+
+        // Initial chart update based on the default year
+        updateSalesChart(<?php echo $defaultYear; ?>);
+    });
+</script></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="bg-white sticky-footer">
+                <div class="container my-auto">
+                    <div class="text-center my-auto copyright"><span style="font-family: Poppins, sans-serif;">AgriDivision© Brand 2024</span></div>
+                </div>
+            </footer>
+        </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="logout">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p style="font-family: Poppins, sans-serif;">Are you sure you want to log-out?</p>
+                </div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal" style="font-family: Poppins, sans-serif;">Close</button><a class="btn btn-primary" role="button" href="logout.php" style="font-family: Poppins, sans-serif;background: #436850;border-color: #436850;">Yes</a></div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/theme.js"></script>
+</body>
+
+</html>

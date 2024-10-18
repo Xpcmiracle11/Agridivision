@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Register - Brand</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins&amp;display=swap">
+    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/css/untitled.css">
+</head>
+
+<body class="bg-gradient-primary" style="background: linear-gradient(-103deg, #062017 0%, #2d4d38 100%), #102216;">
+    <div class="container" style="background: rgba(255,255,255,0);">
+        <div class="card shadow-lg o-hidden border-0 my-5" style="background: rgba(255,255,255,0.43);border-radius: 20px;">
+            <div class="card-body p-0">
+                <div class="row" style="background: rgba(255,255,255,0);">
+                    <div class="col-lg-12 col-xl-12 col-xxl-12 offset-lg-0 offset-xl-0 offset-xxl-0" style="background: #436850;">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h4 class="text-dark mb-4" style="font-family: Poppins, sans-serif;font-size: 40px;color: #ffffff!important;"><strong>Create an Account!</strong></h4>
+                            </div>
+                            <form id="registrationForm" class="user" action="businessregister.php" method="post" enctype="multipart/form-data">
+                                <div class="row mb-3">
+                                    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-0">
+                                        <p style="height: 100%;font-family: Poppins, sans-serif;font-size: 20px;color: #ffffff;">First Name:<input class="form-control form-control-user" type="text" name="fname" style="border-radius: 10px;font-family: Poppins, sans-serif;font-size: 16px;height: 58px;"></p>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-0" style="border-radius: 10px;font-family: Poppins, sans-serif;font-size: 16px;">
+                                        <p style="height: 100%;color: #ffffff;font-size: 20px;font-family: Poppins, sans-serif;">Middle Name:<input class="form-control form-control-user" type="text" name="mname" style="border-radius: 10px;font-family: Poppins, sans-serif;font-size: 16px;height: 58px;"></p>
+                                    </div>
+                                </div>
+                                <div class="row mb-3" style="border-radius: 10px;font-family: Poppins, sans-serif;font-size: 16px;">
+                                    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-0" style="border-radius: 10px;font-family: Poppins, sans-serif;font-size: 16px;">
+                                        <p style="height: 100%;color: #ffffff;font-size: 20px;font-family: Poppins, sans-serif;">Last Name:<input class="form-control form-control-user" type="text" name="lname" style="border-radius: 10px;font-family: Poppins, sans-serif;font-size: 16px;height: 58px;"></p>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-0" style="border-radius: 10px;font-family: Poppins, sans-serif;font-size: 16px;">
+                                        <p style="height: 100%;color: #ffffff;font-size: 20px;font-family: Poppins, sans-serif;">Gender:<select class="form-select" name="gender" style="border-radius: 10px;font-family: Poppins, sans-serif;font-size: 16px;height: 58px;">
+                                                <optgroup label="Gender">
+                                                    <option value="Male" selected="">Male</option>
+                                                    <option value="Female">Female</option>
+                                                </optgroup>
+                                            </select></p>
+                                    </div>
+                                </div>
+                                <div class="row mb-3" style="border-radius: 10px;font-family: Poppins, sans-serif;font-size: 16px;">
+                                    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-0" style="border-radius: 10px;font-family: Poppins, sans-serif;font-size: 16px;">
+                                        <p style="height: 100%;color: #ffffff;font-size: 20px;font-family: Poppins, sans-serif;">Email:<input class="form-control form-control-user" type="email" name="email" style="border-radius: 10px;font-family: Poppins, sans-serif;font-size: 16px;height: 58px;"></p>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-0" style="border-radius: 10px;font-family: Poppins, sans-serif;font-size: 16px;">
+                                        <p style="height: 100%;color: #ffffff;font-size: 20px;font-family: Poppins, sans-serif;">Phone Number:<input class="form-control form-control-user" type="tel" name="phone" style="border-radius: 10px;font-family: Poppins, sans-serif;font-size: 16px;height: 58px;"></p>
+                                    </div>
+                                </div>
+                                <div class="row mb-3" style="border-radius: 10px;font-family: Poppins, sans-serif;font-size: 16px;">
+                                    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-0" style="border-radius: 10px;font-family: Poppins, sans-serif;font-size: 16px;">
+                                        <p style="height: 100%;color: #ffffff;font-size: 20px;font-family: Poppins, sans-serif;">Business Permit Number:<input class="form-control form-control-user" type="text" name="busspermit" style="border-radius: 10px;font-family: Poppins, sans-serif;font-size: 16px;height: 58px;"></p>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-0" style="border-radius: 10px;font-family: Poppins, sans-serif;font-size: 16px;">
+                                        <p style="height: 100%;color: #ffffff;font-size: 20px;font-family: Poppins, sans-serif;">Province:<input class="form-control form-control-user" type="text" name="province" style="border-radius: 10px;font-family: Poppins, sans-serif;font-size: 16px;height: 58px;"></p>
+                                    </div>
+                                </div>
+                                <div class="row mb-3" style="border-radius: 10px;font-family: Poppins, sans-serif;font-size: 16px;">
+                                    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-0" style="border-radius: 10px;font-family: Poppins, sans-serif;font-size: 16px;">
+                                        <p style="height: 100%;color: #ffffff;font-size: 20px;font-family: Poppins, sans-serif;">Municipality:<input class="form-control form-control-user" type="text" name="municipality" style="border-radius: 10px;font-family: Poppins, sans-serif;font-size: 16px;height: 58px;"></p>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-0" style="border-radius: 10px;font-family: Poppins, sans-serif;font-size: 16px;">
+                                        <p style="height: 100%;color: #ffffff;font-size: 20px;font-family: Poppins, sans-serif;">Barangay:<input class="form-control form-control-user" type="tel" name="barangay" style="border-radius: 10px;font-family: Poppins, sans-serif;font-size: 16px;height: 58px;"></p>
+                                    </div>
+                                </div>
+                                <div class="row mb-3" style="border-radius: 10px;font-family: Poppins, sans-serif;font-size: 16px;">
+                                    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-0" style="border-radius: 10px;font-family: Poppins, sans-serif;font-size: 16px;">
+                                        <p style="height: 100%;color: #ffffff;font-size: 20px;font-family: Poppins, sans-serif;">Street:<input class="form-control form-control-user" type="tel" name="street" style="border-radius: 10px;font-family: Poppins, sans-serif;font-size: 16px;height: 58px;"></p>
+                                    </div>
+                                    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6 mb-3 mb-sm-0" style="border-radius: 10px;font-family: Poppins, sans-serif;font-size: 16px;">
+                                        <p style="height: 100%;color: #ffffff;font-size: 20px;font-family: Poppins, sans-serif;">Date of Birth:<input class="form-control" type="date" style="height: 58px;border-radius: 10px;font-family: Poppins, sans-serif;font-size: 16px;" name="dob"></p>
+                                    </div>
+                                </div>
+                                <div class="row mb-3" style="border-radius: 10px;font-family: Poppins, sans-serif;font-size: 16px;">
+                                    <div class="col-sm-6 mb-3 mb-sm-0" style="border-radius: 10px;font-family: Poppins, sans-serif;font-size: 16px;">
+                                        <p style="height: 100%;color: #ffffff;font-size: 20px;font-family: Poppins, sans-serif;">Password:<input class="form-control form-control-user" type="password" name="password" style="border-radius: 10px;font-family: Poppins, sans-serif;font-size: 16px;height: 58px;"></p>
+                                    </div>
+                                    <div class="col-sm-6" style="border-radius: 10px;font-family: Poppins, sans-serif;font-size: 16px;">
+                                        <p style="height: 100%;color: #ffffff;font-size: 20px;font-family: Poppins, sans-serif;">Repeat Password<input class="form-control form-control-user" type="password" name="repass" style="border-radius: 10px;font-family: Poppins, sans-serif;font-size: 16px;height: 58px;"></p>
+                                    </div>
+                                </div>
+                                <div class="row mb-3"><?php
+include 'setupdb.php';
+
+// Fetch commodity data from the database
+$sqlCommodity = "SELECT commodity_id, commodity_name FROM commodity";
+$resultCommodity = mysqli_query($conn, $sqlCommodity);
+?>
+
+<div class="col-sm-6 col-xxl-12 mb-3 mb-sm-0">
+    <p style="font-size: 16px; color: white; font-family: 'Poppins', sans-serif;"><strong>Select Commodity:</strong></p>
+
+    <?php
+    // Display checkboxes based on the result set
+    while ($row = mysqli_fetch_assoc($resultCommodity)) {
+        $commodityId = $row['commodity_id'];
+        $commodityName = $row['commodity_name'];
+        ?>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="selected_commodities[]" value="<?= $commodityId ?>" id="<?= $commodityId ?>" onchange="updateTextInput()">
+            <label class="form-check-label" for="<?= $commodityId ?>" style="font-family: 'Poppins', sans-serif; font-size: 16px; color: white;"><?= $commodityName ?></label>
+        </div>
+    <?php } ?>
+
+    <!-- Add text inputs for commodity_id and commodity_name -->
+    <div>
+        <input class="form-text-input" type="hidden" name="selected_commodity_id" id="selected_commodity_id" readonly>
+        <input class="form-text-input" type="hidden" name="selected_commodity_name" id="selected_commodity_name" readonly>
+    </div>
+</div>
+
+<script>
+    function updateTextInput() {
+        var selectedCommodities = document.querySelectorAll('input[name="selected_commodities[]"]:checked');
+        var selectedCommodityId = document.getElementById('selected_commodity_id');
+        var selectedCommodityName = document.getElementById('selected_commodity_name');
+
+        var selectedIds = Array.from(selectedCommodities).map(function (checkbox) {
+            return checkbox.value;
+        });
+
+        var selectedNames = Array.from(selectedCommodities).map(function (checkbox) {
+            return checkbox.parentElement.querySelector('label').textContent;
+        });
+
+        selectedCommodityId.value = selectedIds.join(', ');
+        selectedCommodityName.value = selectedNames.join(', ');
+    }
+</script>
+</div>
+                                <div class="row mb-3">
+                                    <p style="font-size: 20px;color: #ffffff;"><strong>Pin your location:</strong></p><div class="col">
+    <div id="map" style="width: 100%; height: 400px;"></div>
+    <input type="hidden" id="latitude" name="latitude" value="<?php echo $latitude; ?>" placeholder="Latitude">
+    <input type="hidden" id="longitude" name="longitude" value="<?php echo $longitude; ?>" placeholder="Longitude">
+</div>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiiex_ePOjgHWwIDfiGxYqnYow6by0wAw&libraries=places"></script>
+
+<script>
+    // Initialize the map
+    function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: 10.7202, lng: 122.5621 },
+            zoom: 11,
+            mapTypeId: 'hybrid' // Set map type to satellite
+        });
+
+        // Initialize a marker variable
+        var marker;
+
+        // Add click event listener to the map
+        google.maps.event.addListener(map, 'click', function(event) {
+            // Get the latitude and longitude of the clicked point
+            var latLng = event.latLng;
+            var latitude = latLng.lat();
+            var longitude = latLng.lng();
+
+            // Display the latitude and longitude in the input fields
+            document.getElementById('latitude').value = latitude;
+            document.getElementById('longitude').value = longitude;
+
+            // Remove existing marker (if any)
+            if (marker) {
+                marker.setMap(null);
+            }
+
+            // Create a new marker at the clicked position
+            marker = new google.maps.Marker({
+                position: latLng,
+                map: map,
+                title: 'Clicked Location'
+            });
+        });
+    }
+
+    // Load the map after the page has fully loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        initMap();
+    });
+</script>
+
+                                </div>
+                                <div class="d-flex d-sm-flex d-md-flex d-lg-flex d-xl-flex d-xxl-flex justify-content-center justify-content-sm-center justify-content-md-center justify-content-lg-center justify-content-xl-center justify-content-xxl-center" style="margin-bottom: 10px;"><button class="btn btn-primary btn-user w-100" type="submit" style="font-family: Poppins, sans-serif;width: 50%!important;background: #062017;color: #ffffff;font-size: 20px;border-color: #062017;border-radius: 10px;">Submit</button></div>
+                            </form>
+                            <div class="text-center"><a class="small" href="login.php" style="font-family: Poppins, sans-serif;color: #ffffff;font-size: 15px;">Already have an account? Login!</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/theme.js"></script>
+</body>
+
+</html>

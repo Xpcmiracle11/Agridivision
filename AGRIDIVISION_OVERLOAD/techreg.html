@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Dashboard - Brand</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins&amp;display=swap">
+    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/css/untitled.css">
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0" style="background: #062017;">
+            <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0">
+                    <div><img src="assets/img/Agri-Logo-White.png" style="width: 50px;height: 50px;"></div>
+                    <div class="sidebar-brand-text mx-3"></div>
+                </a>
+                <ul class="navbar-nav text-light" id="accordionSidebar">
+                    <li class="nav-item navigation"><a class="nav-link" href="techdash.php" style="color: rgb(255,255,255);font-size: 15px;"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+                    <li class="nav-item navigation"><a class="nav-link" href="techtable.php" style="color: rgb(255,255,255);font-size: 15px;"><i class="fas fa-table"></i><span>Table</span></a></li>
+                    <li class="nav-item navigation"><a class="nav-link" href="techreg.php" style="color: rgb(255,255,255);font-size: 15px;"><i class="fas fa-user-circle"></i><span>Register Farmer</span></a></li>
+                </ul>
+                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
+            </div>
+        </nav>
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+                <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+                    <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
+                        <ul class="navbar-nav flex-nowrap ms-auto">
+                            <li class="nav-item d-inline-flex dropdown no-arrow">
+                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><span class="d-none d-lg-inline me-2 text-gray-600 small" id="username" style="font-size: 20px;">Valerie Luna<?php
+include 'setupdb.php'; // Make sure to add a semicolon at the end of this line
+
+$username = isset($_SESSION['name']) ? $_SESSION['name'] : ''; // Ensure that $_SESSION['name'] is properly accessed
+
+?>
+<script>
+    document.getElementById("username").innerHTML = '<?php echo $username; ?>';
+</script>
+</span></a>
+                                    <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in"><a class="dropdown-item" href="techprofile.php"><i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Profile</a>
+                                        <div class="dropdown-divider"></div><a class="dropdown-item" href="#" data-bs-target="#logout" data-bs-toggle="modal"><i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Logout</a>
+                                    </div>
+                                </div>
+                                <div class="d-flex d-xxl-flex align-items-center align-items-xxl-center"><i class="far fa-user" style="font-size: 20px;"></i></div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class="container-fluid">
+                    <div class="d-sm-flex justify-content-between align-items-center mb-4">
+                        <h3 class="text-dark mb-0" style="font-family: Poppins, sans-serif;"><strong>Register Farmer</strong></h3><img src="assets/img/DA_LOGO.png" style="width: 5%;height: 80%;">
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <form id="registrationForm" action="techreg.php" method="post" enctype="multipart/form-data">
+                                <div class="tab">
+                                    <div class="col">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col justify-content-xl-center align-items-xl-center">
+                                                        <div class="text-center" style="padding: 10px;"></div>
+                                                        <div>
+                                                            <h1 style="text-align: center;color: #191919;font-family: Poppins, sans-serif;padding: 10px;margin-bottom: 20px;"><strong>ANI&nbsp;AT&nbsp;KITA&nbsp;RSBSA </strong><br><strong>ENROLLMENT FORM</strong></h1>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col" style="border-width: 2px;">
+                                                        <p style="background: #ffffff;font-family: Poppins, sans-serif;"><strong>RSBSA&nbsp;Reference Number</strong><span style="color: #931638;"><strong>*</strong></span><input class="form-control" type="text" name="rsbsanum" required="" style="font-family: Poppins, sans-serif;"></p>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-xl-6">
+                                                        <p style="background: #ffffff;font-family: Poppins, sans-serif;"><strong>Last Name</strong><span style="color: #931638;"><strong>*</strong></span><input class="form-control" type="text" name="lname" required="" style="font-family: Poppins, sans-serif;"></p>
+                                                    </div>
+                                                    <div class="col-lg-12 col-xl-6">
+                                                        <p style="background: #ffffff;font-family: Poppins, sans-serif;"><strong>First Name</strong><span style="color: #931638;"><strong>*</strong></span><input class="form-control" type="text" name="fname" required="" style="font-family: Poppins, sans-serif;"></p>
+                                                    </div>
+                                                    <div class="col-lg-12 col-xl-4">
+                                                        <p style="background: #ffffff;font-family: Poppins, sans-serif;"><strong>Middle Name</strong><span style="color: #931638;"><strong>*</strong></span><input class="form-control" type="text" name="mname" required="" style="font-family: Poppins, sans-serif;"></p>
+                                                    </div>
+                                                    <div class="col-lg-12 col-xl-4">
+                                                        <p style="background: #ffffff;font-family: Poppins, sans-serif;"><strong>Extension</strong><select class="form-select" name="extension" style="font-family: Poppins, sans-serif;">
+                                                                <optgroup label="Extension">
+                                                                    <option value="None" selected="">None</option>
+                                                                    <option value="Sr.">Sr.</option>
+                                                                    <option value="Jr.">Jr.</option>
+                                                                    <option value="III">III</option>
+                                                                    <option value="IV">IV</option>
+                                                                    <option value="V">V</option>
+                                                                </optgroup>
+                                                            </select></p>
+                                                    </div>
+                                                    <div class="col-12 col-lg-12 col-xl-4">
+                                                        <p style="background: #ffffff;font-family: Poppins, sans-serif;"><strong>Gender</strong><span style="color: #931638;"><strong>*</strong></span><select class="form-select" name="gender" required="" style="font-family: Poppins, sans-serif;">
+                                                                <optgroup label="Gender">
+                                                                    <option value="Male" selected="">Male</option>
+                                                                    <option value="Female">Female</option>
+                                                                </optgroup>
+                                                            </select></p>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-xl-4">
+                                                        <p style="background: #ffffff;font-family: Poppins, sans-serif;"><strong>House/Lot/Purok</strong><input class="form-control" type="text" name="house" style="font-family: Poppins, sans-serif;"></p>
+                                                    </div>
+                                                    <div class="col-lg-12 col-xl-4">
+                                                        <p style="background: #ffffff;font-family: Poppins, sans-serif;"><strong>Street/Sitio/Subdv.</strong><input class="form-control" type="text" name="street" style="font-family: Poppins, sans-serif;"></p>
+                                                    </div>
+                                                    <div class="col-md-12 col-lg-12 col-xl-4">
+                                                        <p style="background: #ffffff;font-family: Poppins, sans-serif;"><strong>Barangay</strong><span style="color: #931638;"><strong>*</strong></span><?php
+include 'setupdb.php';
+
+$barangay = $_SESSION['barangay'];
+?>
+<input class="form-control" type="text" value="<?php echo $barangay; ?>" name="barangay" readonly style="background: #ffffff;" />
+</p>
+                                                    </div>
+                                                    <div class="col-sm-12 col-lg-12 col-xl-6">
+                                                        <p style="background: #ffffff;font-family: Poppins, sans-serif;"><strong>Province</strong><span style="color: #931638;"><strong>*</strong></span><input class="form-control" type="text" name="province" value="Iloilo" readonly="" style="background: #ffffff;font-family: Poppins, sans-serif;" required=""></p>
+                                                    </div>
+                                                    <div class="col-lg-12 col-xl-6">
+                                                        <p style="background: #ffffff;font-family: Poppins, sans-serif;"><strong>Municipality</strong><span style="color: #931638;"><strong>*</strong></span><?php
+include 'setupdb.php';
+
+$municipality = $_SESSION['municipality'];
+?>
+<input class="form-control" type="text" value="<?php echo $municipality; ?>" name="municipality" readonly style="background: #ffffff;" />
+</p>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12 col-lg-12 col-xl-6 text-center">
+                                                        <div class="row">
+                                                            <div class="col-12 col-lg-12 col-xl-6">
+                                                                <p class="text-start" style="background: #ffffff;font-family: Poppins, sans-serif;"><strong>Phone Number</strong><span style="color: #931638;"><strong>*</strong></span><input class="form-control" type="tel" inputmode="numeric" name="phone" required="" style="font-family: Poppins, sans-serif;"></p>
+                                                            </div>
+                                                            <div class="col">
+                                                                <p class="text-start" style="background: #ffffff;font-family: Poppins, sans-serif;"><strong>Email</strong><span style="color: #931638;"><strong>*</strong></span><input class="form-control" type="email" name="email" required="" style="font-family: Poppins, sans-serif;"></p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xl-6">
+                                                                <p class="text-start" style="background: #ffffff;font-family: Poppins, sans-serif;"><strong>Date of Birth</strong><span style="color: #931638;"><strong>*</strong></span><input class="form-control" type="date" name="dob" required="" style="font-family: Poppins, sans-serif;"></p>
+                                                            </div>
+                                                            <div class="col">
+                                                                <p class="text-start" style="background: #ffffff;font-family: Poppins, sans-serif;"><strong>Religion</strong><input class="form-control" type="text" name="religion" style="font-family: Poppins, sans-serif;"></p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <p class="text-start" style="background: #ffffff;font-family: Poppins, sans-serif;"><strong>Civil Status</strong><span style="color: #931638;"><strong>*</strong></span><select class="form-select" name="civil_status" required="" style="font-family: Poppins, sans-serif;">
+                                                                        <optgroup label="Civil Status">
+                                                                            <option value="Single" selected="">Single</option>
+                                                                            <option value="Married">Married</option>
+                                                                            <option value="Widowed">Widowed</option>
+                                                                            <option value="Separated">Separated</option>
+                                                                        </optgroup>
+                                                                    </select></p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-12 col-xl-4 col-xxl-4 d-xl-flex d-xxl-flex align-items-xl-end align-items-xxl-center">
+                                                                <p class="text-start" style="background: #ffffff;font-family: Poppins, sans-serif;"><strong>Mother's Last Name(Maiden)</strong><input class="form-control" type="text" name="mother_lname" style="font-family: Poppins, sans-serif;"></p>
+                                                            </div>
+                                                            <div class="col-lg-12 col-xl-4 d-xl-flex d-xxl-flex align-items-xl-end align-items-xxl-end" style="font-family: Poppins, sans-serif;">
+                                                                <p class="text-start" style="background: #ffffff;"><strong>Mother's First Name</strong><input class="form-control" type="text" name="mother_fname" style="font-family: Poppins, sans-serif;"></p>
+                                                            </div>
+                                                            <div class="col-lg-12 col-xl-4 col-xxl-4 d-xl-flex d-xxl-flex align-items-xl-end align-items-xxl-end">
+                                                                <p class="text-start" style="background: #ffffff;font-family: Poppins, sans-serif;"><strong>Mother's Middle Name</strong><input class="form-control d-xxl-flex align-items-xxl-end" type="text" name="mother_mname" style="font-family: Poppins, sans-serif;"></p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row"><div class="col">
+  <div class="row">
+    <div class="col-xl-12">
+      <p class="text-start" style="background: #ffffff; font-family: 'Poppins', sans-serif;"><strong>Household Head?</strong>
+        <select class="form-select" name="household_head" id="householdHeadSelect" onchange="toggleHouseholdFields(this.value)">
+          <optgroup label="Household Head">
+            <option value="Yes" selected>Yes</option>
+            <option value="No">No</option>
+          </optgroup>
+        </select>
+      </p>
+      <div class="row" id="householdFields" style="display: none;">
+        <div class="col-xl-12">
+          <p class="text-start" style="background: #ffffff; font-family: 'Poppins', sans-serif;"><strong>Household Head Name</strong>
+            <input class="form-control" type="text" name="household_head_name" />
+          </p>
+        </div>
+        <div class="col-xl-12">
+          <p class="text-start" style="background: #ffffff; font-family: 'Poppins', sans-serif;"><strong>Relationship</strong>
+            <input class="form-control" type="text" name="relationship" />
+          </p>
+        </div>
+      </div>   
+   </div>
+   <div class="col-xl-12">
+      <p class="text-start" style="background: #ffffff; font-family: 'Poppins', sans-serif;"><strong>No. of Household Members
+        <input class="form-control" type="number" name="household_members" />
+      </strong></p>
+  </div>
+  <div class="col-12 col-xl-6">
+      <p class="text-start" style="background: #ffffff; font-family: 'Poppins', sans-serif;"><strong>No. of Male</strong>
+        <input class="form-control" type="number" name="household_male" />
+      </p>
+  </div>
+
+  <div class="col-12 col-xl-6">
+      <p class="text-start" style="background: #ffffff; font-family: 'Poppins', sans-serif;"><strong>No. of Female</strong>
+        <input class="form-control" type="number" name="household_female" />
+      </p>
+  </div> 
+  </div>
+</div>
+
+<script>
+  function toggleHouseholdFields(selectedValue) {
+    var householdFields = document.getElementById('householdFields');
+
+    if (selectedValue === 'Yes') {
+      householdFields.style.display = 'none';
+    } else {
+      householdFields.style.display = 'block';
+    }
+  }
+</script>
+</div>
+                                                    </div>
+                                                    <div class="col-lg-12 col-xl-6">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <p class="text-start" style="background: #ffffff;font-family: Poppins, sans-serif;"><strong>Highest Formal Education</strong><select class="form-select" name="education" style="font-family: Poppins, sans-serif;">
+                                                                        <optgroup label="Education">
+                                                                            <option value="Pre-school" selected="">Pre-school</option>
+                                                                            <option value="Elementary">Elementary</option>
+                                                                            <option value="Highschool(non K-12)">Highschool(non K-12)</option>
+                                                                            <option value="Junior Highschool(K-12)">Junior Highschool(K-12)</option>
+                                                                            <option value="Senior Highschool(K-12)">Senior Highschool(K-12)</option>
+                                                                            <option value="College">College</option>
+                                                                            <option value="Vocational">Vocational</option>
+                                                                            <option value="Post-graduate">Post-graduate</option>
+                                                                            <option value="None">None</option>
+                                                                        </optgroup>
+                                                                    </select></p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <p class="text-start" style="background: #ffffff;font-family: Poppins, sans-serif;"><strong>Person With Disability?</strong><select class="form-select" name="disability" style="font-family: Poppins, sans-serif;">
+                                                                        <optgroup label="PWD">
+                                                                            <option value="Yes" selected="">Yes</option>
+                                                                            <option value="No">No</option>
+                                                                        </optgroup>
+                                                                    </select></p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <p class="text-start" style="background: #ffffff;font-family: Poppins, sans-serif;"><strong>4P's Beneficiary</strong><select class="form-select" name="beneficiary" style="font-family: Poppins, sans-serif;">
+                                                                        <optgroup label="4P's">
+                                                                            <option value="Yes" selected="">Yes</option>
+                                                                            <option value="No">No</option>
+                                                                        </optgroup>
+                                                                    </select></p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col"><div class="row">
+  <div class="col-xl-12">
+    <p class="text-start" style="background: #ffffff; font-family: 'Poppins', sans-serif;"><strong>Member of an Indigenous Group?</strong>
+      <select class="form-select" name="indigenous" id="indigenousSelect" onchange="toggleIndigenousFields(this.value)">
+        <optgroup label="Indigenous Group">
+          <option value="No" selected>No</option>
+          <option value="Yes">Yes</option>
+        </optgroup>
+      </select>
+    </p>
+  </div>
+  <div class="col">
+    <p class="text-start" style="background: #ffffff; display: none; font-family: 'Poppins', sans-serif;" id="indigenousSpecifyText"><strong>Specify</strong>
+      <input class="form-control" type="text" name="indigenous_group" id="indigenousSpecify" style="display: none;" />
+    </p>
+  </div>
+</div>
+
+<script>
+  function toggleIndigenousFields(selectedValue) {
+    var indigenousSpecify = document.getElementById('indigenousSpecify');
+    var indigenousSpecifyText = document.getElementById('indigenousSpecifyText');
+
+    if (selectedValue === 'Yes') {
+      indigenousSpecify.style.display = 'block';
+      indigenousSpecifyText.style.display = 'block';
+    } else {
+      indigenousSpecify.style.display = 'none';
+      indigenousSpecifyText.style.display = 'none';
+    }
+  }
+</script>
+</div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col"><div class="row">
+  <div class="col">
+    <div class="row">
+      <div class="col">
+        <p class="text-start" style="background: #ffffff; font-family: 'Poppins', sans-serif;"><strong>With Government ID?</strong>
+          <select class="form-select" name="government_id" id="governmentIdSelect" onchange="toggleGovernmentIdFields(this.value)">
+            <optgroup label="Government ID">
+              <option value="No" selected>No</option>
+              <option value="Yes">Yes</option>
+            </optgroup>
+          </select>
+        </p>
+      </div>
+    </div>
+    <div class="row" id="governmentIdFields" style="display: none;">
+      <div class="col-12 col-xl-6">
+        <p class="text-start" style="background: #ffffff; font-family: 'Poppins', sans-serif;"><strong>ID Type</strong>
+          <input class="form-control" type="text" name="id_type" />
+        </p>
+      </div>
+      <div class="col">
+        <p class="text-start" style="background: #ffffff; font-family: 'Poppins', sans-serif;"><strong>ID Number</strong>
+          <input class="form-control" type="text" name="id_number" />
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function toggleGovernmentIdFields(selectedValue) {
+    var governmentIdFields = document.getElementById('governmentIdFields');
+
+    if (selectedValue === 'Yes') {
+      governmentIdFields.style.display = 'flex'; // Use 'flex' for the row layout
+    } else {
+      governmentIdFields.style.display = 'none';
+    }
+  }
+</script>
+</div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col"><div class="row">
+  <div class="col">
+    <div class="row">
+      <div class="col">
+        <p class="text-start" style="background: #ffffff; font-family: 'Poppins', sans-serif;"><strong>Member of any Farmers Association?</strong>
+          <select class="form-select" name="farmer_association" id="farmerAssociationSelect" onchange="toggleFarmersAssociationFields(this.value)">
+            <optgroup label="Farmers Association">
+              <option value="No" selected>No</option>
+              <option value="Yes">Yes</option>
+            </optgroup>
+          </select>
+        </p>
+      </div>
+    </div>
+    <div class="row" id="farmersAssociationFields" style="display: none;">
+      <div class="col">
+        <p class="text-start" style="background: #ffffff; font-family: 'Poppins', sans-serif;"><strong>Specify</strong>
+          <input class="form-control" type="text" name="association_name" />
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function toggleFarmersAssociationFields(selectedValue) {
+    var farmersAssociationFields = document.getElementById('farmersAssociationFields');
+
+    if (selectedValue === 'Yes') {
+      farmersAssociationFields.style.display = 'block';
+    } else {
+      farmersAssociationFields.style.display = 'none';
+    }
+  }
+</script>
+</div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-sm-12 col-xl-6 d-xl-flex align-items-xl-end">
+                                                                <p class="text-start" style="background: #ffffff;font-family: Poppins, sans-serif;"><strong>Person to Notify In Case of Emergency</strong><input class="form-control" type="text" name="contact_person" style="font-family: Poppins, sans-serif;"></p>
+                                                            </div>
+                                                            <div class="col d-xl-flex align-items-xl-end">
+                                                                <p class="text-start" style="background: #ffffff;width: 100%;font-family: Poppins, sans-serif;"><strong>Phone Number</strong><input class="form-control" type="tel" inputmode="numeric" name="contact_person_phone" style="font-family: Poppins, sans-serif;"></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col"><?php
+include 'setupdb.php';
+
+$province = $_SESSION['province'];
+$municipality = $_SESSION['municipality'];
+$barangay = $_SESSION['barangay'];
+
+// Function to get latitude and longitude from address using Google Maps Geocoding API
+function getLatLng($address) {
+    $address = urlencode($address);
+    $api_key = 'AIzaSyCiiex_ePOjgHWwIDfiGxYqnYow6by0wAw'; // Replace with your own API key
+
+    $url = "https://maps.googleapis.com/maps/api/geocode/json?address={$address}&key={$api_key}";
+
+    $response = file_get_contents($url);
+    $data = json_decode($response, true);
+
+    if ($data['status'] === 'OK' && isset($data['results'][0]['geometry']['location'])) {
+        return $data['results'][0]['geometry']['location'];
+    }
+
+    return null;
+}
+
+$fullAddress = "{$barangay}, {$municipality}, {$province}";
+$location = getLatLng($fullAddress);
+
+if ($location) {
+    $latitude = $location['lat'];
+    $longitude = $location['lng'];
+} else {
+    // Default to a center point if geocoding fails
+    $latitude = 10.983247663454897;
+    $longitude = 122.80312646263116;
+}
+?>
+
+<div class="col">
+    <div id="map" style="width: 100%; height: 400px;"></div>
+    <input type="hidden" id="latitude" name="latitude" value="<?php echo $latitude; ?>" placeholder="Latitude">
+    <input type="hidden" id="longitude" name="longitude" value="<?php echo $longitude; ?>" placeholder="Longitude">
+</div>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiiex_ePOjgHWwIDfiGxYqnYow6by0wAw&libraries=places"></script>
+
+<script>
+    // Initialize the map
+    function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: <?php echo $latitude; ?>, lng: <?php echo $longitude; ?> },
+            zoom: 14,
+            mapTypeId: 'hybrid'
+        });
+
+        // Initialize a marker variable
+        var marker;
+
+        // Add click event listener to the map
+        google.maps.event.addListener(map, 'click', function(event) {
+            // Get the latitude and longitude of the clicked point
+            var latLng = event.latLng;
+            var latitude = latLng.lat();
+            var longitude = latLng.lng();
+
+            // Display the latitude and longitude in the input fields
+            document.getElementById('latitude').value = latitude;
+            document.getElementById('longitude').value = longitude;
+
+            // Remove existing marker (if any)
+            if (marker) {
+                marker.setMap(null);
+            }
+
+            // Create a new marker at the clicked position
+            marker = new google.maps.Marker({
+                position: latLng,
+                map: map,
+                title: 'Clicked Location'
+            });
+        });
+    }
+
+    // Load the map after the page has fully loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        initMap();
+    });
+</script>
+
+                                                        <p style="background: #ffffff;font-family: Poppins, sans-serif;"><strong>Pin the location on the Map</strong></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-xl-12">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <div>
+                                                                        <div>
+                                                                            <h3 style="text-align: center;font-family: Poppins, sans-serif;"><strong>Farm Land Description</strong></h3>
+                                                                        </div>
+                                                                        <div>
+                                                                            <p style="font-size: 20px;font-family: Poppins, sans-serif;"><strong>Farm Location:</strong></p>
+                                                                            <div class="row">
+                                                                                <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                                                                                    <p style="font-family: Poppins, sans-serif;"><strong>Total Farm Area in Hectares</strong><span style="color: #931638;"><strong>*</strong></span><input class="form-control" type="number" name="farm_area" required="" style="font-family: Poppins, sans-serif;"></p>
+                                                                                </div>
+                                                                                <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                                                                                    <p style="font-family: Poppins, sans-serif;"><strong>Within Ancestral Domain?</strong><span style="color: #931638;"><strong>*</strong></span><select class="form-select" name="ancestral_domain" required="" style="font-family: Poppins, sans-serif;">
+                                                                                            <optgroup label="Ancestral Domain">
+                                                                                                <option value="Yes" selected="">Yes</option>
+                                                                                                <option value="No">No</option>
+                                                                                            </optgroup>
+                                                                                        </select></p>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row">
+                                                                                <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                                                                                    <p style="font-family: Poppins, sans-serif;"><strong>Ownership Document No</strong><span style="color: #931638;"><strong>*</strong></span><input class="form-control" type="number" name="farm_document_no" required="" style="font-family: Poppins, sans-serif;"></p>
+                                                                                </div>
+                                                                                <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+                                                                                    <p style="font-family: Poppins, sans-serif;"><strong>Agrarian Reform Beneficiary?</strong><span style="color: #931638;"><strong>*</strong></span><select class="form-select" name="agrarian_beneficiary" required="" style="font-family: Poppins, sans-serif;">
+                                                                                            <optgroup label="Ancestral Domain">
+                                                                                                <option value="Yes" selected="">Yes</option>
+                                                                                                <option value="No">No</option>
+                                                                                            </optgroup>
+                                                                                        </select></p>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row">
+                                                                                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12">
+                                                                                    <p style="font-family: Poppins, sans-serif;"><strong>Ownership Type</strong><span style="color: #931638;"><strong>*</strong></span><select class="form-select" name="ownership_type" required="" style="font-family: Poppins, sans-serif;">
+                                                                                            <optgroup label="Ownership Type">
+                                                                                                <option value="Registered Owner" selected="">Registered Owner</option>
+                                                                                                <option value="Tenant">Tenant</option>
+                                                                                                <option value="Lessee">Lessee</option>
+                                                                                            </optgroup>
+                                                                                        </select></p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div>
+                                                                        <h3 style="text-align: center;"><strong>Commodity Description</strong></h3>
+                                                                        <div>
+                                                                            <div class="row">
+                                                                                <div class="col-xl-12">
+                                                                                    <p style="font-family: Poppins, sans-serif;"><strong>Select Commodity</strong><span style="color: #931638;"><strong>*</strong></span><?php
+include 'setupdb.php';
+
+$sqlCommodity = "SELECT commodity_id, commodity_name FROM commodity";
+$resultCommodity = mysqli_query($conn, $sqlCommodity);
+?>
+
+<div class="form-check">
+    <?php
+    // Display checkboxes based on the result set
+    while ($row = mysqli_fetch_assoc($resultCommodity)) {
+        $commodityId = $row['commodity_id'];
+        $commodityName = $row['commodity_name'];
+        ?>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="commodity[]" value="<?= $commodityId ?>" id="<?= $commodityId ?>" onchange="updateTextInput()" style="font-family: 'Poppins', sans-serif;">
+            <label class="form-check-label" for="<?= $commodityId ?>" style="font-family: 'Poppins', sans-serif;"><?= $commodityName ?></label>
+        </div>
+    <?php } ?>
+    <div>
+        <input class="form-text-input" type="hidden" name="commodity_id" id="commodityIdInput" readonly>
+        <input class="form-text-input" type="hidden" name="commodity_name" id="commodityNameInput" readonly>
+    </div>
+</div>
+
+<script>
+    function updateTextInput() {
+        var selectedCommodities = document.querySelectorAll('input[name="commodity[]"]:checked');
+        var commodityIdInput = document.getElementById('commodityIdInput');
+        var commodityNameInput = document.getElementById('commodityNameInput');
+
+        var selectedIds = Array.from(selectedCommodities).map(function (checkbox) {
+            return checkbox.value;
+        });
+
+        var selectedNames = Array.from(selectedCommodities).map(function (checkbox) {
+            return checkbox.parentElement.querySelector('label').textContent;
+        });
+
+        commodityIdInput.value = selectedIds.join(', ');
+        commodityNameInput.value = selectedNames.join(', ');
+    }
+</script>
+</p>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row">
+                                                                                <div class="col-xl-6">
+                                                                                    <p style="font-family: Poppins, sans-serif;"><strong>Organic Practitioner</strong><span style="color: #931638;"><strong>*</strong></span><select class="form-select" name="organic_practitioner" required="">
+                                                                                            <optgroup label="Organic Practitioner">
+                                                                                                <option value="Yes" selected="">Yes</option>
+                                                                                                <option value="No">No</option>
+                                                                                            </optgroup>
+                                                                                        </select></p>
+                                                                                </div>
+                                                                                <div class="col-xl-6">
+                                                                                    <p style="font-family: Poppins, sans-serif;"><strong>Farm Type</strong><span style="color: #931638;"><strong>*</strong></span><div class="form-check">    
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="farm_type" value="Irrigated" id="Irrigated" style="font-family: 'Poppins', sans-serif;">
+        <label class="form-check-label" for="Irrigated" style="font-family: 'Poppins', sans-serif;">Irrigated</label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="farm_type" value="Rainfed Upland" id="RainfedUpland" style="font-family: 'Poppins', sans-serif;">
+        <label class="form-check-label" for="RainfedUpland" style="font-family: 'Poppins', sans-serif;">Rainfed Upland</label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="farm_type" value="Rainfed Lowland" id="RainfedLowland" style="font-family: 'Poppins', sans-serif;">
+        <label class="form-check-label" for="RainfedLowland" style="font-family: 'Poppins', sans-serif;">Rainfed Lowland</label>
+    </div>
+</div>
+</p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="row" style="margin-top: 20px;margin-bottom: 20px;">
+                                        <div class="col-6"><button class="btn btn-primary" id="prevBtn" type="button" onclick="nextPrev(-1)" style="width: 100px;background: #436850;font-family: Poppins, sans-serif;border-color: #436850;">Previous</button></div>
+                                        <div class="col-6" style="text-align: right;"><button class="btn btn-primary" id="nextBtn" type="button" onclick="nextPrev(1)" style="width: 100px;background: #436850;border-color: #436850;font-family: Poppins, sans-serif;">Next</button></div>
+                                    </div>
+                                </div><script>
+  var currentTab = 0; // Current tab is set to be the first tab (0)
+  showTab(currentTab); // Display the current tab
+  
+  function showTab(n) {
+    // This function will display the specified tab of the form...
+    var x = document.getElementsByClassName("tab");
+    x[n].style.display = "block";
+    //... and fix the Previous/Next buttons:
+    if (n == 0) {
+      document.getElementById("prevBtn").style.display = "none";
+    } else {
+      document.getElementById("prevBtn").style.display = "inline";
+    }
+    if (n == (x.length - 1)) {
+      document.getElementById("nextBtn").innerHTML = "Submit";
+    } else {
+      document.getElementById("nextBtn").innerHTML = "Next";
+    }
+    //... and run a function that will display the correct step indicator:
+    fixStepIndicator(n)
+  }
+  
+  function nextPrev(n) {
+    // This function will figure out which tab to display
+    var x = document.getElementsByClassName("tab");
+    // Hide the current tab:
+    x[currentTab].style.display = "none";
+    // Increase or decrease the current tab by 1:
+    currentTab = currentTab + n;
+    // if you have reached the end of the form...
+    if (currentTab >= x.length) {
+      // ... the form gets submitted:
+      document.getElementById("registrationForm").submit();
+      return false;
+    }
+    // Otherwise, display the correct tab:
+    showTab(currentTab);
+  }
+  </script>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="bg-white sticky-footer">
+                <div class="container my-auto">
+                    <div class="text-center my-auto copyright"><span style="font-family: Poppins, sans-serif;">AgriDivision© Brand 2024</span></div>
+                </div>
+            </footer>
+        </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="logout">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p style="font-family: Poppins, sans-serif;">Are you sure you want to log-out?</p>
+                </div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal" style="font-family: Poppins, sans-serif;">Close</button><a class="btn btn-primary" role="button" href="logout.php" style="font-family: Poppins, sans-serif;background: #436850;border-color: #436850;">Yes</a></div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/theme.js"></script>
+</body>
+
+</html>

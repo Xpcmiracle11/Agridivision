@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Dashboard - Brand</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins&amp;display=swap">
+    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/css/untitled.css">
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
+            <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0">
+                    <div><img src="assets/img/Agri-Logo-White.png" style="width: 50px;height: 50px;"></div>
+                    <div class="sidebar-brand-text mx-3"><span>AGRIDIVISION</span></div>
+                </a>
+                <ul class="navbar-nav text-light" id="accordionSidebar">
+                    <li class="nav-item"><a class="nav-link" href="farmerdash.php"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="farmermarket.php"><i class="fas fa-shopping-cart"></i><span>Marketplace</span></a></li>
+                </ul>
+                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
+            </div>
+        </nav>
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+                <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+                    <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
+                        <ul class="navbar-nav flex-nowrap ms-auto">
+                            <li class="nav-item d-inline-flex dropdown no-arrow">
+                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><span class="d-none d-lg-inline me-2 text-gray-600 small" id="username">Valerie Luna<?php
+include 'setupdb.php';
+
+// Make sure to add a semicolon at the end of the above line
+
+$farmer_fname = isset($_SESSION['farmer_fname']) ? $_SESSION['farmer_fname'] : '';
+$farmer_lname = isset($_SESSION['farmer_lname']) ? $_SESSION['farmer_lname'] : '';
+
+// Concatenate first name and last name
+$full_name = $farmer_fname . ' ' . $farmer_lname;
+
+?>
+<script>
+    document.getElementById("username").innerHTML = '<?php echo $full_name; ?>';
+</script>
+</span></a>
+                                    <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in"><a class="dropdown-item" href="farmerprofile.php"><i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Profile</a>
+                                        <div class="dropdown-divider"></div><a class="dropdown-item" href="#" data-bs-target="#logout" data-bs-toggle="modal"><i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Logout</a>
+                                    </div>
+                                </div>
+                                <div class="d-flex d-xxl-flex align-items-center align-items-xxl-center"><i class="far fa-user"></i></div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class="container-fluid">
+                    <div class="d-sm-flex justify-content-between align-items-center mb-4">
+                        <h3 class="text-dark mb-0"><strong>Marketplace</strong></h3>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <div class="row">
+                            <div class="col"><button class="btn btn-primary" type="button" data-bs-target="#addProduct" data-bs-toggle="modal">Add Product</button></div>
+                            <div class="col text-end"><a class="btn btn-primary" role="button" data-bs-target="#pricingModal" data-bs-toggle="modal">See Pricing</a></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="row"><?php
+include 'setupdb.php';
+
+$sqlMarket = "SELECT market_id, farmer_id, farmer_fname, farmer_lname, farmer_province, farmer_municipality, farmer_barangay, farmer_lat, farmer_long, commodity_id, commodity_name, commodity_price, commodity_quantity, phone_number, description, image_name, date FROM market";
+$result = mysqli_query($conn, $sqlMarket);
+
+// Check if the query was successful
+if ($result) {
+    // Fetch data and display it in the card structure
+    foreach ($result as $row) {
+        // Convert local path to URL path
+        $imagePath = str_replace('\\', '/', $row['image_name']);
+        $imageUrl = 'http://localhost/AGRIDIVISION_OVERLOAD/assets/market_image/' . basename($imagePath);
+
+        // Check if commodity_quantity is greater than 0
+        if ($row['commodity_quantity'] > 0) {
+            ?>
+            <div class="col-lg-6 col-xxl-6 mb-4"> <!-- Added margin-bottom class -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-xl-7"><img style="width: 100%; height: 100%;" src="<?php echo $imageUrl; ?>" alt="Product Image" /></div>
+                            <div class="col">
+                                <div>
+                                    <h1><?php echo $row['commodity_name']; ?></h1>
+                                </div>
+                                <div>
+                                    <p><strong>Farmer Name:</strong></p>
+                                    <p style="margin-top: -20px;"><?php echo $row['farmer_fname'] . ' ' . $row['farmer_lname']; ?></p>
+                                </div>
+                                <div>
+                                    <p><strong>Location:</strong></p>
+                                    <p style="margin-top: -20px;"><?php echo $row['farmer_province'] . ', ' . $row['farmer_municipality'] . ', ' . $row['farmer_barangay']; ?></p>
+                                </div>
+                                <div>
+                                    <p><strong>Quantity:</strong></p>
+                                    <p style="margin-top: -20px;"><?php echo $row['commodity_quantity']; ?></p>
+                                </div>
+                                <div>
+                                    <p><strong>Price per Unit:</strong></p>
+                                    <p style="margin-top: -20px;"><?php echo $row['commodity_price']; ?></p>
+                                </div>
+                                <div><a href="#" data-bs-target="#viewProduct<?php echo $row['market_id']; ?>" data-bs-toggle="modal">Click here to see more...</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php
+        }
+    }
+} else {
+    echo "Error fetching data: " . mysqli_error($conn);
+}
+?>
+<?php foreach ($result as $row): ?>
+    <div class="modal fade" id="viewProduct<?php echo $row['market_id']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"><strong>Product Info</strong></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12 col-lg-8"> 
+                            <!-- Fetch the image URL within this loop -->
+                            <?php
+                                // Convert local path to URL path
+                                $imagePathModal = str_replace('\\', '/', $row['image_name']);
+                                $imageUrlModal = 'http://localhost/AGRIDIVISION_OVERLOAD/assets/market_image/' . basename($imagePathModal);
+                            ?>
+                            <img style="width: 100%; height: 100%;" src="<?php echo $imageUrlModal; ?>" alt="Product Image" />
+                        </div>
+                        <div class="col-12 col-lg-4"> <!-- Adjusted column width for the other content -->
+                            <div>
+                                <h1><?php echo $row['commodity_name']; ?></h1>
+                            </div>
+                            <div>
+                                <p><strong>Location:</strong></p>
+                                <p style="margin-top: -20px;"><?php echo $row['farmer_province'] . ', ' . $row['farmer_municipality'] . ', ' . $row['farmer_barangay']; ?></p>
+                            </div>
+                            <div>
+                                <p><strong>Quantity Available:</strong></p>
+                                <p style="margin-top: -20px;"><?php echo $row['commodity_quantity']; ?></p>
+                            </div>
+                            <div>
+                                <p><strong>Contact Number:</strong></p>
+                                <p style="margin-top: -20px;"><?php echo $row['phone_number']; ?></p>
+                            </div>
+                            <div>
+                                <p><strong>Price:</strong></p>
+                                <p style="margin-top: -20px;"><?php echo $row['commodity_price']; ?></p>
+                            </div>
+                            <div>
+                                <p><strong>Quantity:</strong></p>
+                                <p style="margin-top: -20px;"><?php echo $row['commodity_quantity']; ?></p>
+                            </div>
+                            <div>
+                                <p><strong>Description:</strong></p>
+                                <p style="margin-top: -20px;"><?php echo $row['description']; ?></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endforeach; ?>
+</div>
+                    </div>
+                </div>
+            </div>
+            <footer class="bg-white sticky-footer">
+                <div class="container my-auto">
+                    <div class="text-center my-auto copyright"><span style="font-family: Poppins, sans-serif;">AgriDivision© Brand 2024</span></div>
+                </div>
+            </footer>
+        </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="logout">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p>Are you sure you want to log-out?</p>
+                </div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><a class="btn btn-primary" role="button" href="logout.php">Yes</a></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="addProduct">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><strong>Product Info</strong></h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="farmermarket.php" method="post" enctype="multipart/form-data" onsubmit="return validateAmount()">
+                        <div class="row">
+                            <div class="col-12 col-lg-6">
+                                <div class="row"><div class="col" style="height: 400px;">
+    <label for="imageInput" class="custom-file-button">Choose Image</label>
+    <input type="file" name="commodity_image_input" class="custom-file-input" accept="image/*" id="imageInput" onchange="updateSelectedImage(this)" required>
+    <div id="imageContainer" style="width: 100%; height: 100%; position: relative; overflow: hidden;">
+        <img id="selectedImage" style="width: 100%; height: 100%; object-fit: cover;" />
+        <div id="noImageText" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #555; font-size: 16px; display: none;">No Image Selected</div>
+    </div>
+</div>
+
+<style>
+    .custom-file-button {
+        display: inline-block;
+        padding: 6px 12px;
+        cursor: pointer;
+        background-color: #007bff;
+        color: #fff;
+        border: 1px solid #007bff;
+        border-radius: 4px;
+        margin-bottom: 20px;
+    }
+
+    .custom-file-input {
+        display: none;
+    }
+</style>
+
+<script>
+    function updateSelectedImage(input) {
+        var selectedImage = document.getElementById('selectedImage');
+        var noImageText = document.getElementById('noImageText');
+        var imageContainer = document.getElementById('imageContainer');
+        var commodityImageInput = document.getElementById('commodityImageInput');
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                // Display the selected image
+                selectedImage.src = e.target.result;
+                noImageText.style.display = 'none';
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            // No image selected, display the text
+            selectedImage.src = ''; // Clear previous image
+            noImageText.style.display = 'block';
+        }
+    }
+</script>
+</div>
+                            </div>
+                            <div class="col">
+                                <div>
+                                    <p><strong>Select Commodity:</strong><?php
+include 'setupdb.php';
+
+// Assuming you have the farmer_id stored in the session
+$farmer_id = $_SESSION['farmer_id'];
+
+// Fetch distinct commodity names from the production table for the specific farmer_id
+$sql_commodity = "SELECT DISTINCT commodity_id, commodity_name FROM production WHERE farmer_id = '$farmer_id'";
+$result_commodity = mysqli_query($conn, $sql_commodity);
+
+// Fetch the default selected commodity (e.g., the first one)
+$default_commodity = mysqli_fetch_assoc(mysqli_query($conn, "SELECT DISTINCT commodity_id, commodity_name FROM production WHERE farmer_id = '$farmer_id' LIMIT 1"))['commodity_name'];
+?>
+
+<!-- Select Dropdown -->
+<select class="form-select" name="commodity" id="commoditySelect" onchange="updateTotalAmount()" style="width: 50%;">
+    <optgroup label="Commodity">
+        <?php
+        // Loop through the result set and generate options dynamically
+        while ($row_commodity = mysqli_fetch_assoc($result_commodity)) {
+            $commodity_name = $row_commodity['commodity_name'];
+            $selected = ($commodity_name == $default_commodity) ? 'selected' : '';
+            echo "<option value='$commodity_name' $selected>$commodity_name</option>";
+        }
+        ?>
+    </optgroup>
+</select>
+</p>
+                                </div>
+                                <div>
+                                    <p><strong>Location:</strong></p><?php
+include 'setupdb.php';
+
+// Assuming you have the farmer_id stored in the session
+$farmer_id = $_SESSION['farmer_id'];
+
+// Fetch province, municipality, and barangay from the farmer table for the specific farmer_id
+$sql = "SELECT province, municipality, barangay FROM farmer WHERE farmer_id = '$farmer_id'";
+$result = mysqli_query($conn, $sql);
+
+// Check if the query was successful
+if ($result) {
+    // Fetch the row from the result set
+    $row = mysqli_fetch_assoc($result);
+
+    // Get values for each field
+    $province = $row['province'];
+    $municipality = $row['municipality'];
+    $barangay = $row['barangay'];
+} else {
+    // Handle the case where the query was not successful
+    // You might want to log an error or show an appropriate message
+    $province = $municipality = $barangay = '';
+}
+?>
+
+<p style="margin-top: -20px;"><?php echo $province . ', ' . $municipality . ', ' . $barangay; ?>
+    <input type="hidden" name="province" value="<?php echo $province; ?>" />
+    <input type="hidden" name="municipality" value="<?php echo $municipality; ?>" />
+    <input type="hidden" name="barangay" value="<?php echo $barangay; ?>" />
+</p>
+
+                                </div>
+                                <div>
+                                    <p><strong>Quantity Available:</strong></p><?php
+$farmer_id = $_SESSION['farmer_id'];
+
+// Fetch the sum of the "amount" column for the default selected commodity
+$sql_amount = "SELECT SUM(amount) as total_amount, commodity_id FROM production WHERE farmer_id = '$farmer_id' AND commodity_name = '$default_commodity'";
+$result_amount = mysqli_query($conn, $sql_amount);
+
+// Initialize the variables with default values
+$total_amount = 0;
+$commodity_id = 0;
+
+// Check if the query was successful
+if ($result_amount) {
+    // Fetch the row from the result set
+    $row_amount = mysqli_fetch_assoc($result_amount);
+
+    // Get the total amount and commodity_id
+    $total_amount = $row_amount['total_amount'];
+    $commodity_id = $row_amount['commodity_id'];
+}
+
+// ... rest of your code
+?>
+
+
+<!-- Display Available Amount (HTML) -->
+<p id="displayAmount" style="margin-top: -20px;"><?php echo $total_amount; ?></p>
+<input type="hidden" name="amount" id="amountInput" value="<?php echo $total_amount; ?>" />
+
+<!-- Display Commodity ID (HTML) -->
+<input type="hidden" name="commodity_id" id="commodityIdInput" value="<?php echo $commodity_id; ?>" />
+
+<!-- JavaScript for dynamic updating -->
+<script>
+    function updateTotalAmount() {
+        var selectedCommodity = document.getElementById('commoditySelect').value;
+        // Fetch the sum of the "amount" column and commodity_id for the selected commodity
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var data = JSON.parse(xhr.responseText);
+
+                // Update the hidden input values
+                document.getElementById('amountInput').value = data.total_amount;
+                document.getElementById('commodityIdInput').value = data.commodity_id;
+
+                // Update the paragraph text content
+                document.getElementById('displayAmount').innerText = data.total_amount;
+                document.getElementById('displayCommodityId').innerText = data.commodity_id;
+
+                // Check input validity after updating
+                checkInput();
+            }
+        };
+        xhr.open('GET', 'get_total_amount.php?farmer_id=<?php echo $farmer_id; ?>&commodity=' + selectedCommodity, true);
+        xhr.send();
+    }
+</script>
+
+                                </div>
+                                <div>
+                                    <p><strong>Contact Number:</strong></p><?php
+include 'setupdb.php';
+
+// Assuming 'phone' is the session key
+$farmer_phone = $_SESSION['phone'];
+?>
+
+<p style="margin-top: -20px;"><?php echo $farmer_phone; ?></p>
+
+<!-- Text input with the name 'phone' and value set to the phone number -->
+<input type="hidden" name="phone" value="<?php echo $farmer_phone; ?>" />
+
+                                </div>
+                                <div>
+                                    <p><strong>Input Price:</strong><input class="form-control form-control" type="number" style="width: 50%;" name="price" required=""></p>
+                                </div>
+                                <div>
+                                    <p><strong>Input Quantity:</strong><?php
+$farmer_id = $_SESSION['farmer_id'];
+
+// Fetch the sum of the "amount" column for the default selected commodity
+$sql_amount = "SELECT SUM(amount) as total_amount, commodity_id FROM production WHERE farmer_id = '$farmer_id' AND commodity_name = '$default_commodity'";
+$result_amount = mysqli_query($conn, $sql_amount);
+
+// Initialize the variables with default values
+$total_amount = 0;
+$commodity_id = 0;
+
+// Check if the query was successful
+if ($result_amount) {
+    // Fetch the row from the result set
+    $row_amount = mysqli_fetch_assoc($result_amount);
+
+    // Get the total amount and commodity_id
+    $total_amount = $row_amount['total_amount'];
+    $commodity_id = $row_amount['commodity_id'];
+}
+
+// ... rest of your code
+?>
+
+<!-- warning if input is greater than -->
+<input class="form-control form-control" id="quantity" type="text" style="width: 50%;" placeholder="Total Amount" value="<?php echo $total_amount; ?>" name="quantity" required/>
+<p id="warningMessage" style="color: red;"></p>
+
+<script>
+    function validateAmount() {
+        var inputAmount = parseFloat(document.getElementById('quantity').value);
+        var totalAmount = parseFloat(document.getElementById('amountInput').value);
+
+        if (inputAmount > totalAmount) {
+            document.getElementById('warningMessage').innerText = 'Input amount is greater than total amount.';
+            return false; // Prevent form submission
+        } else {
+            document.getElementById('warningMessage').innerText = '';
+            return true; // Allow form submission
+        }
+    }
+</script></p>
+                                </div>
+                                <div>
+                                    <p><strong>Other Description:</strong><textarea class="form-control" name="description" placeholder="Commodity Description..." required=""></textarea></p>
+                                </div>
+                                <div><button class="btn btn-primary" type="submit">Submit</button></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="pricingModal">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Commodity Pricing</h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body"><?php
+include 'setupdb.php';
+
+// Assuming you have the necessary database connection
+
+// Fetch data from the database
+$sql = "SELECT commodity_name, commodity_variant, pricing FROM commodity";
+$result = mysqli_query($conn, $sql);
+?>
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Commodity Name</th>
+                <th>Commodity Variant</th>
+                <th>Pricing</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            // Check if the query was successful
+            if ($result) {
+                // Loop through the result set and generate table rows dynamically
+                while ($row = mysqli_fetch_assoc($result)) {
+                    echo '<tr>';
+                    echo '<td>' . htmlspecialchars($row['commodity_name']) . '</td>';
+                    echo '<td>' . htmlspecialchars($row['commodity_variant']) . '</td>';
+                    echo '<td>&#8369;' . number_format($row['pricing'], 2) . '</td>'; // Adding peso sign and formatting pricing
+                    echo '</tr>';
+                }
+            }
+            ?>
+        </tbody>
+    </table>
+</div>
+</div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/theme.js"></script>
+</body>
+
+</html>

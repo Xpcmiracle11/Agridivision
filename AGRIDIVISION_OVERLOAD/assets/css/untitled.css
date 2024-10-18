@@ -1,0 +1,30 @@
+@media (min-width: 300px) and (max-width: 400px) {
+  h1 {
+    font-size: 20px;
+  }
+}
+
+.tab {
+  display: none;
+}
+
+input {
+  font-family: 'Poppins';
+}
+
+.w-100 {
+  transition: .3s ease;
+}
+
+.w-100:hover {
+  transform: scale(1.1);
+}
+
+.navigation:hover {
+  transform: scale(1.1);
+}
+
+.navigation {
+  transition: .3s ease;
+}
+

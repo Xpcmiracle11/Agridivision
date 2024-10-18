@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Dashboard - Brand</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins&amp;display=swap">
+    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/css/untitled.css">
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0" style="background: #062017;">
+            <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0">
+                    <div><img src="assets/img/Agri-Logo-White.png" style="width: 50px;height: 50px;"></div>
+                    <div class="sidebar-brand-text mx-3"></div>
+                </a>
+                <ul class="navbar-nav text-light" id="accordionSidebar">
+                    <li class="nav-item navigation"><a class="nav-link" href="municipaldash.php" style="color: #ffffff;font-family: Poppins, sans-serif;"><i class="fas fa-tachometer-alt"></i><span style="font-size: 15px;">Dashboard</span></a></li>
+                    <li class="nav-item navigation"><a class="nav-link" href="municipaltable.php" style="color: #ffffff;font-family: Poppins, sans-serif;font-size: 15px;"><i class="fas fa-table"></i><span>Table</span></a></li>
+                    <li class="nav-item navigation"><a class="nav-link" href="municipalreg.php" style="color: #ffffff;font-family: Poppins, sans-serif;"><i class="fas fa-user-circle"></i><span style="font-size: 15px;">Register Barangay Technician</span></a></li>
+                </ul>
+                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
+            </div>
+        </nav>
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+                <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top" style="font-size: 20px;">
+                    <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
+                        <ul class="navbar-nav flex-nowrap ms-auto">
+                            <li class="nav-item d-inline-flex dropdown no-arrow">
+                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><span class="d-none d-lg-inline me-2 text-gray-600 small" id="username" style="font-size: 20px;font-family: Poppins, sans-serif;">Valerie Luna<?php
+include 'setupdb.php'; // Make sure to add a semicolon at the end of this line
+
+$username = isset($_SESSION['name']) ? $_SESSION['name'] : ''; // Ensure that $_SESSION['name'] is properly accessed
+
+?>
+<script>
+    document.getElementById("username").innerHTML = '<?php echo $username; ?>';
+</script>
+</span></a>
+                                    <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in"><a class="dropdown-item" href="#" data-bs-target="#logout" data-bs-toggle="modal" style="font-family: Poppins, sans-serif;"><i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Logout</a></div>
+                                </div>
+                                <div class="d-flex d-xxl-flex align-items-center align-items-xxl-center"><i class="far fa-user"></i></div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class="container-fluid">
+                    <div class="d-sm-flex justify-content-between align-items-center mb-4">
+                        <h3 class="text-dark mb-0" style="font-family: Poppins, sans-serif;"><strong>Dashboard</strong></h3>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-lg-4 col-xl-4 col-xxl-4 mb-4"><?php
+include 'setupdb.php';
+$municipal_municipalty = $_SESSION['municipality'];
+
+$sql = "SELECT COUNT(*) AS farmer_count FROM farmer WHERE municipality = '$municipal_municipalty'";
+$result = mysqli_query($conn, $sql);
+
+if ($result) {
+    $row = mysqli_fetch_assoc($result);
+    $farmerCount = $row['farmer_count'];
+} else {
+    $farmerCount = 0; // Set default value if the query fails
+}
+
+// Determine the text to display based on the count
+$textToDisplay = ($farmerCount == 1 || $farmerCount == 0) ? 'Farmer' : 'Farmers';
+?>
+
+<div class="card shadow border-start-primary py-2" style="height: 100px;">
+    <div class="card-body">
+        <div class="row align-items-center no-gutters">
+            <div class="col me-2">
+                <div class="text-uppercase text-primary fw-bold text-xs mb-1">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#farmerModal" onclick="event.preventDefault();"><span style="color: #436850; text-decoration: underline; font-family: 'Poppins', sans-serif; font-size: 15px; font-weight: bold;"><?php echo $textToDisplay; ?></span></a>
+                </div>
+                <div class="text-dark fw-bold h5 mb-0"><span><?php echo $farmerCount; ?></span></div>
+            </div>
+            <div class="col-auto"><i class="fas fa-user fa-2x text-gray-300"></i></div>
+        </div>
+    </div>
+</div>
+</div>
+                        <div class="col-md-12 col-lg-4 col-xl-4 col-xxl-4 mb-4"><?php
+include 'setupdb.php';
+$municipal_municipalty = $_SESSION['municipality'];
+
+$sql = "SELECT COUNT(*) AS owner_count FROM business_owner WHERE business_municipality = '$municipal_municipalty'";
+$result = mysqli_query($conn, $sql);
+
+if ($result) {
+    $row = mysqli_fetch_assoc($result);
+    $ownerCount = $row['owner_count'];
+} else {
+    $ownerCount = 0; // Set default value if the query fails
+}
+
+// Determine the text to display based on the count
+$textToDisplay = ($ownerCount == 1 || $ownerCount == 0) ? 'Business Owner' : 'Business Owners';
+?>
+
+<div class="card shadow border-start-primary py-2" style="height: 100px;">
+    <div class="card-body">
+        <div class="row align-items-center no-gutters">
+            <div class="col me-2">
+                <div class="text-uppercase text-primary fw-bold text-xs mb-1">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#businessModal" onclick="event.preventDefault();"><span style="color: #436850; text-decoration: underline; font-family: 'Poppins', sans-serif; font-size: 15px; font-weight: bold;"><?php echo $textToDisplay; ?></span></a>
+                </div>
+                <div class="text-dark fw-bold h5 mb-0"><span><?php echo $ownerCount; ?></span></div>
+            </div>
+            <div class="col-auto"><i class="fas fa-user fa-2x text-gray-300"></i></div>
+        </div>
+    </div>
+</div>
+</div>
+                        <div class="col-md-12 col-lg-4 col-xl-4 col-xxl-4 mb-4"><?php
+include 'setupdb.php';
+$municipal_municipalty = $_SESSION['municipality'];
+
+$sql = "SELECT COUNT(*) AS technician_count FROM brgy_tech WHERE municipality = '$municipal_municipalty'";
+$result = mysqli_query($conn, $sql);
+
+if ($result) {
+    $row = mysqli_fetch_assoc($result);
+    $technicianCount = $row['technician_count'];
+} else {
+    $technicianCount = 0; // Set default value if the query fails
+}
+
+// Determine the text to display based on the count
+$textToDisplay = ($technicianCount == 1 || $technicianCount == 0) ? 'Barangay Technician' : 'Barangay Technicians';
+?>
+
+<div class="card shadow border-start-primary py-2" style="height: 100px;">
+    <div class="card-body">
+        <div class="row align-items-center no-gutters">
+            <div class="col me-2">
+                <div class="text-uppercase text-primary fw-bold text-xs mb-1">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#techModal" onclick="event.preventDefault();"><span style="color: #436850; text-decoration: underline; font-family: 'Poppins', sans-serif; font-size: 15px; font-weight: bold;"><?php echo $textToDisplay; ?></span></a>
+                </div>
+                <div class="text-dark fw-bold h5 mb-0"><span><?php echo $technicianCount; ?></span></div>
+            </div>
+            <div class="col-auto"><i class="fas fa-user fa-2x text-gray-300"></i></div>
+        </div>
+    </div>
+</div></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-7 col-xl-8 col-xxl-8"><?php
+include 'setupdb.php';
+
+$municipal_municipality = $_SESSION['municipality'];
+
+$sql = "SELECT DISTINCT commodity_name FROM production";
+$result = mysqli_query($conn, $sql);
+
+// Fetch commodity names as an associative array
+$commodities = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+// Fetch data for all commodities
+$allData = [];
+foreach ($commodities as $commodity) {
+    $commodityName = $commodity['commodity_name'];
+    $commodityData = fetchDataForCommodity($conn, $commodityName, $municipal_municipality);
+    $allData[$commodityName] = $commodityData;
+}
+
+function fetchDataForCommodity($conn, $commodityName, $municipal_municipality) {
+    $sql = "SELECT farmer_barangay, SUM(amount) AS total_amount FROM production WHERE commodity_name = '$commodityName' AND farmer_municipality = '$municipal_municipality' GROUP BY farmer_barangay";
+    $result = mysqli_query($conn, $sql);
+
+    $data = [];
+    while ($row = mysqli_fetch_assoc($result)) {
+        $data['labels'][] = $row['farmer_barangay'];
+        $data['dataset']['data'][] = $row['total_amount'];
+    }
+
+    return $data;
+}
+?>
+
+<div class="mb-3">
+    <div class="card shadow mb-4" style="height: 500px; width: 100%;">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h6 class="text-primary fw-bold m-0" style="font-family: 'Poppins', sans-serif; font-size: 20px; color: #436850!important;">Commodity Overview</h6>
+            <select class="form-select" id="commoditySelectBarangay" onchange="loadCommodityGraph()" style="width: 50%;">
+                <?php foreach ($commodities as $commodity) : ?>
+                    <option value="<?php echo $commodity['commodity_name']; ?>"><?php echo $commodity['commodity_name']; ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="card-body" id="commodityGraphContainer" style="height: 200px; width: 100%; padding: 0;">
+            <canvas id="commodityChart" style="width: 100%;"></canvas>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var allData = <?php echo json_encode($allData); ?>;
+    var currentCommoditySelect = document.getElementById('commoditySelectBarangay').value;
+    var commodityChart;
+
+    function loadCommodityGraph() {
+        currentCommoditySelect = document.getElementById('commoditySelectBarangay').value;
+        createCommodityChart(currentCommoditySelect);
+    }
+
+    function createCommodityChart(commodity) {
+        var data = allData[commodity];
+
+        // Clear the previous chart if it exists
+        if (commodityChart) {
+            commodityChart.destroy();
+        }
+
+        // Update dataset to include "kg" in the label
+        var dataset = data.dataset;
+        dataset.label = commodity + ' (kg)';
+
+        // Create a new canvas
+        var canvas = document.createElement('canvas');
+        canvas.id = 'commodityChart';
+        document.getElementById('commodityGraphContainer').innerHTML = '';
+        document.getElementById('commodityGraphContainer').appendChild(canvas);
+
+        var ctx = canvas.getContext('2d');
+
+        commodityChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: data.labels,
+                datasets: [dataset],
+            },
+            options: {
+                scales: {
+                    x: {
+                        stacked: false,
+                    },
+                    y: {
+                        stacked: false,
+                        beginAtZero: true, // Start the y-axis at zero
+                    },
+                },
+                responsive: true, // Enable responsiveness
+                maintainAspectRatio: false, // Allow chart to adjust height independently
+            },
+        });
+    }
+
+    // Initial load
+    createCommodityChart(currentCommoditySelect);
+</script>
+</div>
+                        <div class="col-lg-5 col-xl-4">
+                            <div class="card shadow mb-4">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h6 class="text-primary fw-bold m-0" style="font-size: 20px;font-family: Poppins, sans-serif;color: #436850!important;">Commodity Information</h6>
+                                </div><?php
+include 'setupdb.php';
+
+$municipal_municipality = $_SESSION['municipality'];
+
+$sql = "SELECT commodity_name, SUM(amount) as total_amount FROM production WHERE farmer_municipality = '$municipal_municipality' GROUP BY commodity_name";
+$result = mysqli_query($conn, $sql);
+
+$commodities = [];
+$total_amounts = [];
+
+while ($row = mysqli_fetch_assoc($result)) {
+    $commodities[] = $row['commodity_name'];
+    $total_amounts[] = $row['total_amount'];
+}
+?>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<div class="card-body">
+    <canvas id="donutChart" height="426"></canvas>
+</div>
+
+<script>
+    var ctx = document.getElementById('donutChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: <?php echo json_encode($commodities); ?>,
+            datasets: [{
+                label: 'Total Amount',
+                data: <?php echo json_encode($total_amounts); ?>,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.6)',
+                    'rgba(54, 162, 235, 0.6)',
+                    'rgba(255, 206, 86, 0.6)',
+                    'rgba(75, 192, 192, 0.6)',
+                    'rgba(153, 102, 255, 0.6)',
+                    'rgba(255, 159, 64, 0.6)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltips: {
+                    callbacks: {
+                        label: function(context) {
+                            var label = context.label || '';
+                            var value = context.parsed || 0;
+                            return label + ': ' + value.toLocaleString();
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-xl-6"><?php
+include 'setupdb.php';
+
+$municipal_province = $_SESSION['province'];
+$municipal_municipality = $_SESSION['municipality'];
+
+function getCoordinatesForMunicipality($municipality, $province)
+{
+    $apiKey = 'AIzaSyCiiex_ePOjgHWwIDfiGxYqnYow6by0wAw'; // Replace 'YOUR_API_KEY_HERE' with your actual API key
+    $encodedLocation = urlencode("$municipality, $province");
+
+    // Make the API request
+    $apiUrl = "https://maps.googleapis.com/maps/api/geocode/json?address=$encodedLocation&key=$apiKey";
+    $response = file_get_contents($apiUrl);
+    $data = json_decode($response, true);
+
+    if ($data && $data['status'] === 'OK') {
+        $location = $data['results'][0]['geometry']['location'];
+        return [
+            'municipality' => $municipality,
+            'province' => $province,
+            'lat' => $location['lat'],
+            'lng' => $location['lng']
+        ];
+    }
+
+    return null;
+}
+
+// Get coordinates for the center of the map
+$mapCenter = getCoordinatesForMunicipality($municipal_municipality, $municipal_province);
+
+// Fetch data from the database
+$sqlMap = "SELECT farmer_barangay, commodity_name, SUM(amount) as total_amount FROM production WHERE farmer_municipality = '$municipal_municipality' GROUP BY farmer_barangay, commodity_name";
+$resultMap = mysqli_query($conn, $sqlMap);
+
+// Fetch all barangay and their total amounts
+$barangayData = [];
+while ($row = mysqli_fetch_assoc($resultMap)) {
+    // Trim and convert to lowercase for consistent comparison
+    $barangayName = trim(strtolower($row['farmer_barangay']));
+
+    // Check if the barangay already exists in the array
+    if (!isset($barangayData[$barangayName])) {
+        $barangayData[$barangayName] = [];
+    }
+
+    // Add commodity data to the barangay array
+    $barangayData[$barangayName][] = [
+        'commodity_name' => $row['commodity_name'],
+        'total_amount' => $row['total_amount']
+    ];
+}
+
+// Fetch unique commodities
+$uniqueCommodities = array_unique(array_reduce($barangayData, function ($carry, $item) {
+    return array_merge($carry, array_column($item, 'commodity_name'));
+}, []));
+
+// Fetch the GeoJSON file for Iloilo
+$geoJsonFile = "iloilo_geojson/Barangays.json";
+$filteredGeoJson = filterGeoJsonByMunicipality($geoJsonFile, $municipal_municipality);
+
+function filterGeoJsonByMunicipality($file, $municipality)
+{
+    $geoJson = file_get_contents($file);
+    $decodedGeoJson = json_decode($geoJson, true);
+
+    $filteredFeatures = array_filter($decodedGeoJson['features'], function ($feature) use ($municipality) {
+        return isset($feature['properties']['NAME_2']) && strtolower($feature['properties']['NAME_2']) === strtolower($municipality);
+    });
+
+    $decodedGeoJson['features'] = array_values($filteredFeatures);
+
+    return json_encode($decodedGeoJson);
+}
+?>
+
+<div class="col-lg-7 col-xl-8 col-xxl-12">
+    <div class="card shadow mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h6 class="text-primary fw-bold m-0" style="font-family: 'Poppins', sans-serif; font-size: 20px; color: #436850!important;">Commodity Mapping</h6>
+            <!-- Add the select input for commodities -->
+            <select id="commoditySelect" class="form-select" onchange="updateMap()" style="width: 50%;">
+                <?php
+                foreach ($uniqueCommodities as $commodity) {
+                    echo "<option value='" . $commodity . "'>" . $commodity . "</option>";
+                }
+                ?>
+            </select>
+        </div>
+        <div class="card-body">
+            <div id="map" style="height: 400px;"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var barangayData = <?php echo json_encode(array_change_key_case($barangayData, CASE_LOWER)); ?>;
+    var selectedCommodity = null; // Variable to store the selected commodity
+
+    // Wrap the entire script in a function to ensure the asynchronous loading of the Google Maps API
+    function initScript() {
+        var mapScript = document.createElement('script');
+        mapScript.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyCiiex_ePOjgHWwIDfiGxYqnYow6by0wAw&callback=initMap';
+        mapScript.async = true;
+        mapScript.defer = true;
+        document.head.appendChild(mapScript);
+    }
+
+    // Call the initScript function to load the Google Maps API
+    initScript();
+
+    function initMap() {
+        // Call the updateMap function to initialize the map with the selected commodity
+        updateMap();
+    }
+
+    function updateMap() {
+        // Get the selected commodity from the dropdown
+        selectedCommodity = document.getElementById('commoditySelect').value;
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: <?php echo json_encode($mapCenter); ?>,
+            zoom: 11,
+            mapTypeId: 'hybrid' // Set the map type to hybrid
+        });
+
+        var infoWindow = new google.maps.InfoWindow();
+
+        // Load filtered GeoJSON data for Iloilo
+        map.data.addGeoJson(<?php echo $filteredGeoJson; ?>);
+
+        // Set a filter to display different colors based on total production amount
+        map.data.setStyle(function (feature) {
+            try {
+                var geometry = feature.getGeometry();
+
+                if (geometry.getType() === 'Polygon') {
+                    var barangayName = feature.getProperty("NAME_3") ? feature.getProperty("NAME_3").trim().toLowerCase() : null;
+
+                    if (barangayData.hasOwnProperty(barangayName)) {
+                        // Get the selected commodity data for the barangay
+                        var commodityData = barangayData[barangayName].find(item => item.commodity_name === selectedCommodity);
+
+                        if (commodityData) {
+                            // Customize the colors based on the total production amount
+                            var fillColor = commodityData.total_amount > 100 ? '#FF0000' : commodityData.total_amount > 50 ? '#FFFF00' : '#00FF00';
+
+                            return {
+                                fillColor: fillColor,
+                                strokeColor: '#000000',
+                                strokeWeight: 2
+                            };
+                        }
+                    }
+                    return {
+                        fillColor: 'transparent',
+                        strokeColor: 'transparent',
+                        strokeWeight: 2
+                    };
+                } else {
+                    console.error("Unsupported geometry type:", geometry.getType());
+                    return {
+                        fillColor: 'transparent',
+                        strokeColor: 'transparent',
+                        strokeWeight: 2
+                    };
+                }
+            } catch (error) {
+                console.error("Error processing GeoJSON feature:", error);
+                return {
+                    fillColor: 'transparent',
+                    strokeColor: 'transparent',
+                    strokeWeight: 2
+                };
+            }
+        });
+
+        // Add click event listener to the entire data layer
+        map.data.addListener('click', function (event) {
+            var barangayName = event.feature.getProperty("NAME_3") ? event.feature.getProperty("NAME_3").trim().toLowerCase() : null;
+
+            if (barangayData.hasOwnProperty(barangayName)) {
+                // Get the selected commodity data for the clicked barangay
+                var commodityData = barangayData[barangayName].find(item => item.commodity_name === selectedCommodity);
+
+                if (commodityData) {
+                    // Capitalize the barangay name
+                    var capitalizedBarangayName = barangayName.charAt(0).toUpperCase() + barangayName.slice(1);
+
+                    // Display info window on click with bold labels for the selected commodity
+                    var content = '<b>Barangay:</b> ' + capitalizedBarangayName + '<br>' +
+                        '<b>Commodity:</b> ' + commodityData.commodity_name + '<br>' +
+                        '<b>Total Amount:</b> ' + commodityData.total_amount + " Kilograms" + '<br>';
+
+                    infoWindow.setContent(content);
+                    infoWindow.setPosition(event.latLng);
+                    infoWindow.open(map);
+                }
+            }
+        });
+    }
+</script>
+</div>
+                        <div class="col-lg-6 col-xl-6"><?php
+include 'setupdb.php';
+
+$municipal_municipality = $_SESSION['municipality'];
+
+// Fetch distinct commodities for the select dropdown
+$sqlCommodities = "SELECT DISTINCT commodity_name FROM transaction WHERE farmer_municipality = '$municipal_municipality' ORDER BY commodity_name";
+$resultCommodities = mysqli_query($conn, $sqlCommodities);
+$uniqueCommodities = mysqli_fetch_all($resultCommodities, MYSQLI_ASSOC);
+
+// Default to the first commodity
+$selectedCommodity = $uniqueCommodities[0]['commodity_name'];
+
+// Fetch data for all commodities
+$sqlGraph = "SELECT commodity_name, SUM(amount_purchase) as total_amount, DATE_FORMAT(date, '%Y-%m') as month_year
+             FROM transaction WHERE farmer_municipality = '$municipal_municipality'
+             GROUP BY commodity_name, month_year
+             ORDER BY commodity_name, month_year";
+
+$resultGraph = mysqli_query($conn, $sqlGraph);
+$dataPoints = mysqli_fetch_all($resultGraph, MYSQLI_ASSOC);
+
+// Close the database connection
+mysqli_close($conn);
+?>
+<div class="col-lg-7 col-xl-8 col-xxl-12">
+    <div class="card shadow mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h6 class="text-primary fw-bold m-0" style="font-family: 'Poppins', sans-serif; font-size: 20px; color: #436850!important;">Commodity Demand Forecast</h6>
+            <select id="commoditySelect" class="form-select" onchange="updateChart(this.value)" style="width: 50%;">
+                <?php
+                foreach ($uniqueCommodities as $commodity) {
+                    echo "<option value='" . $commodity['commodity_name'] . "'>" . $commodity['commodity_name'] . "</option>";
+                }
+                ?>
+            </select>
+        </div>
+        <div class="card-body">
+            <canvas id="demandChart" style="display: block; width: 100%; height: 400px;"></canvas>
+        </div>
+    </div>
+</div>
+
+<!-- Moment.js library for date handling -->
+<script src="https://cdn.jsdelivr.net/npm/moment"></script>
+
+<!-- Chart.js library with Moment.js adapter -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment"></script>
+
+<script>
+    // Parse PHP data to JavaScript
+    var commodities = <?php echo json_encode($uniqueCommodities); ?>;
+    var dataPoints = <?php echo json_encode($dataPoints); ?>;
+
+    // Function to update the chart based on selected commodity
+    function updateChart(selectedCommodity) {
+        // Filter data for the selected commodity
+        var filteredData = dataPoints.filter(function(point) {
+            return point.commodity_name === selectedCommodity;
+        });
+
+        // Extract labels (month_year), data values (total_amount), and moving averages
+        var labels = filteredData.map(function(point) {
+            return point.month_year;
+        });
+
+        var values = filteredData.map(function(point) {
+            return point.total_amount;
+        });
+
+        // Use the updated formula for calculating the moving average
+        var movingAverages = calculateMovingAverage(values);
+
+        // Forecast for the next month
+        var lastValue = values[values.length - 1];
+        labels.push(moment(labels[labels.length - 1]).add(1, 'months').format('YYYY-MM'));
+        values.push(null); // No actual value for the next month
+        movingAverages.push(lastValue); // Use the last actual value as the forecast
+
+        // Update chart data and redraw
+        demandChart.data.labels = labels;
+        demandChart.data.datasets[0].data = values;
+        demandChart.data.datasets[1].data = movingAverages; // Add a new dataset for the moving average
+        demandChart.update();
+    }
+
+    // Function to calculate moving average using the updated formula
+    function calculateMovingAverage(values) {
+        var movingAverages = [];
+
+        for (var i = 0; i < values.length; i++) {
+            var average = (values[i] + (i > 0 ? values[i - 1] : 0)) / 2;
+            movingAverages.push(average);
+        }
+
+        return movingAverages;
+    }
+
+    // Initialize the chart with the default commodity
+    var ctx = document.getElementById('demandChart').getContext('2d');
+var demandChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: [], // Initially empty, will be populated by the selected commodity
+        datasets: [{
+            label: 'Total Amount Purchased',
+            data: [], // Initially empty, will be populated by the selected commodity
+            borderColor: 'rgb(75, 192, 192)',
+            borderWidth: 2,
+            fill: false
+        }, {
+            label: 'Forecasted Data',
+            data: [], // Initially empty, will be populated by the selected commodity
+            borderColor: 'rgba(255, 99, 132, 0)', // Set alpha to 0 for a transparent line
+            borderWidth: 2,
+            fill: false,
+            pointRadius: function(context) {
+                // Display only a dot for the last item (next month forecast)
+                return context.dataIndex === context.dataset.data.length - 1 ? 3 : 0;
+            },
+            pointHoverRadius: 3,
+            pointBackgroundColor: 'rgb(255, 99, 132)' // Color for the dot
+        }]
+    },
+    options: {
+        scales: {
+            x: {
+                type: 'time',
+                time: {
+                    unit: 'month',
+                    displayFormats: {
+                        month: 'MMM YYYY'
+                    }
+                },
+                title: {
+                    display: true,
+                    text: 'Month'
+                }
+            },
+            y: {
+                title: {
+                    display: true,
+                    text: 'Actual Data (kilograms)' // Updated y-axis title with the unit
+                },
+                ticks: {
+                    callback: function(value, index, values) {
+                        return value + ' kg'; // Add 'kg' to the y-axis labels
+                    }
+                }
+            }
+        },
+        plugins: {
+            tooltip: {
+                callbacks: {
+                    label: function (context) {
+                        var label = context.dataset.label || '';
+
+                        if (label) {
+                            label += ': ';
+                        }
+                        label += context.parsed.y + ' kg';
+                        return label;
+                    }
+                }
+            }
+        }
+    }
+});
+
+    // Trigger initial chart update with the default commodity
+    updateChart("<?php echo $selectedCommodity; ?>");
+</script>
+</div>
+                    </div>
+                </div>
+            </div>
+            <footer class="bg-white sticky-footer">
+                <div class="container my-auto">
+                    <div class="text-center my-auto copyright"><span style="font-family: Poppins, sans-serif;">AgriDivision© Brand 2024</span></div>
+                </div>
+            </footer>
+        </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="logout">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p style="font-family: Poppins, sans-serif;">Are you sure you want to log-out?</p>
+                </div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal" style="font-family: Poppins, sans-serif;">Close</button><a class="btn btn-primary" role="button" href="logout.php" style="font-family: Poppins, sans-serif;background: #436850;border-color: #436850;">Yes</a></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="farmerModal">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="font-family: Poppins, sans-serif;color: #436850;"><strong>Farmer</strong></h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body"><?php
+include 'setupdb.php';
+$municipal_municipalty = $_SESSION['municipality'];
+
+$sql = "SELECT rsbsanum, CONCAT(fname, ' ', lname) as name, CONCAT(province, ' ', municipality, ' ', barangay) as address, phone, email FROM farmer WHERE municipality = '$municipal_municipalty'";
+$result = mysqli_query($conn, $sql);
+?>
+
+<style>
+    #farmerTable th,
+    #farmerTable td {
+        font-family: 'Poppins', sans-serif;
+    }
+</style>
+
+<div class="table-responsive">
+    <table class="table" id="farmerTable">
+        <thead>
+            <tr>
+                <th>RSBSA Number</th>
+                <th>Farmer Name</th>
+                <th>Address</th>
+                <th>Phone Number</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody id="searchResults">
+            <?php
+            while ($row = mysqli_fetch_assoc($result)) {
+                echo "<tr>";
+                echo "<td>" . $row['rsbsanum'] . "</td>";
+                echo "<td>" . $row['name'] . "</td>";
+                echo "<td>" . $row['address'] . "</td>";
+                echo "<td>" . $row['phone'] . "</td>";
+                echo "<td>" . $row['email'] . "</td>";
+                echo "</tr>";
+            }
+            ?>
+        </tbody>
+    </table>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+
+<script>
+    $(document).ready(function() {
+      $('#farmerTable').DataTable({
+        "lengthMenu": [10, 25, 50], // Number of records to display per page
+        "pagingType": "simple_numbers", // Simple pagination
+        "info": true, // Show information about the table
+      });
+    });
+</script></div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="businessModal">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="font-family: Poppins, sans-serif;color: #436850;"><strong>Business Owner</strong></h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body"><?php
+include 'setupdb.php';
+
+$municipal_municipalty = $_SESSION['municipality'];
+
+
+$sql = "SELECT CONCAT(business_fname, ' ', business_lname) as name, CONCAT(business_province, ' ', business_municipality, ' ', business_barangay) as address, business_phone, business_email FROM business_owner WHERE business_municipality = '$municipal_municipalty'";
+$result = mysqli_query($conn, $sql);
+?>
+
+<style>
+    #businessTable th,
+    #businessTable td {
+        font-family: 'Poppins', sans-serif;
+    }
+</style>
+
+<div class="table-responsive">
+    <table class="table" id="businessTable">
+        <thead>
+            <tr>
+                <th>Business Owner Name</th>
+                <th>Address</th>
+                <th>Phone Number</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            while ($row = mysqli_fetch_assoc($result)) {
+                echo "<tr>";
+                echo "<td>" . $row['name'] . "</td>";
+                echo "<td>" . $row['address'] . "</td>";
+                echo "<td>" . $row['business_phone'] . "</td>";
+                echo "<td>" . $row['business_email'] . "</td>";
+                echo "</tr>";
+            }
+            ?>
+        </tbody>
+    </table>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+
+<script>
+    $(document).ready(function() {
+      $('#businessTable').DataTable({
+        "lengthMenu": [10, 25, 50], // Number of records to display per page
+        "pagingType": "simple_numbers", // Simple pagination
+        "info": true, // Show information about the table
+      });
+    });
+</script></div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="techModal">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" style="font-family: Poppins, sans-serif;color: #436850;"><strong>Barangay Technician</strong></h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body"><?php
+include 'setupdb.php';
+
+$municipal_municipalty = $_SESSION['municipality'];
+
+$sql = "SELECT CONCAT(municipality, ': ', name) as barangay_name, email, phone, regdate FROM brgy_tech WHERE municipality = '$municipal_municipalty' ORDER BY barangay_name";
+$result = mysqli_query($conn, $sql);
+
+?>
+
+<style>
+    #techTable th,
+    #techTable td {
+        font-family: 'Poppins', sans-serif;
+    }
+</style>
+
+<div class="table-responsive">
+    <table class="table" id="techTable">
+        <thead>
+            <tr>
+                <th>Barangay</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>Registration Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            while ($row = mysqli_fetch_assoc($result)) {
+                echo "<tr>";
+                echo "<td>" . $row['barangay_name'] . "</td>";
+                echo "<td>" . $row['email'] . "</td>";
+                echo "<td>" . $row['phone'] . "</td>";
+                echo "<td>" . date('F j, Y', strtotime($row['regdate'])) . "</td>";
+                echo "</tr>";
+            }
+            ?>
+        </tbody>
+    </table>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+
+<script>
+    $(document).ready(function() {
+      $('#techTable').DataTable({
+        "lengthMenu": [10, 25, 50], // Number of records to display per page
+        "pagingType": "simple_numbers", // Simple pagination
+        "info": true, // Show information about the table
+      });
+    });
+</script></div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/theme.js"></script>
+</body>
+
+</html>

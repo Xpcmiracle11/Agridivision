@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Table - Brand</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins&amp;display=swap">
+    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/css/untitled.css">
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0" style="background: #062017;">
+            <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0">
+                    <div><img src="assets/img/Agri-Logo-White.png" style="width: 50px;height: 50px;"></div>
+                    <div class="sidebar-brand-text mx-3"></div>
+                </a>
+                <ul class="navbar-nav text-light" id="accordionSidebar">
+                    <li class="nav-item navigation"><a class="nav-link navigation" href="techdash.php" style="font-family: Poppins, sans-serif;font-size: 15px;color: rgb(255,255,255);"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+                    <li class="nav-item navigation"><a class="nav-link" href="techtable.php" style="font-family: Poppins, sans-serif;font-size: 15px;color: rgb(255,255,255);"><i class="fas fa-table"></i><span>Table</span></a></li>
+                    <li class="nav-item navigation"><a class="nav-link" href="techreg.php" style="font-family: Poppins, sans-serif;font-size: 15px;color: rgb(255,255,255);"><i class="fas fa-user-circle"></i><span>Register Farmer</span></a></li>
+                </ul>
+                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
+            </div>
+        </nav>
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+                <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top" style="font-size: 20px;">
+                    <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
+                        <ul class="navbar-nav flex-nowrap ms-auto">
+                            <li class="nav-item d-inline-flex dropdown no-arrow">
+                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><span class="d-none d-lg-inline me-2 text-gray-600 small" id="username" style="font-size: 20px;">Valerie Luna<?php
+include 'setupdb.php'; // Make sure to add a semicolon at the end of this line
+
+$username = isset($_SESSION['name']) ? $_SESSION['name'] : ''; // Ensure that $_SESSION['name'] is properly accessed
+
+?>
+<script>
+    document.getElementById("username").innerHTML = '<?php echo $username; ?>';
+</script>
+</span></a>
+                                    <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in"><a class="dropdown-item" href="techprofile.php"><i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Profile</a>
+                                        <div class="dropdown-divider"></div><a class="dropdown-item" href="#" data-bs-target="#logout" data-bs-toggle="modal"><i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Logout</a>
+                                    </div>
+                                </div>
+                                <div class="d-flex d-xxl-flex align-items-center align-items-xxl-center"><i class="far fa-user"></i></div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class="container-fluid">
+                    <h3 class="text-dark mb-4" style="font-family: Poppins, sans-serif;"><strong>Farmers Table</strong></h3><div class="card shadow">
+    <div class="card-header py-3">
+        <p class="text-primary m-0 fw-bold" style="font-family: 'Poppins', sans-serif; font-size: 20px; color: #436850!important;">Farmers Information</p>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive mt-2">
+            <style>
+                /* Add CSS style for table links */
+                #dataTable a {
+                    font-family: 'Poppins', sans-serif;
+                    text-decoration: underline;
+                    color: #436850; /* Text color for links */
+                }
+            </style>
+            <table id="dataTable" class="table my-0">
+                <thead>
+                    <tr>
+                        <th style="font-family: Poppins, sans-serif;">Name</th>
+                        <th style="font-family: Poppins, sans-serif;">Email</th>
+                        <th style="font-family: Poppins, sans-serif;">Contact Number</th>
+                        <th style="font-family: Poppins, sans-serif;">Address</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                        // Include database setup
+                        include 'setupdb.php';
+
+                        $tech_municipality = $_SESSION['municipality'];
+                        $tech_barangay = $_SESSION['barangay'];
+
+                        // Fetch data from the farmer table
+                        $sql = "SELECT farmer_id, fname, lname, CONCAT(fname, ' ', mname, ' ', lname) as name, email, phone, province, municipality, barangay, latitude, longitude, CONCAT(province, ', ', municipality, ', ', barangay) as address FROM farmer WHERE municipality = '$tech_municipality' AND barangay = '$tech_barangay'";
+                        $result = mysqli_query($conn, $sql);
+
+                        // Check if there are any rows in the result
+                        if (mysqli_num_rows($result) > 0) {
+                            // Output data of each row
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                echo "<tr>";
+                                echo "<td><a href='techfarmer.php?farmer_id=" . $row["farmer_id"] . "&province=" . urlencode($row["province"]) . "&municipality=" . urlencode($row["municipality"]) . "&barangay=" . urlencode($row["barangay"]) . "&latitude=" . urlencode($row["latitude"]) . "&longitude=" . urlencode($row["longitude"]) . "&fname=" . urlencode($row["fname"]) . "&lname=" . urlencode($row["lname"]) ."'>" . $row["name"] . "</a></td>";
+                                echo "<td style='font-family: Poppins, sans-serif;'>" . $row["email"] . "</td>";
+                                echo "<td style='font-family: Poppins, sans-serif;'>" . $row["phone"] . "</td>";
+                                echo "<td style='font-family: Poppins, sans-serif;'>" . $row["address"] . "</td>";
+                                echo "</tr>";
+                            }
+                        } else {
+                            echo "<tr><td colspan='3'>No records found</td></tr>";
+                        }
+                        ?>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td style="font-family: 'Poppins', sans-serif;">Name</td>
+                        <td style="font-family: 'Poppins', sans-serif;">Email</td>
+                        <td style="font-family: 'Poppins', sans-serif;">Contact Number</td>
+                        <td style="font-family: 'Poppins', sans-serif;">Address</td>
+
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+
+<script>
+    $(document).ready(function() {
+      $('#dataTable').DataTable({
+        "lengthMenu": [10, 25, 50], // Number of records to display per page
+        "pagingType": "simple_numbers", // Simple pagination
+        "info": true, // Show information about the table
+      });
+    });
+</script>
+                </div>
+            </div>
+            <footer class="bg-white sticky-footer">
+                <div class="container my-auto">
+                    <div class="text-center my-auto copyright"><span style="font-family: Poppins, sans-serif;">AgriDivision© Brand 2024</span></div>
+                </div>
+            </footer>
+        </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="logout">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p style="font-family: Poppins, sans-serif;">Are you sure you want to log-out?</p>
+                </div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal" style="font-family: Poppins, sans-serif;">Close</button><a class="btn btn-primary" role="button" href="logout.php" style="font-family: Poppins, sans-serif;background: #436850;border-color: #436850;">Yes</a></div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/theme.js"></script>
+</body>
+
+</html>

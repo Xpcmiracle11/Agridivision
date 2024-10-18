@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Dashboard - Brand</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins&amp;display=swap">
+    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/css/untitled.css">
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
+            <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0">
+                    <div><img src="assets/img/Agri-Logo-White.png" style="width: 50px;height: 50px;"></div>
+                    <div class="sidebar-brand-text mx-3"><span>AGRIDIVISION</span></div>
+                </a>
+                <ul class="navbar-nav text-light" id="accordionSidebar">
+                    <li class="nav-item"><a class="nav-link" href="farmerdash.php"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="farmermarket.php"><i class="fas fa-shopping-cart"></i><span>Marketplace</span></a></li>
+                </ul>
+                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
+            </div>
+        </nav>
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+                <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+                    <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
+                        <ul class="navbar-nav flex-nowrap ms-auto">
+                            <li class="nav-item d-inline-flex dropdown no-arrow">
+                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><span class="d-none d-lg-inline me-2 text-gray-600 small" id="username">Valerie Luna<?php
+include 'setupdb.php';
+
+// Make sure to add a semicolon at the end of the above line
+
+$farmer_fname = isset($_SESSION['farmer_fname']) ? $_SESSION['farmer_fname'] : '';
+$farmer_lname = isset($_SESSION['farmer_lname']) ? $_SESSION['farmer_lname'] : '';
+
+// Concatenate first name and last name
+$full_name = $farmer_fname . ' ' . $farmer_lname;
+
+?>
+<script>
+    document.getElementById("username").innerHTML = '<?php echo $full_name; ?>';
+</script>
+</span></a>
+                                    <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in"><a class="dropdown-item" href="farmerprofile.php"><i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Profile</a>
+                                        <div class="dropdown-divider"></div><a class="dropdown-item" href="#" data-bs-target="#logout" data-bs-toggle="modal"><i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Logout</a>
+                                    </div>
+                                </div>
+                                <div class="d-flex d-xxl-flex align-items-center align-items-xxl-center"><i class="far fa-user"></i></div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class="container-fluid">
+                    <div class="d-sm-flex justify-content-between align-items-center mb-4">
+                        <h3 class="text-dark mb-0"><strong>Farmer Profile</strong></h3>
+                    </div>
+                    <div>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h4><strong>RSBSA&nbsp;Number:</strong></h4>
+                                        <p id="rsbsa" style="font-size: 20px;">Paragraph</p>
+                                    </div>
+                                    <div class="col">
+                                        <h4><strong>Name:</strong></h4>
+                                        <p id="name" style="font-size: 20px;">Paragraph</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <h4><strong>Gender:</strong></h4>
+                                        <p id="gender">Paragraph</p>
+                                    </div>
+                                    <div class="col">
+                                        <h4><strong>Address:</strong></h4>
+                                        <p id="address">Paragraph</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <h4><strong>Phone Number:</strong></h4>
+                                        <p id="phone" style="font-size: 20px;">Paragraph</p>
+                                    </div>
+                                    <div class="col">
+                                        <h4><strong>Email:</strong></h4>
+                                        <p id="email" style="font-size: 20px;">Paragraph</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <h4><strong>Date of Birth:</strong></h4>
+                                        <p id="dob" style="font-size: 20px;">Paragraph</p>
+                                    </div>
+                                    <div class="col">
+                                        <h4><strong>Religion:</strong></h4>
+                                        <p id="religion" style="font-size: 20px;">Paragraph</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <h4><strong>Civil Status:</strong></h4>
+                                        <p id="civstats" style="font-size: 20px;">Paragraph</p>
+                                    </div>
+                                    <div class="col">
+                                        <h4><strong>Highest Formal Education:</strong></h4>
+                                        <p id="education" style="font-size: 20px;">Paragraph</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-sm-flex justify-content-between align-items-center mb-4" style="margin-top: 20px;">
+                        <h3 class="text-dark mb-0"><strong>Farm Profile</strong></h3>
+                    </div>
+                    <div>
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h4><strong>Farm Area:</strong></h4>
+                                        <p id="farmArea" style="font-size: 20px;">Paragraph</p>
+                                    </div>
+                                    <div class="col">
+                                        <h4><strong>Ancestral Domain:</strong></h4>
+                                        <p id="ancestralDomain" style="font-size: 20px;">Paragraph</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <h4><strong>Farm Document Number:</strong></h4>
+                                        <p id="farmDocumentNumber">Paragraph</p>
+                                    </div>
+                                    <div class="col">
+                                        <h4><strong>Ownership Type:</strong></h4>
+                                        <p id="ownershipType" style="font-size: 20px;">Paragraph</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <h4><strong>Commodity:</strong></h4>
+                                        <p id="commodity" style="font-size: 20px;">Paragraph</p>
+                                    </div>
+                                    <div class="col">
+                                        <h4><strong>Farm Type:</strong></h4>
+                                        <p id="farmType" style="font-size: 20px;">Paragraph</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <h4><strong>Location:</strong></h4><?php
+include 'setupdb.php';
+
+$farmer_lat = $_SESSION['latitude'];
+$farmer_longitude = $_SESSION['longitude'];
+?>
+
+<iframe allowfullscreen frameborder="0" width="100%" height="400"
+src="https://maps.google.com/maps?q=<?php echo $farmer_lat; ?>,<?php echo $farmer_longitude; ?>&hl=es&t=k&z=14&amp;output=embed"></iframe>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="bg-white sticky-footer">
+                <div class="container my-auto">
+                    <div class="text-center my-auto copyright"><span style="font-family: Poppins, sans-serif;">AgriDivision© Brand 2024</span></div>
+                </div>
+            </footer>
+        </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="logout">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p>Are you sure you want to log-out?</p>
+                </div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button><a class="btn btn-primary" role="button" href="logout.php">Yes</a></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="productionModal">
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><strong>Total Amount of Crops</strong></h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <form method="post" action="farmerdash.php" enctype="multipart/form-data">
+                            <div class="row">
+                                <div class="col-xxl-12">
+                                    <div class="d-flex">
+                                        <div>
+                                            <p style="margin-right: 10px;">Select Commodity:</p>
+                                        </div>
+                                        <div><?php
+include 'setupdb.php';
+
+// Assuming you have the farmer_id stored in the session
+$farmer_id = $_SESSION['farmer_id'];
+
+// Fetch commodity_id and commodity_name from the farm table for the specific farmer_id
+$sql = "SELECT commodity_id, commodity_name FROM farm WHERE farmer_id = '$farmer_id'";
+$result = mysqli_query($conn, $sql);
+
+// Fetch the data as an associative array
+$data = [];
+while ($row = mysqli_fetch_assoc($result)) {
+    $data[] = $row;
+}
+
+// Set the default commodity_id (replace 'default_commodity_id' with your desired default value)
+$defaultCommodityId = 'default_commodity_id';
+?>
+
+<!-- Create a select dropdown with optgroup based on the fetched data -->
+<select class="form-select" id="commoditySelect" aria-label="Commodity">
+    <?php foreach ($data as $group): ?>
+        <optgroup label="Commodities">
+            <?php
+            // Separate commodity_id and commodity_name if they are combined by comma and space
+            $commodityIds = explode(', ', $group['commodity_id']);
+            $commodities = explode(', ', $group['commodity_name']);
+
+            foreach ($commodities as $index => $commodity):
+                $isSelected = ($commodityIds[$index] == $defaultCommodityId) ? 'selected' : '';
+            ?>
+                <option value="<?php echo $commodityIds[$index]; ?>" <?php echo $isSelected; ?>><?php echo $commodity; ?></option>
+            <?php endforeach; ?>
+        </optgroup>
+    <?php endforeach; ?>
+</select>
+
+<!-- Two text inputs for commodity_id and commodity_name -->
+<div class="mb-3">
+    <input type="hidden" name="commodity_id" class="form-control" id="commodityId" value="<?php echo $defaultCommodityId; ?>" readonly>
+</div>
+
+<div class="mb-3">
+    <input type="hidden" name="commodity_name" class="form-control" id="commodityName" readonly>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+$(document).ready(function() {
+    // Get the selected option on page load
+    var selectedOption = $('#commoditySelect').find(':selected');
+
+    // Update the text inputs with commodity_id and commodity_name
+    $('#commodityId').val(selectedOption.val());
+    $('#commodityName').val(selectedOption.text());
+
+    // Event listener for select change
+    $('#commoditySelect').on('change', function() {
+        // Get the selected option
+        var selectedOption = $(this).find(':selected');
+
+        // Update the text inputs with commodity_id and commodity_name
+        $('#commodityId').val(selectedOption.val());
+        $('#commodityName').val(selectedOption.text());
+    });
+});
+</script>
+</div>
+                                    </div>
+                                    <div class="d-flex" style="margin-top: 10px;">
+                                        <div>
+                                            <p style="margin-right: 10px;">Amount:</p>
+                                        </div>
+                                        <div><input class="form-control form-control" type="number" id="amount" name="amount"></div>
+                                        <div style="margin-left: 10px;">
+                                            <p>Kilograms</p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex float-end" style="margin-top: 10px;"><button class="btn btn-primary" type="submit">Submit</button></div>
+                                </div>
+                            </div><div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Commodity</th>
+                <th>Amount</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+                include 'setupdb.php';
+                $farmer_id = $_SESSION['farmer_id']; // Fix the missing single quotes around 'farmer_id'
+
+                $sql = "SELECT commodity_name, amount, date FROM total_production WHERE farmer_id = '$farmer_id'";
+                $result = mysqli_query($conn, $sql);
+
+                if ($result) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        echo '<tr>';
+                        echo '<td>' . $row['commodity_name'] . '</td>';
+                        echo '<td>' . $row['amount'] . '</td>';
+                        echo '<td>' . $row['date'] . '</td>';
+                        echo '</tr>';
+                    }
+                } else {
+                    echo '<tr><td colspan="3">No records found</td></tr>';
+                }
+            ?>
+        </tbody>
+    </table>
+</div>
+
+                        </form>
+                        <div></div>
+                    </div>
+                </div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="salesModal">
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><strong>Total Amount of Crops</strong></h4><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <form method="post" action="farmerdash.php" enctype="multipart/form-data"><div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Commodity</th>
+                <th>Amount</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+                include 'setupdb.php';
+                $farmer_id = $_SESSION['farmer_id']; // Fix the missing single quotes around 'farmer_id'
+
+                $sql = "SELECT commodity_name, amount, date FROM total_sales WHERE farmer_id = '$farmer_id'";
+                $result = mysqli_query($conn, $sql);
+
+                if ($result) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        echo '<tr>';
+                        echo '<td>' . $row['commodity_name'] . '</td>';
+                        echo '<td>' . $row['amount'] . '</td>';
+                        echo '<td>' . $row['date'] . '</td>';
+                        echo '</tr>';
+                    }
+                } else {
+                    echo '<tr><td colspan="3">No records found</td></tr>';
+                }
+            ?>
+        </tbody>
+    </table>
+</div>
+</form>
+                        <div></div>
+                    </div>
+                </div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/theme.js"></script>
+</body>
+
+</html>

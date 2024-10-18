@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Dashboard - Brand</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins&amp;display=swap">
+    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/css/untitled.css">
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0" style="background: #062017;">
+            <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0">
+                    <div><img src="assets/img/Agri-Logo-White.png" style="width: 50px;height: 50px;"></div>
+                    <div class="sidebar-brand-text mx-3"></div>
+                </a>
+                <ul class="navbar-nav text-light" id="accordionSidebar">
+                    <li class="nav-item navigation"><a class="nav-link" href="municipaldash.php" style="font-size: 15px;color: rgb(255,255,255);font-family: Poppins, sans-serif;"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+                    <li class="nav-item navigation"><a class="nav-link" href="municipaltable.php" style="font-size: 15px;color: rgb(255,255,255);font-family: Poppins, sans-serif;"><i class="fas fa-table"></i><span style="font-family: Poppins, sans-serif;">Table</span></a></li>
+                    <li class="nav-item navigation"><a class="nav-link" href="municipalreg.php" style="font-size: 15px;color: rgb(255,255,255);font-family: Poppins, sans-serif;"><i class="fas fa-user-circle"></i><span>Register Barangay Technician</span></a></li>
+                </ul>
+                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
+            </div>
+        </nav>
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+                <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+                    <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
+                        <ul class="navbar-nav flex-nowrap ms-auto">
+                            <li class="nav-item d-inline-flex dropdown no-arrow">
+                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><span class="d-none d-lg-inline me-2 text-gray-600 small" id="username" style="font-size: 20px;">Valerie Luna<?php
+include 'setupdb.php'; // Make sure to add a semicolon at the end of this line
+
+$username = isset($_SESSION['name']) ? $_SESSION['name'] : ''; // Ensure that $_SESSION['name'] is properly accessed
+
+?>
+<script>
+    document.getElementById("username").innerHTML = '<?php echo $username; ?>';
+</script>
+</span></a>
+                                    <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in"><a class="dropdown-item" href="#" data-bs-target="#logout" data-bs-toggle="modal" style="font-family: Poppins, sans-serif;"><i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Logout</a></div>
+                                </div>
+                                <div class="d-flex d-xxl-flex align-items-center align-items-xxl-center"><i class="far fa-user" style="font-size: 20px;"></i></div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class="container-fluid">
+                    <div class="d-sm-flex justify-content-between align-items-center mb-4">
+                        <h3 class="text-dark mb-0" style="font-family: Poppins, sans-serif;"><strong>Register Barangay Technician</strong></h3>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <form id="registrationForm" action="municipalreg.php" method="post" enctype="multipart/form-data">
+                                <div class="col">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <p style="background: #ffffff;font-family: Poppins, sans-serif;"><strong>Province</strong><input class="form-control" type="text" name="province" value="Iloilo" readonly="" style="background: #ffffff;font-family: Poppins, sans-serif;"></p>
+                                                </div>
+                                                <div class="col">
+                                                    <p style="background: #ffffff;font-family: Poppins, sans-serif;"><strong>Municipality</strong><?php
+include 'setupdb.php';
+
+$municipality = $_SESSION['municipality'];
+?>
+<input class="form-control" type="text" value="<?php echo $municipality; ?>" name="municipality" readonly style="background: #ffffff;" />
+</p>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="margin-top: 10px;">
+                                                <div class="col-md-12 col-lg-4 col-xl-4">
+                                                    <p style="background: #ffffff;font-family: Poppins, sans-serif;"><strong>Barangay</strong><?php
+include 'setupdb.php';
+
+$municipality = $_SESSION['municipality'];
+
+$barangays = [];
+
+// Populate barangays based on the selected municipality
+if ($municipality == 'Ajuy') {
+    $barangays = [
+        'Adcadarao', 'Agbobolo', 'Badiangan', 'Barrido', 'Bato Biasong', 'Bay-ang', 'Bucana Bunglas', 'Central', 'Culasi',
+        'Lanjagan', 'Luca', 'Malayu-an', 'Mangorocoro', 'Nasidman', 'Pantalan Nabaye', 'Pantalan Navarro', 'Pedada', 'Pili',
+        'Pinantan Diel', 'Pinantan Elizalde', 'Pinay Espinosa', 'Poblacion', 'Progreso', 'Puente Bunglas', 'Punta Buri', 'Rojas',
+        'San Antonio', 'Silagon', 'Santo Rosario', 'Tagubanhan', 'Taguhangin', 'Tanduyan', 'Tipacla', 'Tubogan'
+];
+}elseif ($municipality == 'Alimodian'){
+    $barangays = [
+        'Abang-abang', 'Agsing', 'Atabay', 'Ba-ong', 'Baguingin-Lanot', 'Bagsakan', 'Bagumbayan-Ilajas', 'Balabago', 'Ban-ag',
+        'Bancal', 'Binalud', 'Bugang', 'Buhay', 'Bulod', 'Cabacanan Proper', 'Cabacanan Rizal', 'Cagay', 'Coline', 'Coline-Dalag',
+        'Cunsad', 'Cuyad', 'Dalid', 'Dao', 'Gines', 'Ginomoy', 'Ingwan', 'Laylayan', 'Lico', 'Luan-luan', 'Malamhay', 'Malamboy-Bondolan',
+        'Mambawi', 'Manasa', 'Manduyog', 'Pajo', 'Pianda-an Norte', 'Pianda-an Sur', 'Poblacion', 'Punong', 'Quinaspan', 'Sinamay', 'Sulong',
+        'Taban-Manguining', 'Tabug', 'Tarug', 'Tugaslon', 'Ubodan', 'Ugbo', 'Ulay-Bugang', 'Ulay-Hinablan', 'Umingan'
+    ];
+}elseif ($municipality == 'Anilao') {
+    $barangays = [
+        'Agbatuan', 'Badiang', 'Balabag', 'Balunos', 'Cag-an', 'Camiros', 'Sambag Culob', 'Dangula-an', 'Guipis',
+        'Manganese', 'Medina', 'Mostro', 'Palaypay', 'Pantalan', 'Poblacion', 'San Carlos', 'San Juan Crisostomo',
+        'Santa Rita', 'Santo Rosario', 'Serallo', 'Vista Alegre',
+    ];
+}elseif ($municipality == 'Badiangan') {
+    $barangays = [
+        'Agusipan', 'Astorga', 'Bingauan', 'Bita-oyan', 'Botong', 'Budiawe', 'Cabanga-an', 'Cabayogan', 'Calansanan',
+        'Catubig', 'Guinawahan', 'Ilongbukid', 'Indorohan', 'Iniligan', 'Latawan', 'Linayuan', 'Mainguit', 'Malublub',
+        'Manaolan', 'Mapili Grande', 'Mapili Sanjo', 'Odiongan', 'Poblacion', 'San Julian', 'Sariri', 'Sianon',
+        'Sinuagan', 'Talaba', 'Tamocol', 'Teneclan', 'Tina',
+    ];
+}elseif ($municipality == 'Balasan') {
+    $barangays = [
+        'Aranjuez', 'Bacolod', 'Balanti-an', 'Batuan', 'Cabalic', 'Camambugan', 'Dolores', 'Gimamanay', 'Ipil',
+        'Kinalkalan', 'Lawis', 'Malapoc', 'Mamhut Norte', 'Mamhut Sur', 'Maya', 'Pani-an', 'Poblacion Norte',
+        'Poblacion Sur', 'Quiasan', 'Salong', 'Salvacion', 'Tingui-an', 'Zaragosa',
+    ];
+}elseif ($municipality == 'Banate') {
+    $barangays = [
+        'Alacaygan', 'Bariga', 'Belen', 'Bobon', 'Bularan', 'Carmelo', 'De La Paz', 'Dugwakan', 'Fuentes', 'Juanico',
+        'Libertad', 'Magdalo', 'Managopaya', 'Merced', 'Poblacion', 'San Salvador', 'Talokgangan', 'Zona Sur',
+    ];
+}elseif ($municipality == 'Barotac Nuevo') {
+    $barangays = [
+        'Acuit', 'Agcuyawan Calsada', 'Agcuyawan Pulo', 'Bagongbong', 'Baras', 'Bungca', 'Cabilauan', 'Cruz', 'Guintas',
+        'Igbong', 'Ilaud Poblacion', 'Ilaya Poblacion', 'Jalaud', 'Lagubang', 'Lanas', 'Lico-an', 'Linao', 'Monpon',
+        'Palaciawan', 'Patag', 'Salihid', 'So-ol', 'Sohoton', 'Tabuc-Suba', 'Tabucan', 'Talisay', 'Tinorian', 'Tiwi', 'Tubungan',
+    ];
+}elseif ($municipality == 'Barotac Viejo') {
+    $barangays = [
+        'Bugnay', 'California', 'Del Pilar', 'De la Peña', 'General Luna', 'La Fortuna', 'Lipata', 'Natividad', 'Nueva Invencion',
+        'Nueva Sevilla', 'Poblacion', 'Puerto Princesa', 'Rizal', 'San Antonio', 'San Fernando', 'San Francisco', 'San Geronimo',
+        'San Juan', 'San Lucas', 'San Miguel', 'San Roque', 'Santiago', 'Santo Domingo', 'Santo Tomas', 'Ugasan', 'Vista Alegre',
+    ];
+}elseif ($municipality == 'Batad') {
+    $barangays = [
+        'Alapasco', 'Alinsolong', 'Banban', 'Batad Viejo', 'Binon-an', 'Bolhog', 'Bulak Norte', 'Bulak Sur', 'Cabagohan',
+        'Calangag', 'Caw-i', 'Drancalan', 'Embarcadero', 'Hamod', 'Malico', 'Nangka', 'Pasayan', 'Poblacion', 'Quiazan Florete',
+        'Quiazan Lopez', 'Salong', 'Santa Ana', 'Tanao', 'Tapi-an',
+    ];
+}elseif ($municipality == 'Bingawan') {
+    $barangays = [
+        'Agba-o', 'Alabidhan', 'Bulabog', 'Cairohan', 'Guinhulacan', 'Inamyungan', 'Malitbog Ilawod', 'Malitbog Ilaya',
+        'Ngingi-an', 'Poblacion', 'Quinangyana', 'Quinar-Upan', 'Tapacon', 'Tubod',
+    ];
+}elseif ($municipality == 'Cabatuan') {
+    $barangays = [
+        'Acao', 'Amerang', 'Amurao', 'Anuang', 'Ayaman', 'Ayong', 'Bacan', 'Balabag', 'Baluyan', 'Banguit', 'Bulay',
+        'Cadoldolan', 'Cagban', 'Calawagan', 'Calayo', 'Duyan-Duyan', 'Gaub', 'Gines Interior', 'Gines Patag',
+        'Guibuangan Tigbauan', 'Inabasan', 'Inaca', 'Inaladan', 'Ingas', 'Ito Norte', 'Ito Sur', 'Janipaan Central',
+        'Janipaan Este', 'Janipaan Oeste', 'Janipaan Olo', 'Jelicuon Lusaya', 'Jelicuon Montinola', 'Lag-an', 'Leong',
+        'Lutac', 'Manguna', 'Maraguit', 'Morubuan', 'Pacatin', 'Pagotpot', 'Pamul-ogan', 'Pamuringao Proper',
+        'Pamuringao Garrido', 'Pungtod', 'Puyas', 'Salacay', 'Sulanga', 'Tabucan', 'Tacdangan', 'Talanghauan', 'Tigbauan Road',
+        'Tinio-an', 'Tiring', 'Tupol Central', 'Tupol Este', 'Tupol Oeste', 'Tuy-an', 'Zone I Pob. (Barangay 1)',
+        'Zone II Pob. (Barangay 2)', 'Zone III Pob. (Barangay 3)', 'Zone IV Pob. (Barangay 4)', 'Zone V Pob. (Barangay 5)',
+        'Zone VI Pob. (Barangay 6)', 'Zone VII Pob. (Barangay 7)', 'Zone VIII Pob. (Barangay 8)', 'Zone IX Pob. (Barangay 9)',
+        'Zone X Pob. (Barangay 10)', 'Zone XI Pob. (Barangay 11)',
+    ];
+}elseif ($municipality == 'Calinog') {
+    $barangays = [
+        'Agcalaga', 'Aglibacao', 'Aglonok', 'Alibunan', 'Badlan Grande', 'Badlan Pequeño', 'Badu', 'Balaticon',
+        'Banban Grande', 'Banban Pequeño', 'Binolosan Grande', 'Binolosan Pequeño', 'Cabagiao', 'Cabugao', 'Cahigon',
+        'Barrio Calinog', 'Camalongo', 'Canabajan', 'Caratagan', 'Carvasana', 'Dalid', 'Datagan', 'Gama Grande', 'Gama Pequeño',
+        'Garangan', 'Guinbonyugan', 'Guiso', 'Hilwan', 'Impalidan', 'Ipil', 'Jamin-ay', 'Lampaya', 'Libot', 'Lonoy', 'Malaguinabot',
+        'Malag-It', 'Malapawe', 'Malitbog Centro', 'Mambiranan', 'Manaripay', 'Marandig', 'Masaroy', 'Maspasan', 'Nalbugan',
+        'Owak', 'Poblacion Centro', 'Poblacion Delgado', 'Poblacion Rizal Ilaud', 'Poblacion Ilaya', 'Baje San Julian',
+        'San Nicolas', 'Simsiman', 'Tabucan', 'Tahing', 'Tibiao', 'Tigbayog', 'Toyungan', 'Ulayan', 'Supanga',
+    ];
+}elseif ($municipality == 'Carles') {
+    $barangays = [
+        'Abong', 'Alipata (Sicogon Island)', 'Asluman (Gigantes Norte)', 'Bancal', 'Barangcalan', 'Barosbos',
+        'Punta Batuanan', 'Binuluangan', 'Bito-on', 'Bolo', 'Buaya (Sicogon Island)', 'Buenavista', 'Isla De Cana',
+        'Cabilao Grande', 'Cabilao Pequeño', 'Cabuguana', 'Cawayan', 'Dayhagan', 'Gabi (Gigantes Sur)', 'Granada (Gigantes Norte)',
+        'Guinticgan', 'Lantangan (Gigantes Sur)', 'Manlot (Manlot Island)', 'Nalumsan', 'Pantalan', 'Poblacion',
+        'Punta (Bolocawe)', 'San Fernando (Sicogon Island)', 'Tabugon', 'Talingting', 'Tarong', 'Tinigban', 'Tupaz',
+    ];
+}elseif ($municipality == 'Concepcion') {
+    $barangays = [
+        'Aglosong', 'Agnaga', 'Bacjawan Norte', 'Bacjawan Sur', 'Bagongon', 'Batiti', 'Botlog', 'Calamigan', 'Dungon',
+        'Igbon', 'Jamul-awon', 'Lo-ong', 'Macalbang', 'Macatunao', 'Malangabang', 'Maliogliog', 'Nińo', 'Nipa',
+        'Plandico', 'Poblacion', 'Polopińa (Bulubadiangan Island)', 'Salvacion', 'Talotu-an', 'Tambaliza (Pan de Azucar Island)', 'Tamis-ac',
+    ];
+}elseif ($municipality == 'Dingle') {
+    $barangays = [
+        'Abangay', 'Agsalanan', 'Agtatacay', 'Alegria', 'Bongloy', 'Buenavista', 'Caguyuman', 'Calicuang', 'Camambugan',
+        'Dawis', 'Ginalinan Nuevo', 'Ginalinan Viejo', 'Gutao', 'Ilajas', 'Libo-o', 'Licu-an', 'Lincud', 'Matangharon',
+        'Moroboro', 'Namatay', 'Nazuni', 'Pandan', 'Poblacion', 'Potolan', 'San Jose', 'San Matias', 'Siniba-an',
+        'Tabugon', 'Tambunac', 'Tanghawan', 'Tiguib', 'Tinocuan', 'Tulatula-an',
+    ];
+}elseif ($municipality == 'Dueñas') {
+    $barangays = [
+        'Agutayan', 'Angare', 'Anjawan', 'Baac', 'Bagongbong', 'Balangigan', 'Balingasag', 'Banugan', 'Batuan', 'Bita',
+        'Buenavista', 'Bugtongan', 'Cabudian', 'Calaca-an', 'Calang', 'Calawinan', 'Capaycapay', 'Capuling', 'Catig',
+        'Dila-an', 'Fundacion', 'Inadlawan', 'Jagdong', 'Jaguimit', 'Lacadon', 'Luag', 'Malusgod', 'Maribuyong', 'Minanga',
+        'Monpon', 'Navalas', 'Pader', 'Pandan', 'Ponong Grande', 'Ponong Pequeño', 'Purog', 'Romblon', 'San Isidro',
+        'Santo Niño', 'Sawe', 'Taminla', 'Tinocuan', 'Tipolo', 'Poblacion A', 'Poblacion B', 'Poblacion C', 'Poblacion D',
+    ];
+}elseif ($municipality == 'Dumangas') {
+    $barangays = [
+        'Burgos-Regidor (Poblacion)', 'Aurora-del Pilar (Poblacion)', 'Buenaflor-Embarcadero (Poblacion)',
+        'Lopez Jaena-Rizal (Poblacion)', 'J.M. Basa-Mabini Bonifacio (Poblacion)', 'Bacay', 'Bacong', 'Balabag', 'Balud',
+        'Bantud', 'Bantud Fabrica', 'Baras', 'Barasan', 'Bolilao', 'Calao', 'Cali', 'Cansilayan', 'Capaliz', 'Cayos',
+        'Compayan', 'Dacutan', 'Ermita', 'PD Monfort South (Guinsampanan)', 'Ilaya 1st', 'Ilaya 2nd', 'Ilaya 3rd', 'Jardin',
+        'Lacturan', 'PD Monfort North (Lublub)', 'Managuit', 'Maquina', 'Nanding Lopez', 'Pagdugue', 'Paloc Bigque',
+        'Paloc Sool', 'Patlad', 'Pulao', 'Rosario', 'Sapao', 'Sulangan', 'Tabucan', 'Talusan', 'Tambobo', 'Tamboilan',
+        'Victorias',
+    ];
+}elseif ($municipality == 'Estancia') {
+    $barangays = [
+        'Lumbia (Ana Cuenca)', 'Bayas', 'Bayuyan', 'Botongon', 'Bulaqueña', 'Calapdan', 'Cano-an', 'Daan Banua', 'Daculan',
+        'Gogo', 'Jolog', 'Loguingot', 'Malbog', 'Manipulon', 'Pa-on', 'Villa Pani-an (my vavy)', 'Poblacion Zone 1',
+        'Lonoy (Roman Mosqueda)', 'San Roque', 'Santa Ana', 'Tabu-an', 'Tacbuyan', 'Tanza', 'Poblacion Zone II',
+        'Poblacion Zone III',
+    ];
+} elseif ($municipality == 'Guimbal') {
+    $barangays = [
+        'Anono-o', 'Bacong', 'Baras', 'Binanua-an', 'Bongol San Miguel', 'Bongol San Vicente', 'Bulad', 'Buluangan',
+        'Cabasi', 'Cabubugan', 'Calampitao', 'Camangahan', 'Igcocolo', 'Iyasan', 'Lubacan', 'Nahapay', 'Nalundan',
+        'Nanga', 'Nito-an', 'Particion', 'Sipitan-Badiang', 'Santa Rosa-Laguna', 'Bagumbayan', 'Balantad-Carlos Fruto',
+        'Burgos-Gengos', 'Generosa-Cristobal Colon', 'Gerona-Gimeno', 'Girado-Magsaysay', 'Gotera', 'Libo-on Gonzales',
+        'Pescadores', 'Rizal-Tuguisan', 'Torreblanca-Blumentritt',
+    ];
+}elseif ($municipality == 'Igbaras') {
+    $barangays = [
+        'Alameda', 'Amorogtong', 'Anilawan', 'Bagacay', 'Bagacayan', 'Bagay', 'Balibagan', 'Barasan', 'Binanua-an',
+        'Boclod', 'Buenavista', 'Buga', 'Bugnay', 'Calampitao', 'Cale', 'Corucuan', 'Catiringan', 'Igcabugao',
+        'Igpigus', 'Igtalongon', 'Indaluyon', 'Jovellar', 'Kinagdan', 'Lab-on', 'Lacay Dol-Dol', 'Lumangan', 'Lutungan',
+        'Mantangon', 'Mulangan', 'Pasong', 'Passi', 'Pinaopawan', 'Barangay 1 Poblacion', 'Barangay 2 Poblacion',
+        'Barangay 3 Poblacion', 'Barangay 4 Poblacion', 'Barangay 5 Poblacion', 'Barangay 6 Poblacion', 'Riro-an',
+        'San Ambrosio', 'Santa Barbara', 'Signe', 'Tabiac', 'Talayatay', 'Taytay', 'Tigbanaba',
+    ];
+}elseif ($municipality == 'Janiuay') {
+    $barangays = [
+        'Abangay', 'Agcarope', 'Aglobong', 'Aguingay', 'Anhawan', 'Atimonan', 'Balanac', 'Barasalon', 'Bongol', 'Cabantog',
+        'Calmay', 'Canawili', 'Canawillian', 'Caranas', 'Caraudan', 'Carigangan', 'Cunsad', 'Dabong', 'Damires', 'Damo-ong',
+        'Danao', 'Gines', 'Guadalupe', 'Jibolo', 'Kuyot', 'Madong', 'Manacabac', 'Mangil', 'Matag-ub', 'Monte-Magapa',
+        'Pangilihan', 'Panuran', 'Pararinga', 'Patong-patong', 'Quipot', 'Santo Tomas', 'Sarawag', 'Tambal', 'Tamu-an',
+        'Tiringanan', 'Tolarucan', 'Tuburan', 'Ubian', 'Yabon', 'Aquino Nobleza East (Poblacion)', 'Aquino Nobleza West (Poblacion)',
+        'R. Armada (Poblacion)', 'Concepcion Pob. (D.G. Abordo)', 'Golgota (Poblacion)', 'Locsin (Poblacion)',
+        'Don T. Lutero Center (Poblacion)', 'Don T. Lutero East (Poblacion)', 'Don T. Lutero West Pob', 'Crispin Salazar North (Poblacion)',
+        'Crispin Salazar South (Poblacion)', 'San Julian (Poblacion)', 'San Pedro (Poblacion)', 'Santa Rita (Poblacion)',
+        'Capt. A. Tirador (Poblacion)', 'S. M. Villa (Poblacion)',
+    ];
+}elseif ($municipality == 'Lambunao') {
+    $barangays = [
+        'Agsirab', 'Agtuman', 'Alugmawa', 'Badiangan', 'Bagongbong', 'Balagiao', 'Banban', 'Bansag', 'Bayuco', 'Binaba-an Armada',
+        'Binaba-an Labayno', 'Binaba-an Limoso', 'Binaba-an Portigo', 'Binaba-an Tirador', 'Bonbon', 'Bontoc', 'Buri', 'Burirao',
+        'Buwang', 'Cabatangan', 'Cabugao', 'Cabunlawan', 'Caguisanan', 'Caloy-ahan', 'Caninguan', 'Capangyan', 'Cayan Este', 'Cayan Oeste',
+        'Corot-on', 'Coto', 'Cubay', 'Cunarum', 'Daanbanwa', 'Gines', 'Hipgos', 'Jayubo', 'Jorog', 'Lanot Grande', 'Lanot Pequeño', 'Legayada',
+        'Lumanay (Daanbanwa I)', 'Madarag', 'Magbato', 'Maite Grande', 'Maite Pequeño', 'Malag-it', 'Manaulan', 'Maribong', 'Marong', 'Misi',
+        'Natividad', 'Pajo', 'Pandan', 'Panuran', 'Pasig', 'Patag', 'Poblacion Ilawod', 'Poblacion Ilaya', 'Poong', 'Pughanan', 'Pungsod',
+        'Quiling', 'Sagcup', 'San Gregorio', 'Sibacungan', 'Sibaguan', 'Simsiman', 'Supoc', 'Tampucao', 'Tranghawan', 'Tubungan', 'Tuburan',
+        'Walang',
+    ];
+}elseif ($municipality == 'Leganes') {
+    $barangays = [
+        'M.V. Hechanova (Balabago)', 'Bigke', 'Buntatala', 'Cagamutan Norte', 'Cagamutan Sur', 'Calaboa', 'Camangay', 'Cari Mayor',
+        'Cari Minor', 'Gua-an', 'Guihaman', 'Guinobatan', 'Guintas', 'Lapayon', 'Nabitasan', 'Napnud', 'Poblacion', 'San Vicente',
+    ];
+}elseif ($municipality == 'Lemery') {
+    $barangays = [
+        'Agpipili', 'Alcantara', 'Almeñana (Tuguis)', 'Anabo', 'Bankal', 'Buenavista', 'Cabantohan', 'Capiñahan', 'Dalipe', 'Dapdapan',
+        'Gerongan', 'Imbaulan', 'Layogbato', 'Marapal', 'Milan', 'Nagsulang', 'Nasapahan', 'Omio', 'Pacuan', 'Poblacion NW Zone',
+        'Poblacion SE Zone', 'Pontoc', 'San Antonio', 'San Diego', 'San Jose Moto', 'Sepanton', 'Sincua', 'Tabunan', 'Tugas', 'Velasco',
+        'Yawyawan',
+    ];
+}elseif ($municipality == 'Leon') {
+    $barangays = [
+        'Agboy Norte', 'Agboy Sur', 'Agta', 'Ambulong', 'Anonang', 'Apian', 'Avanzada', 'Awis', 'Ayabang', 'Ayubo', 'Bacolod', 'Baje',
+        'Banagan', 'Barangbang', 'Barasan', 'Bayag Norte', 'Bayag Sur', 'Binolbog', 'Biri Norte', 'Biri Sur', 'Bobon', 'Bucari',
+        'Buenavista', 'Buga', 'Bulad', 'Bulwang', 'Cabolo-an', 'Cabunga-an', 'Cabutongan', 'Cagay', 'Camandag', 'Camando', 'Cananaman',
+        'Capt. Fernando', 'Carara-an', 'Carolina', 'Cawilihan', 'Coyugan Norte', 'Coyugan Sur', 'Danao', 'Dorog', 'Dusacan', 'Gines',
+        'Gumboc', 'Igcadios', 'Ingay', 'Isian Norte', 'Isian Victoria', 'Jamog Gines', 'Lanag', 'Lang-og', 'Ligtos', 'Lonoc', 'Lampaya',
+        'Magcapay', 'Maliao', 'Malublub', 'Manampunay', 'Marirong', 'Mina', 'Mocol', 'Nagbangi', 'Nalbang', 'Odong-odong', 'Oluangan',
+        'Omambong', 'Paoy', 'Pandan', 'Panginman', 'Pepe', 'Poblacion', 'Paga', 'Salngan', 'Samlague', 'Siol Norte', 'Siol Sur',
+        'Tacuyong Norte', 'Tacuyong Sur', 'Tagsing', 'Talacuan', 'Ticuan', 'Tina-an Norte', 'Tina-an Sur', 'Tunguan', 'Tu-og',
+    ];
+}elseif ($municipality == 'Maasin') {
+    $barangays = [
+        'Abay', 'Abilay', 'AGROCEL Pob.(Aguinaldo-Roxas-Celso)', 'Amerang', 'Bagacay East', 'Bacuranan', 'Bagacay West', 'Bug-ot',
+        'Bolo', 'Bulay', 'Buntalan', 'Burak', 'Cabangcalan', 'Cabatac', 'Caigon', 'Cananghan', 'Canawili', 'Dagami', 'Daja', 'Dalusan',
+        'DELCAR Pob. (Delgado-Cartagena)', 'Inabasan', 'Layog', 'Liñagan Calsada', 'Liñagan Tacas', 'Linab', 'MABRIZ Pob. (Mabini-Rizal)',
+        'Magsaysay', 'Mandog', 'Miapa', 'Nagba', 'Nasaka', 'Naslo-Bucao', 'Nasuli', 'Panalian', 'Piandaan East', 'Piandaan West',
+        'Pispis', 'Punong', 'Sinubsuban', 'Siwalo', 'Santa Rita', 'Subog', 'THT & P Pob. (Taft-Hughes-Thompson-del Pilar)', 'Tigbauan',
+        'Trangka', 'Tubang', 'Tulahong', 'Tuy-an East', 'Tuy-an West', 'Ubian',
+    ];
+}elseif ($municipality == 'Miagao'){
+    $barangays = [
+        'Agdum', 'Aguiauan', 'Alimodias', 'Awang', 'Oya-oy', 'Bacauan', 'Bacolod', 'Bagumbayan', 'Banbanan', 'Banga',
+        'Bangladan', 'Banuyao', 'Baraclayan', 'Bariri', 'Baybay Norte (Pob.)', 'Baybay Sur (Pob.)', 'Belen', 'Bolho (Pob.)',
+        'Bolocaue', 'Buenavista Norte', 'Buenavista Sur', 'Bugtong Lumangan', 'Bugtong Naulid', 'Cabalaunan', 'Cabangcalan',
+        'Cabunotan', 'Cadoldolan', 'Cagbang', 'Caitib', 'Calagtangan', 'Calampitao', 'Cavite', 'Cawayanan', 'Cubay',
+        'Cubay Ubos', 'Dalije', 'Damilisan', 'Dawog', 'Diday', 'Dingle', 'Durog', 'Frantilla', 'Fundacion', 'Gines',
+        'Guibongan', 'Igbita', 'Igbugo', 'Igcabidio', 'Igcabito-on', 'Igcatambor', 'Igdalaquit', 'Igdulaca', 'Igpajo',
+        'Igpandan', 'Igpuro', 'Igpuro-Bariri', 'Igsoligue', 'Igtuba', 'Ilog-ilog', 'Indag-an', 'Kirayan Norte', 'Kirayan Sur',
+        'Kirayan Tacas', 'La Consolacion', 'Lacadon', 'Lanutan', 'Lumangan', 'Mabayan', 'Maduyo', 'Malagyan', 'Mambatad',
+        'Maninila', 'Maricolcol', 'Maringyan', 'Mat-y (Pob.)', 'Matalngon', 'Naclub', 'Nam-o Sur', 'Nam-o Norte', 'Narat-an',
+        'Narorogan', 'Naulid', 'Olango', 'Ongyod', 'Onop', 'Oyungan', 'Palaca', 'Paro-on', 'Potrido', 'Pudpud',
+        'Pungtod Monteclaro', 'Pungtod Naulid', 'Sag-on', 'San Fernando', 'San Jose', 'San Rafael', 'Sapa (Miagao)', 'Saring',
+        'Sibucao', 'Taal', 'Tabunacan', 'Tacas (Pob.)', 'Tambong', 'Tan-agan', 'Tatoy', 'Ticdalan', 'Tig-amaga',
+        'Tig-Apog-Apog', 'Tigbagacay', 'Tiglawa', 'Tigmalapad', 'Tigmarabo', 'To-og', 'Tugura-ao', 'mae', 'Ubos Ilawod (Pob.)',
+        'Ubos Ilaya (Pob.)', 'Valencia', 'Wayang'
+    ];
+}elseif ($municipality == 'Mina') {
+    $barangays = [
+        'Abat', 'Agmanaphao', 'Amiroy', 'Badiangan', 'Bangac', 'Cabalabaguan', 'Capul-an', 'Dala', 'Guibuangan', 'Janipa-an West',
+        'Janipa-an East', 'Mina East (Poblacion)', 'Mina West (Poblacion)', 'Nasirum', 'Naumuan', 'Singay', 'Talibong Grande',
+        'Talibong Pequeño', 'Tipolo', 'Tolarucan', 'Tumay', 'Yugot',
+    ];
+}elseif ($municipality == 'New Lucena') {
+    $barangays = [
+        'Baclayan', 'Badiang', 'Balabag', 'Bilidan', 'Bita-og Gaja', 'Bololacao', 'Burot', 'Cabilauan', 'Cabugao', 'Cagban',
+        'Calumbuyan', 'Damires', 'Dawis', 'General Delgado', 'Guinobatan', 'Janipa-an Oeste', 'Jelicuon Este', 'Jelicuon Oeste',
+        'Pasil', 'Poblacion', 'Wari-wari',
+    ];
+}elseif ($municipality == 'Oton') {
+    $barangays = [
+        'Abilay Norte', 'Abilay Sur', 'Alegre', 'Batuan Ilaud', 'Batuan Ilaya', 'Bita Norte', 'Bita Sur', 'Botong', 'Buray',
+        'Cabanbanan', 'Cabolo-an Norte', 'Cabolo-an Sur', 'Cadinglian', 'Cagbang', 'Calam-isan', 'Galang', 'Lambuyao',
+        'Mambog', 'Pakiad', 'Poblacion East', 'Poblacion North', 'Poblacion South', 'Poblacion West', 'Pulo Maestra Vita',
+        'Rizal', 'Salngan', 'Sambaludan', 'San Antonio', 'San Nicolas', 'Santa Clara', 'Santa Monica', 'Santa Rita',
+        'Tagbac Norte', 'Tagbac Sur', 'Trapiche', 'Tuburan', 'Turog-Turog',
+    ];    
+}elseif ($municipality == 'Pavia') {
+    $barangays = [
+        'Aganan', 'Amparo', 'Anilao', 'Balabag', 'Purok I (Poblacion)', 'Purok II (Poblacion)', 'Purok III (Poblacion)',
+        'Purok IV (Poblacion)', 'Cabugao Norte', 'Cabugao Sur', 'Jibao-an', 'Mali-ao', 'Pagsanga-an', 'Pal-agon',
+        'Pandac', 'Tigum', 'Ungka I', 'Ungka II',
+    ];
+}elseif ($municipality == 'Pototan') {
+    $barangays = [
+        'Abangay', 'Amamaros', 'Bagacay', 'Barasan', 'Batuan', 'Bongco', 'Cahaguikican', 'Callan', 'Cansilayan', 'Casalsagan',
+        'Cato-ogan', 'Cau-ayan', 'Culob', 'Danao', 'Dapitan', 'Dawis', 'Dongsol', 'Fundacion', 'Guinacas', 'Guibuangan',
+        'Igang', 'Intaluan', 'Iwa Ilaud', 'Iwa Ilaya', 'Jamabalud', 'Jebioc', 'Lay-ahan', 'Primitivo Ledesma Ward (Pob.)',
+        'Lopez Jaena Ward (Poblacion)', 'Lumbo', 'Macatol', 'Malusgod', 'Naslo', 'Nabitasan', 'Naga', 'Nanga', 'Pajo',
+        'Palanguia', 'Fernando Parcon Ward (Poblacion)', 'Pitogo', 'Polot-an', 'Purog', 'Rumbang', 'San Jose Ward (Poblacion)',
+        'Sinuagan', 'Tuburan', 'Tumcon Ilaya', 'Tumcon Ilaud', 'Ubang', 'Zarrague',
+    ];
+}elseif ($municipality == 'San Dionisio') {
+    $barangays = [
+        'Agdaliran', 'Bagacay', 'Batuan', 'Bondulan', 'Borongon', 'Canas', 'Capinang', 'Amayong', 'Cubay', 'Cudionan',
+        'Dugman', 'Hacienda Conchita', 'Madanlog', 'Mandu-awak', 'Moto', 'Naborot', 'Nipa', 'Odiongan', 'Pangi',
+        'Pase', 'Poblacion', 'San Nicolas', 'Santol', 'Siempreviva', 'Sua', 'Talo-ato', 'Tamangi', 'Tiabas', 'Tuble',
+    ];
+}elseif ($municipality == 'San Enrique') {
+    $barangays = [
+        'Abaca', 'Asisig', 'Bantayan', 'Braulan', 'Cabugao Nuevo', 'Cabugao Viejo', 'Camiri', 'Compo', 'Catan-Agan',
+        'Cubay', 'Dacal', 'Dumiles', 'Garita', 'Gines Nuevo', 'Imbang Pequeño', 'Imbesad-an', 'Iprog', 'Lip-ac',
+        'Madarag', 'Mapili', 'Paga', 'Palje', 'Poblacion Ilawod', 'Poblacion Ilaya', 'Quinolpan', 'Rumagayray',
+        'San Antonio', 'Tambunac',
+    ];
+}elseif ($municipality == 'San Joaquin') {
+    $barangays = [
+        'Amboyu-an', 'Andres Bonifacio', 'Antalon', 'Bad-as', 'Bagumbayan', 'Balabago', 'Baybay', 'Bayunan', 'Bolbogan',
+        'Bonga', 'Bulho', 'Bucaya', 'Cadluman', 'Cadoldolan', 'Camia', 'Camaba-an', 'Cata-an', 'Crossing Dapuyan',
+        'Cubay', 'Cumarascas', 'Dacdacanan', 'Danawan', 'Doldol', 'Dongoc', 'Escalantera', 'Ginot-an', 'Huna', 'Igaratong',
+        'Igbaje', 'Igbangcal', 'Igbinangon', 'Igburi', 'Igcabutong', 'Igcadlum', 'Igcaphang', 'Igcaratong', 'Igcondao',
+        'Igcores', 'Igdagmay', 'Igdomingding', 'Iglilico', 'Igpayong', 'Jawod', 'Langca', 'Languanan', 'Lawigan', 'Lomboy',
+        'Lopez Vito', 'Mabini Norte', 'Mabini Sur', 'Manhara', 'Maninila', 'Masagud', 'Matambog', 'Mayunoc', 'Montinola',
+        'Nagquirisan', 'Nadsadan', 'Nagsipit', 'New Gumawan', 'Panatan', 'Pitogo', 'Purok 1 (Poblacion)', 'Purok 2 (Poblacion)',
+        'Purok 3 (Poblacion)', 'Purok 4 (Poblacion)', 'Purok 5 (Poblacion)', 'Qui-anan', 'Roma', 'San Luis', 'San Mateo Norte',
+        'San Mateo Sur', 'Santiago', 'Sinogbuhan', 'Siwaragan', 'Lomboyan', 'Santa Rita', 'Talagutac', 'Tapikan', 'Taslan',
+        'Tiglawa', 'Tiolas', 'To-og', 'Torocadan', 'Ulay', 'Guibongan Bayunan',
+    ];
+}elseif ($municipality == 'San Miguel') {
+    $barangays = [
+        'Barangay 1 Poblacion (Roxas St.)', 'Barangay 2 Poblacion (Salvilla Santo Rosario)',
+        'Barangay 3 Poblacion (A.S. Suarez St. Zone 1)', 'Barangay 4 Poblacion (A.S. Suarez East)',
+        'Barangay 5 Poblacion (Santiago St. North)', 'Barangay 6 Poblacion (Santiago St. South)',
+        'Barangay 7 Poblacion (San Roque St. South)', 'Barangay 8 Poblacion (Montaño-San Roque)',
+        'Barangay 9 Poblacion (Salazar San Jose)', 'Barangay 10 Poblacion (R.V. Sanchez St. South)',
+        'Barangay 11 Poblacion (R.V. Sanchez St. North)', 'Barangay 12 Poblacion (Sales Malaga Saliedo)',
+        'Barangay 13 Poblacion (SantaRita-Saclauso St.)', 'Barangay 14 Poblacion (San Miguel North)',
+        'Barangay 15 Poblacion (San Miguel South)', 'Barangay 16 Poblacion (San Agustin St.)',
+        'Consolacion', 'Igtambo', 'San Antonio', 'San Jose', 'Santa Cruz', 'Santa Teresa', 'Santo Angel', 'Santo Niño',
+    ];
+}elseif ($municipality == 'San Rafael') {
+    $barangays = [
+        'Aripdip', 'Bagacay', 'Calaigang', 'Ilongbukid', 'Poscolon', 'San Andres', 'San Dionisio', 'San Florentino', 'Poblacion',
+    ];
+}elseif ($municipality == 'Santa Barbara') {
+    $barangays = [
+        'Agusipan', 'Agutayan', 'Bagumbayan', 'Balabag', 'Balibagan Este', 'Balibagan Oeste', 'Ban-ag', 'Bantay',
+        'Barangay Zone I (Poblacion)', 'Barangay Zone II (Poblacion)', 'Barangay Zone III (Poblacion)', 'Barangay Zone IV (Poblacion)',
+        'Barangay Zone V (Poblacion)', 'Barangay Zone VI (Poblacion)', 'Barasan Este', 'Barasan Oeste', 'Binangkilan', 'Bitaog-Taytay',
+        'Bolong Este', 'Bolong Oeste', 'Buayahon', 'Buyo', 'Cabugao Norte', 'Cabugao Sur', 'Cadagmayan Norte', 'Cadagmayan Sur',
+        'Cafe', 'Calaboa Este', 'Calaboa Oeste', 'Camambugan', 'Canipayan', 'Conaynay', 'Daga', 'Dalid', 'Duyanduyan',
+        'Gen. Martin T. Delgado', 'Guno', 'Inangayan', 'Jibao-an', 'Lacadon', 'Lanag', 'Lupa', 'Magancina', 'Malawog',
+        'Mambuyo', 'Manhayang', 'Miraga-Guibuangan', 'Nasugban', 'Omambog', 'Pal-agon', 'Pungsod', 'San Sebastian', 'Sangcate',
+        'Tagsing', 'Talanghauan', 'Talongadian', 'Tigtig', 'Tungay', 'Tuburan', 'Tugas',
+    ];
+}elseif ($municipality == 'Sara') {
+    $barangays = [
+        'Aguirre', 'Aldeguer', 'Alibayog', 'Anoring', 'Apelo', 'Apologista', 'Aposaga', 'Arante', 'Ardemil', 'Aspera',
+        'Aswe-Pabriaga', 'Bagaygay', 'Bakabak', 'Batitao', 'Bato', 'Del Castillo', 'Castor', 'Crespo', 'Devera', 'Domingo',
+        'Ferraris', 'Gildore', 'Improgo', 'Juaneza', 'Labigan', 'Lanciola', 'Latawan', 'Malapaya', 'Muyco', 'Padios',
+        'Pasig', 'Poblacion Ilawod', 'Poblacion Ilaya', 'Poblacion Market', 'Posadas', 'Preciosa', 'Salcedo', 'San Luis',
+        'Tady', 'Tentay', 'Villahermosa', 'Zerrudo',
+    ];
+}elseif ($municipality == 'Tigbauan') {
+    $barangays = [
+        'Alupidian', 'Atabayan', 'Bagacay', 'Baguingin', 'Bagumbayan', 'Bangkal', 'Bantud', 'Barangay 1 (Poblacion)',
+        'Barangay 2 (Poblacion)', 'Barangay 3 (Poblacion)', 'Barangay 4 (Poblacion)', 'Barangay 5 (Poblacion)',
+        'Barangay 6 (Poblacion)', 'Barangay 7 (Poblacion)', 'Barangay 8 (Poblacion)', 'Barangay 9 (Poblacion)',
+        'Barosong', 'Barroc', 'Bitas', 'Bayuco', 'Binaliuan Mayor', 'Binaliuan Menor', 'Buenavista', 'Bugasongan',
+        'Buyu-an', 'Canabuan', 'Cansilayan', 'Cordova Norte', 'Cordova Sur', 'Danao', 'Dapdap', 'Dorong-an', 'Guisian',
+        'Isawan', 'Isian', 'Jamog', 'Lanag', 'Linobayan', 'Lubog', 'Nagba', 'Namocon', 'Napnapan Norte', 'Napnapan Sur',
+        'Olo Barroc', 'Parara Norte', 'Parara Sur', 'San Rafael', 'Sermon', 'Sipitan', 'Supa', 'Tan Pael', 'Taro',
+    ];
+}elseif ($municipality == 'Tubungan') {
+    $barangays = [
+        'Adgao', 'Ago', 'Ambarihon', 'Ayubo', 'Bacan', 'Badiang', 'Bagunanay', 'Balicua', 'Bantayanan', 'Batga',
+        'Bato', 'Bikil', 'Boloc', 'Bondoc/Santo Niño', 'Borong', 'Buenavista', 'Cadabdab', 'Daga-ay', 'Desposorio',
+        'Igdampog Norte', 'Igdampog Sur', 'Igpaho', 'Igtuble', 'Ingay', 'Isauan', 'Jolason', 'Jona', 'Laag/San Vicente',
+        'Lanag Norte', 'Lanag Sur', 'Male', 'Mayang', 'Molina', 'Morcillas', 'Nagba', 'Navillan', 'Pinamacalan',
+        'San Jose', 'Sibucauan', 'Singon', 'Tabat', 'Tagpu-an', 'Talento', 'Teniente Benito', 'Victoria',
+        'Zone I Pob.', 'Zone II Pob.', 'Zone III Pob.',
+    ];
+}elseif ($municipality == 'Zarraga') {
+    $barangays = [
+        'Balud Lilo-an', 'Balud I', 'Balud II', 'Dawis Centro', 'Dawis Norte', 'Dawis Sur', 'Gines', 'Inagdangan Centro',
+        'Inagdangan Norte', 'Inagdangan Sur', 'Jalaud Norte', 'Jalaud Sur', 'Libongcogon', 'Malunang', 'Pajo',
+        'Ilawod Poblacion', 'Ilaya Poblacion', 'Sambag', 'Sigangao', 'Talauguis', 'Talibong', 'Tubigan', 'Tuburan',
+    ];
+}
+?>
+
+<select class="form-select" name="barangay">
+    <optgroup label="Barangays">
+        <?php foreach ($barangays as $barangay) : ?>
+            <option value="<?php echo $barangay; ?>"><?php echo $barangay; ?></option>
+        <?php endforeach; ?>
+    </optgroup>
+</select></p>
+                                                </div>
+                                                <div class="col-12 col-md-12 col-lg-4 col-xl-4 col-xxl-4">
+                                                    <p style="background: #ffffff;font-family: Poppins, sans-serif;"><strong>Email</strong><input class="form-control" type="email" name="email"></p>
+                                                </div>
+                                                <div class="col">
+                                                    <p style="background: #ffffff;font-family: Poppins, sans-serif;"><strong>Phone Number</strong><input class="form-control" type="tel" inputmode="tel" name="phone"></p>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="margin-top: 10px;">
+                                                <div class="col text-end"><button class="btn btn-primary" type="submit" style="background: #436850;border-color: #436850;font-family: Poppins, sans-serif;">Submit</button></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="bg-white sticky-footer">
+                <div class="container my-auto">
+                    <div class="text-center my-auto copyright"><span style="font-family: Poppins, sans-serif;">AgriDivision© Brand 2024</span></div>
+                </div>
+            </footer>
+        </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="logout">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p style="font-family: Poppins, sans-serif;">Are you sure you want to log-out?</p>
+                </div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal" style="font-family: Poppins, sans-serif;">Close</button><a class="btn btn-primary" role="button" href="logout.php" style="font-family: Poppins, sans-serif;background: #436850;border-color: #436850;">Yes</a></div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/theme.js"></script>
+</body>
+
+</html>
