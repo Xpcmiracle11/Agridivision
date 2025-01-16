@@ -7,7 +7,7 @@ MONREAL, CHARLES AGUSTIN C.
 SANCHEZ, ADRIANNE BLU T.
 TRINIDAD, ROYCE EMMANUEL A,
  
-#Disclaimer
+# Disclaimer
 This software and hardware project and its
 corresponding documentation entitled “ AgriDivision:
 Agricultural Mapping System with Demand Forecasting
